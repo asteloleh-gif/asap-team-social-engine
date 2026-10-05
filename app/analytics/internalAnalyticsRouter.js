@@ -13,11 +13,18 @@ function safeEqual(a, b) {
   return crypto.timingSafeEqual(left, right);
 }
 
+function checkpointExportIdentity({ brand, accountKey, platform, platformPostId, checkpointHours }) {
+  return [brand || "unscoped", accountKey, platform || "social", platformPostId, Number(checkpointHours)]
+    .map(value => encodeURIComponent(String(value)))
+    .join(":");
+}
+
 function createInternalAnalyticsRouter({
   store,
   token = process.env.ANALYTICS_API_TOKEN || "",
   projectId = process.env.ANALYTICS_EXPORT_PROJECT_ID || "astel-business",
   brand = null,
+  now = () => new Date(),
 } = {}) {
   if (!store) throw new Error("Internal analytics router requires Postgres store");
   const router = express.Router();
@@ -34,7 +41,9 @@ function createInternalAnalyticsRouter({
     try {
       if (!store.isReady()) return res.status(503).json({ error: "DATABASE_UNAVAILABLE" });
       const days = clampDays(req.query.days, 30);
-      const cutoff = new Date(Date.now() - days * 86_400_000);
+      const capturedAt = new Date(now());
+      if (Number.isNaN(capturedAt.getTime())) throw new Error("Analytics export clock returned invalid date");
+      const cutoff = new Date(capturedAt.getTime() - days * 86_400_000);
 
       const scopedBrand = brand ? String(brand) : null;
       const [snapshotsResult, accountsResult, commentsResult, repliesResult, postsResult, agentRunsResult, checkpointsResult] = await Promise.all([
@@ -103,12 +112,13 @@ function createInternalAnalyticsRouter({
                   c.checkpoint_hours, c.tolerance_hours, c.published_at,
                   c.opens_at, c.due_at, c.closes_at, c.status, c.attempt_count,
                   c.observed_at, c.last_error, c.captured_snapshot_id,
+                  c.timing_revision, c.timing_history, c.published_at_provenance,
                   CASE
                     WHEN c.observed_at IS NOT NULL AND c.observed_at < c.opens_at THEN 'EARLY'
                     WHEN c.observed_at IS NOT NULL AND c.observed_at <= c.closes_at THEN 'IN_WINDOW'
                     WHEN c.observed_at IS NOT NULL THEN 'LATE'
-                    WHEN c.closes_at < NOW() THEN 'MISSED'
-                    WHEN c.opens_at <= NOW() THEN 'DUE'
+                    WHEN c.closes_at < $3 THEN 'MISSED'
+                    WHEN c.opens_at <= $3 THEN 'DUE'
                     ELSE 'PENDING'
                   END AS window_status,
                   p.id AS durable_post_id, p.metadata AS post_metadata,
@@ -124,7 +134,7 @@ function createInternalAnalyticsRouter({
            LEFT JOIN drafts d ON d.draft_id = pr.draft_id
            WHERE c.published_at >= $1 AND ($2::text IS NULL OR a.brand_key = $2)
            ORDER BY c.published_at ASC, c.checkpoint_hours ASC`,
-          [cutoff, scopedBrand],
+          [cutoff, scopedBrand, capturedAt],
         ),
       ]);
 
@@ -156,8 +166,14 @@ function createInternalAnalyticsRouter({
         availability: "MEASURED",
         metadata: { ...(row.metadata || {}), origin: "social-engine" },
         capturedAt: row.captured_at,
-        idempotencyKey: row.metadata?.checkpoint?.id
-          ? `social:checkpoint-snapshot:${row.metadata.checkpoint.id}`
+        idempotencyKey: row.metadata?.checkpoint?.hours != null
+          ? `social:checkpoint-snapshot:${checkpointExportIdentity({
+            brand: row.brand_key,
+            accountKey: row.account_key,
+            platform: row.platform,
+            platformPostId: row.entity_id,
+            checkpointHours: row.metadata.checkpoint.hours,
+          })}`
           : `social:snapshot:${row.account_key}:${row.entity_type}:${row.entity_id}:${new Date(row.captured_at).toISOString()}`,
       }));
 
@@ -168,7 +184,6 @@ function createInternalAnalyticsRouter({
       }]));
       const postMap = new Map((postsResult.rows || []).map(row => [row.account_key, Number(row.count || 0)]));
 
-      const capturedAt = new Date();
       for (const account of accountsResult.rows || []) {
         const comments = commentMap.get(account.account_key) || 0;
         const replies = replyMap.get(account.account_key) || { total: 0, published: 0 };
@@ -218,7 +233,14 @@ function createInternalAnalyticsRouter({
       }));
 
       const checkpoints = (checkpointsResult.rows || []).map(row => ({
-        checkpointId: String(row.checkpoint_id),
+        checkpointId: checkpointExportIdentity({
+          brand: row.brand_key,
+          accountKey: row.account_key,
+          platform: row.platform,
+          platformPostId: row.platform_post_id,
+          checkpointHours: row.checkpoint_hours,
+        }),
+        localCheckpointId: String(row.checkpoint_id),
         projectId,
         accountKey: row.account_key,
         brand: row.brand_key || null,
@@ -232,7 +254,7 @@ function createInternalAnalyticsRouter({
           contentHash: row.post_metadata?.contentHash || row.draft_metadata?.contentHash || null,
         },
         publishedAt: row.published_at,
-        publishedAtProvenance: row.post_metadata?.publishedAtProvenance || null,
+        publishedAtProvenance: row.published_at_provenance || row.post_metadata?.publishedAtProvenance || null,
         observedAt: row.observed_at || null,
         checkpointHours: Number(row.checkpoint_hours),
         toleranceHours: Number(row.tolerance_hours),
@@ -249,7 +271,16 @@ function createInternalAnalyticsRouter({
           : row.status === "MISSED" ? "NOT_COLLECTED"
           : row.status === "FAILED" ? "FAILED" : "PENDING",
         reason: row.last_error || null,
-        idempotencyKey: `social:checkpoint:${row.checkpoint_id}`,
+        comparable: row.observed_at != null && row.window_status === "IN_WINDOW",
+        timingRevision: Number(row.timing_revision || 1),
+        timingHistory: row.timing_history || [],
+        idempotencyKey: `social:checkpoint:${checkpointExportIdentity({
+          brand: row.brand_key,
+          accountKey: row.account_key,
+          platform: row.platform,
+          platformPostId: row.platform_post_id,
+          checkpointHours: row.checkpoint_hours,
+        })}`,
       }));
 
       return res.json({
@@ -271,4 +302,4 @@ function createInternalAnalyticsRouter({
   return router;
 }
 
-module.exports = { createInternalAnalyticsRouter, clampDays, safeEqual };
+module.exports = { createInternalAnalyticsRouter, clampDays, safeEqual, checkpointExportIdentity };

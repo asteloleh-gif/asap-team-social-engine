@@ -17,6 +17,9 @@ function checkpointFromRow(row, overrides = {}) {
     opensAt: row.opens_at,
     dueAt: row.due_at,
     closesAt: row.closes_at,
+    timingRevision: Number(row.timing_revision || 1),
+    timingHistory: row.timing_history || [],
+    publishedAtProvenance: row.published_at_provenance || {},
     ...overrides,
   };
 }
@@ -112,20 +115,56 @@ function createAnalyticsRepository({ store, durable } = {}) {
     const result = await store.query(
       `INSERT INTO analytics_checkpoints(
          account_key, platform_post_id, checkpoint_hours, tolerance_hours,
-         published_at, opens_at, due_at, closes_at
+         published_at, opens_at, due_at, closes_at, published_at_provenance
        )
        SELECT p.account_key, p.platform_post_id, w.hours, w.tolerance,
               p.published_at,
               p.published_at + (w.hours - w.tolerance) * INTERVAL '1 hour',
               p.published_at + w.hours * INTERVAL '1 hour',
-              p.published_at + (w.hours + w.tolerance) * INTERVAL '1 hour'
+              p.published_at + (w.hours + w.tolerance) * INTERVAL '1 hour',
+              COALESCE(p.metadata -> 'publishedAtProvenance', '{}'::jsonb)
        FROM posts p
        CROSS JOIN (VALUES ${values.join(",")}) AS w(hours, tolerance)
        WHERE p.platform_post_id IS NOT NULL
          AND p.published_at IS NOT NULL
          AND p.status = 'PUBLISHED'
          AND COALESCE((p.metadata #>> '{publishedAtProvenance,verified}')::boolean, FALSE) = TRUE
-       ON CONFLICT (account_key, platform_post_id, checkpoint_hours) DO NOTHING`,
+       ON CONFLICT (account_key, platform_post_id, checkpoint_hours) DO UPDATE SET
+         timing_history = analytics_checkpoints.timing_history || jsonb_build_array(jsonb_build_object(
+           'revision', analytics_checkpoints.timing_revision,
+           'publishedAt', analytics_checkpoints.published_at,
+           'publishedAtProvenance', analytics_checkpoints.published_at_provenance,
+           'opensAt', analytics_checkpoints.opens_at,
+           'dueAt', analytics_checkpoints.due_at,
+           'closesAt', analytics_checkpoints.closes_at,
+           'status', analytics_checkpoints.status,
+           'observedAt', analytics_checkpoints.observed_at,
+           'correctedAt', NOW()
+         )),
+         timing_revision = analytics_checkpoints.timing_revision + 1,
+         tolerance_hours = EXCLUDED.tolerance_hours,
+         published_at = EXCLUDED.published_at,
+         published_at_provenance = EXCLUDED.published_at_provenance,
+         opens_at = EXCLUDED.opens_at,
+         due_at = EXCLUDED.due_at,
+         closes_at = EXCLUDED.closes_at,
+         status = CASE
+           WHEN analytics_checkpoints.observed_at IS NOT NULL
+                AND analytics_checkpoints.observed_at > EXCLUDED.closes_at THEN 'LATE'
+           WHEN analytics_checkpoints.observed_at IS NOT NULL THEN 'CAPTURED'
+           WHEN analytics_checkpoints.status = 'IN_PROGRESS' THEN 'PENDING'
+           ELSE analytics_checkpoints.status
+         END,
+         claim_token = CASE WHEN analytics_checkpoints.status = 'IN_PROGRESS' THEN NULL ELSE analytics_checkpoints.claim_token END,
+         lease_until = CASE WHEN analytics_checkpoints.status = 'IN_PROGRESS' THEN NULL ELSE analytics_checkpoints.lease_until END,
+         last_error = CASE
+           WHEN analytics_checkpoints.status = 'IN_PROGRESS' THEN 'PUBLICATION_TIME_CORRECTED'
+           ELSE analytics_checkpoints.last_error
+         END,
+         updated_at = NOW()
+       WHERE analytics_checkpoints.published_at IS DISTINCT FROM EXCLUDED.published_at
+          OR analytics_checkpoints.tolerance_hours IS DISTINCT FROM EXCLUDED.tolerance_hours
+          OR analytics_checkpoints.published_at_provenance IS DISTINCT FROM EXCLUDED.published_at_provenance`,
       params,
     );
     return { created: result?.rowCount || 0 };
@@ -139,7 +178,8 @@ function createAnalyticsRepository({ store, durable } = {}) {
     return store.transaction(async client => {
       const selected = await client.query(
         `SELECT checkpoint_id, account_key, platform_post_id, checkpoint_hours, tolerance_hours,
-                published_at, opens_at, due_at, closes_at, status, attempt_count
+                published_at, opens_at, due_at, closes_at, status, attempt_count,
+                timing_revision, timing_history, published_at_provenance
          FROM analytics_checkpoints
          WHERE account_key = $1
            AND observed_at IS NULL
@@ -181,7 +221,8 @@ function createAnalyticsRepository({ store, durable } = {}) {
     return store.transaction(async client => {
       const locked = await client.query(
         `SELECT checkpoint_id, account_key, platform_post_id, checkpoint_hours, tolerance_hours,
-                published_at, opens_at, due_at, closes_at, status, claim_token
+                published_at, opens_at, due_at, closes_at, status, claim_token,
+                timing_revision, timing_history, published_at_provenance
          FROM analytics_checkpoints
          WHERE checkpoint_id = $1
          FOR UPDATE`,
@@ -228,6 +269,8 @@ function createAnalyticsRepository({ store, durable } = {}) {
           opensAt: new Date(current.opensAt).toISOString(),
           closesAt: new Date(current.closesAt).toISOString(),
           publishedAt: new Date(current.publishedAt).toISOString(),
+          publishedAtProvenance: current.publishedAtProvenance,
+          timingRevision: current.timingRevision,
           observedAt: capturedAt.toISOString(),
           postAgeHours: postAgeHours({ publishedAt: current.publishedAt, observedAt: capturedAt }),
         },

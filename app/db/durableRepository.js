@@ -200,8 +200,7 @@ function createDurableRepository({ store } = {}) {
          permalink = COALESCE(EXCLUDED.permalink, posts.permalink),
          published_at = CASE
            WHEN (EXCLUDED.metadata #> '{publishedAtProvenance,verified}') = 'true'::jsonb THEN EXCLUDED.published_at
-           WHEN (posts.metadata #> '{publishedAtProvenance,verified}') = 'true'::jsonb THEN posts.published_at
-           ELSE NULL
+           ELSE posts.published_at
          END,
          metadata = (posts.metadata || EXCLUDED.metadata) || jsonb_build_object(
            'publishedAtProvenance',
@@ -210,6 +209,11 @@ function createDurableRepository({ store } = {}) {
                THEN EXCLUDED.metadata #> '{publishedAtProvenance}'
              WHEN (posts.metadata #> '{publishedAtProvenance,verified}') = 'true'::jsonb
                THEN posts.metadata #> '{publishedAtProvenance}'
+             WHEN posts.published_at IS NOT NULL
+               THEN COALESCE(
+                 posts.metadata #> '{publishedAtProvenance}',
+                 '{"source":"legacy_existing","verified":false}'::jsonb
+               )
              ELSE EXCLUDED.metadata #> '{publishedAtProvenance}'
            END
          ), updated_at = NOW()`,

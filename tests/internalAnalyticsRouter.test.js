@@ -90,9 +90,11 @@ async function withServer(app, fn) {
   }
 }
 
+const exportNow = () => new Date("2035-06-15T12:00:00.000Z");
+
 test("analytics export is bearer protected and returns normalized Edie payload", async () => {
   const app = express();
-  app.use("/internal/analytics", createInternalAnalyticsRouter({ store: fakeStore(), token: "test-secret" }));
+  app.use("/internal/analytics", createInternalAnalyticsRouter({ store: fakeStore(), token: "test-secret", now: exportNow }));
 
   await withServer(app, async base => {
     const denied = await fetch(`${base}/internal/analytics/export?days=7`);
@@ -120,7 +122,7 @@ test("analytics export is bearer protected and returns normalized Edie payload",
     assert.equal(body.checkpoints[0].collectionStatus, "UNSUPPORTED");
     assert.equal(body.checkpoints[0].windowStatus, "DUE");
     assert.equal(body.checkpoints[0].reason, "INSIGHTS_UNSUPPORTED");
-    assert.equal(body.checkpoints[0].idempotencyKey, "social:checkpoint:72");
+    assert.equal(body.checkpoints[0].idempotencyKey, "social:checkpoint:astel-us:astel-us%3Athreads:threads:p1:72");
   });
 });
 
@@ -172,7 +174,7 @@ test("analytics export keeps ordinary, 24h and 72h identities distinct and prese
     },
   };
   const app = express();
-  app.use("/internal/analytics", createInternalAnalyticsRouter({ store, token: "test-secret" }));
+  app.use("/internal/analytics", createInternalAnalyticsRouter({ store, token: "test-secret", now: exportNow }));
   await withServer(app, async url => {
     async function read() {
       const response = await fetch(`${url}/internal/analytics/export?days=30`, { headers: { authorization: "Bearer test-secret" } });
@@ -185,8 +187,8 @@ test("analytics export keeps ordinary, 24h and 72h identities distinct and prese
     assert.equal(new Set(identities).size, 3);
     assert.deepEqual(identities, [
       "social:snapshot:astel-us:threads:post:p1:2026-10-04T18:00:00.000Z",
-      "social:checkpoint-snapshot:101",
-      "social:checkpoint-snapshot:102",
+      "social:checkpoint-snapshot:astel-us:astel-us%3Athreads:threads:p1:24",
+      "social:checkpoint-snapshot:astel-us:astel-us%3Athreads:threads:p1:72",
     ]);
     assert.deepEqual(second.metrics.filter(item => item.entityType === "post").map(item => item.idempotencyKey), identities);
     const byStatus = new Map(first.checkpoints.map(item => [item.collectionStatus, item]));
@@ -198,6 +200,33 @@ test("analytics export keeps ordinary, 24h and 72h identities distinct and prese
     assert.equal(byStatus.get("MISSED").availability, "NOT_COLLECTED");
     assert.equal(byStatus.get("LATE").availability, "MEASURED");
     assert.equal(byStatus.get("CAPTURED").availability, "MEASURED");
-    assert.equal(first.metrics.find(item => item.idempotencyKey === "social:checkpoint-snapshot:101").metrics.views, 0);
+    assert.equal(first.metrics.find(item => item.idempotencyKey.endsWith(":p1:24")).metrics.views, 0);
+  });
+});
+
+test("analytics export derives cutoff, window state and generatedAt from the injected clock", async () => {
+  const base = fakeStore();
+  const calls = [];
+  const store = {
+    ...base,
+    async query(sql, params) {
+      calls.push({ sql, params });
+      return base.query(sql, params);
+    },
+  };
+  const now = new Date("2042-02-03T04:05:06.000Z");
+  const app = express();
+  app.use("/internal/analytics", createInternalAnalyticsRouter({ store, token: "test-secret", now: () => now }));
+  await withServer(app, async url => {
+    const response = await fetch(`${url}/internal/analytics/export?days=7`, { headers: { authorization: "Bearer test-secret" } });
+    assert.equal(response.status, 200);
+    const body = await response.json();
+    assert.equal(body.generatedAt, now.toISOString());
+    const expectedCutoff = new Date(now.getTime() - 7 * 86_400_000).toISOString();
+    for (const call of calls.filter(item => item.params.length >= 2)) {
+      assert.equal(new Date(call.params[0]).toISOString(), expectedCutoff);
+    }
+    const checkpointCall = calls.find(call => call.sql.includes("FROM analytics_checkpoints"));
+    assert.equal(new Date(checkpointCall.params[2]).toISOString(), now.toISOString());
   });
 });
