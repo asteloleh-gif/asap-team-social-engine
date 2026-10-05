@@ -99,15 +99,17 @@ function createInternalAnalyticsRouter({
           [cutoff, scopedBrand],
         ),
         store.query(
-          `SELECT c.account_key, a.brand_key, a.platform, c.platform_post_id,
+          `SELECT c.checkpoint_id, c.account_key, a.brand_key, a.platform, c.platform_post_id,
                   c.checkpoint_hours, c.tolerance_hours, c.published_at,
                   c.opens_at, c.due_at, c.closes_at, c.status, c.attempt_count,
-                  c.observed_at, c.last_error,
+                  c.observed_at, c.last_error, c.captured_snapshot_id,
                   CASE
-                    WHEN c.status IN ('CAPTURED','LATE','MISSED','UNSUPPORTED') THEN c.status
-                    WHEN c.observed_at IS NULL AND c.closes_at < NOW() THEN 'MISSED'
-                    WHEN c.observed_at IS NULL AND c.opens_at <= NOW() THEN 'DUE'
-                    ELSE c.status
+                    WHEN c.observed_at IS NOT NULL AND c.observed_at < c.opens_at THEN 'EARLY'
+                    WHEN c.observed_at IS NOT NULL AND c.observed_at <= c.closes_at THEN 'IN_WINDOW'
+                    WHEN c.observed_at IS NOT NULL THEN 'LATE'
+                    WHEN c.closes_at < NOW() THEN 'MISSED'
+                    WHEN c.opens_at <= NOW() THEN 'DUE'
+                    ELSE 'PENDING'
                   END AS window_status,
                   p.id AS durable_post_id, p.metadata AS post_metadata,
                   pr.job_id AS publish_job_id, pr.draft_id, d.metadata AS draft_metadata
@@ -149,11 +151,14 @@ function createInternalAnalyticsRouter({
           contentHash: row.post_metadata?.contentHash || row.draft_metadata?.contentHash || null,
         } : null,
         publishedAt: row.published_at || null,
+        publishedAtProvenance: row.post_metadata?.publishedAtProvenance || null,
         observedAt: row.captured_at,
         availability: "MEASURED",
         metadata: { ...(row.metadata || {}), origin: "social-engine" },
         capturedAt: row.captured_at,
-        idempotencyKey: `social:snapshot:${row.account_key}:${row.entity_type}:${row.entity_id}:${new Date(row.captured_at).toISOString()}`,
+        idempotencyKey: row.metadata?.checkpoint?.id
+          ? `social:checkpoint-snapshot:${row.metadata.checkpoint.id}`
+          : `social:snapshot:${row.account_key}:${row.entity_type}:${row.entity_id}:${new Date(row.captured_at).toISOString()}`,
       }));
 
       const commentMap = new Map((commentsResult.rows || []).map(row => [row.account_key, Number(row.count || 0)]));
@@ -213,6 +218,7 @@ function createInternalAnalyticsRouter({
       }));
 
       const checkpoints = (checkpointsResult.rows || []).map(row => ({
+        checkpointId: String(row.checkpoint_id),
         projectId,
         accountKey: row.account_key,
         brand: row.brand_key || null,
@@ -226,20 +232,24 @@ function createInternalAnalyticsRouter({
           contentHash: row.post_metadata?.contentHash || row.draft_metadata?.contentHash || null,
         },
         publishedAt: row.published_at,
+        publishedAtProvenance: row.post_metadata?.publishedAtProvenance || null,
         observedAt: row.observed_at || null,
         checkpointHours: Number(row.checkpoint_hours),
         toleranceHours: Number(row.tolerance_hours),
         opensAt: row.opens_at,
         dueAt: row.due_at,
         closesAt: row.closes_at,
-        status: row.window_status || row.status,
+        status: row.status,
+        collectionStatus: row.status,
+        windowStatus: row.window_status,
         attempts: Number(row.attempt_count || 0),
-        availability: row.window_status === "CAPTURED" || row.window_status === "LATE"
+        availability: row.status === "CAPTURED" || row.status === "LATE"
           ? "MEASURED"
-          : row.window_status === "UNSUPPORTED" ? "UNSUPPORTED"
-          : row.window_status === "MISSED" ? "NOT_COLLECTED"
-          : row.window_status === "FAILED" ? "FAILED" : "PENDING",
+          : row.status === "UNSUPPORTED" ? "UNSUPPORTED"
+          : row.status === "MISSED" ? "NOT_COLLECTED"
+          : row.status === "FAILED" ? "FAILED" : "PENDING",
         reason: row.last_error || null,
+        idempotencyKey: `social:checkpoint:${row.checkpoint_id}`,
       }));
 
       return res.json({

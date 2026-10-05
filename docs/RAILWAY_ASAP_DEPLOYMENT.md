@@ -12,7 +12,7 @@ Container build has not yet been exercised in the preparation workspace (Docker 
 
 Use config/asap_gta6.env.example and config/asap_katy.env.example as schemas. Keep ASAP_LIVE_ENABLED=false and ASAP_ANALYTICS_ENABLED=false initially. Set ASAP_MAX_POSTS_PER_PLATFORM_DAY=1 for the first pilot.
 
-- `ASAP_PROJECT_ID=asap-team` is mandatory and is validated at startup; it is no longer an ignored label.
+- `ASAP_PROJECT_ID` is an ignored compatibility label. Runtime scope remains hardcoded to `asap-team`; changing this environment value does not change authorization or project isolation.
 - `SOCIAL_BRAND` is mandatory and must exactly match `ASAP_BRAND` (`asap_gta6` or `asap_katy`).
 - `ASAP_ANALYTICS_INTERVAL_MS=3600000` is the prepared cadence for checkpoint discovery. Analytics remains disabled by default and requires a separate token and explicit enablement after grants are verified.
 

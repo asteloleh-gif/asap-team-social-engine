@@ -13,8 +13,7 @@ const hash = value => crypto.createHash('sha256').update(JSON.stringify(canonica
 function loadScope(env = process.env) {
   const brand = String(env.ASAP_BRAND || '').toLowerCase();
   if (!Object.hasOwn(BRANDS, brand)) throw new Error('ASAP_BRAND_REQUIRED');
-  const projectId = String(env.ASAP_PROJECT_ID || '');
-  if (projectId !== 'asap-team') throw new Error('ASAP_PROJECT_ID_REQUIRED');
+  const projectId = 'asap-team';
   if (env.SOCIAL_BRAND !== brand) throw new Error('ASAP_SOCIAL_BRAND_MISMATCH');
   const namespace = `asap:${brand}:v1`;
   if (env.ASAP_STATE_NAMESPACE !== namespace) throw new Error('ASAP_STATE_NAMESPACE_REQUIRED');
@@ -47,7 +46,7 @@ function assertAccount(scope, accountKey) {
 }
 
 function preflight(env = process.env) {
-  const required = ['ASAP_PROJECT_ID', 'ASAP_BRAND', 'SOCIAL_BRAND', 'ASAP_STATE_NAMESPACE', 'DATABASE_URL', 'REDIS_URL', 'ASAP_CONTROL_TOKEN'];
+  const required = ['ASAP_BRAND', 'SOCIAL_BRAND', 'ASAP_STATE_NAMESPACE', 'DATABASE_URL', 'REDIS_URL', 'ASAP_CONTROL_TOKEN'];
   const missing = required.filter(k => !env[k]);
   let reason = null;
   try {

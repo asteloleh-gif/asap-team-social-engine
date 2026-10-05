@@ -4,7 +4,7 @@ This runbook prepares implementation readiness only. It does not authorize deplo
 
 ## Invariants
 
-- `ASAP_PROJECT_ID` must be `asap-team`.
+- `ASAP_PROJECT_ID` is ignored for compatibility. The runtime project scope is hardcoded to `asap-team`.
 - `SOCIAL_BRAND` must exactly equal `ASAP_BRAND`.
 - Each brand uses its own PostgreSQL database, Redis namespace, accounts, and tokens.
 - `ASAP_ANALYTICS_ENABLED=false` until exact-account identity, permissions, resource budget, and owner approval are verified.

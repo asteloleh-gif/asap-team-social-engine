@@ -50,6 +50,7 @@ function fakeStore() {
       }
       if (sql.includes("FROM analytics_checkpoints")) {
         return { rows: [{
+          checkpoint_id: "72",
           account_key: "astel-us:threads",
           brand_key: "astel-us",
           platform: "threads",
@@ -61,7 +62,7 @@ function fakeStore() {
           due_at: new Date("2026-09-25T12:00:00Z"),
           closes_at: new Date("2026-09-25T18:00:00Z"),
           status: "UNSUPPORTED",
-          window_status: "UNSUPPORTED",
+          window_status: "DUE",
           attempt_count: 1,
           observed_at: null,
           last_error: "INSIGHTS_UNSUPPORTED",
@@ -116,7 +117,10 @@ test("analytics export is bearer protected and returns normalized Edie payload",
     assert.equal(body.costs.length, 1);
     assert.equal(body.costs[0].amountMicrousd, 1500);
     assert.equal(body.checkpoints[0].availability, "UNSUPPORTED");
+    assert.equal(body.checkpoints[0].collectionStatus, "UNSUPPORTED");
+    assert.equal(body.checkpoints[0].windowStatus, "DUE");
     assert.equal(body.checkpoints[0].reason, "INSIGHTS_UNSUPPORTED");
+    assert.equal(body.checkpoints[0].idempotencyKey, "social:checkpoint:72");
   });
 });
 
@@ -126,4 +130,74 @@ test("analytics export helpers clamp windows and compare secrets safely", () => 
   assert.equal(safeEqual("abc", "abc"), true);
   assert.equal(safeEqual("abc", "abd"), false);
   assert.equal(safeEqual("", ""), false);
+});
+
+test("analytics export keeps ordinary, 24h and 72h identities distinct and preserves collection versus window state", async () => {
+  const base = fakeStore();
+  const capturedAt = new Date("2026-10-04T18:00:00.000Z");
+  const snapshots = [
+    { id: "ordinary", metadata: {} },
+    { id: "24", metadata: { checkpoint: { id: "101", hours: 24, status: "CAPTURED" } } },
+    { id: "72", metadata: { checkpoint: { id: "102", hours: 72, status: "LATE" } } },
+  ].map(item => ({
+    account_key: "astel-us:threads", brand_key: "astel-us", platform: "threads",
+    entity_type: "post", entity_id: "p1", metrics: { views: 0 }, metadata: item.metadata,
+    durable_post_id: "44", published_at: new Date("2026-10-01T12:00:00Z"),
+    post_metadata: { contentId: "content-1", publishedAtProvenance: { source: "platform_discovery", verified: true } },
+    publish_job_id: "job-1", draft_id: "draft-1", draft_metadata: {}, captured_at: capturedAt,
+  }));
+  const states = [
+    ["1", "PENDING", "PENDING", null],
+    ["2", "IN_PROGRESS", "DUE", null],
+    ["3", "FAILED", "DUE", "RATE_LIMITED"],
+    ["4", "UNSUPPORTED", "DUE", "INSIGHTS_UNSUPPORTED"],
+    ["5", "MISSED", "MISSED", "WINDOW_MISSED"],
+    ["6", "LATE", "LATE", null],
+    ["7", "CAPTURED", "IN_WINDOW", null],
+  ].map(([id, status, windowStatus, reason]) => ({
+    checkpoint_id: id, account_key: "astel-us:threads", brand_key: "astel-us", platform: "threads",
+    platform_post_id: "p1", checkpoint_hours: id === "7" ? 72 : 24, tolerance_hours: 2,
+    published_at: new Date("2026-10-01T12:00:00Z"), opens_at: new Date("2026-10-02T10:00:00Z"),
+    due_at: new Date("2026-10-02T12:00:00Z"), closes_at: new Date("2026-10-02T14:00:00Z"),
+    status, window_status: windowStatus, attempt_count: 1,
+    observed_at: ["LATE", "CAPTURED"].includes(status) ? capturedAt : null, last_error: reason,
+    durable_post_id: "44", post_metadata: { contentId: "content-1" }, publish_job_id: "job-1", draft_id: "draft-1", draft_metadata: {},
+  }));
+  const store = {
+    ...base,
+    async query(sql, params) {
+      if (sql.includes("FROM analytics_snapshots")) return { rows: snapshots };
+      if (sql.includes("FROM analytics_checkpoints")) return { rows: states };
+      return base.query(sql, params);
+    },
+  };
+  const app = express();
+  app.use("/internal/analytics", createInternalAnalyticsRouter({ store, token: "test-secret" }));
+  await withServer(app, async url => {
+    async function read() {
+      const response = await fetch(`${url}/internal/analytics/export?days=30`, { headers: { authorization: "Bearer test-secret" } });
+      assert.equal(response.status, 200);
+      return response.json();
+    }
+    const first = await read();
+    const second = await read();
+    const identities = first.metrics.filter(item => item.entityType === "post").map(item => item.idempotencyKey);
+    assert.equal(new Set(identities).size, 3);
+    assert.deepEqual(identities, [
+      "social:snapshot:astel-us:threads:post:p1:2026-10-04T18:00:00.000Z",
+      "social:checkpoint-snapshot:101",
+      "social:checkpoint-snapshot:102",
+    ]);
+    assert.deepEqual(second.metrics.filter(item => item.entityType === "post").map(item => item.idempotencyKey), identities);
+    const byStatus = new Map(first.checkpoints.map(item => [item.collectionStatus, item]));
+    assert.equal(byStatus.get("PENDING").windowStatus, "PENDING");
+    assert.equal(byStatus.get("IN_PROGRESS").windowStatus, "DUE");
+    assert.equal(byStatus.get("FAILED").availability, "FAILED");
+    assert.equal(byStatus.get("FAILED").reason, "RATE_LIMITED");
+    assert.equal(byStatus.get("UNSUPPORTED").availability, "UNSUPPORTED");
+    assert.equal(byStatus.get("MISSED").availability, "NOT_COLLECTED");
+    assert.equal(byStatus.get("LATE").availability, "MEASURED");
+    assert.equal(byStatus.get("CAPTURED").availability, "MEASURED");
+    assert.equal(first.metrics.find(item => item.idempotencyKey === "social:checkpoint-snapshot:101").metrics.views, 0);
+  });
 });

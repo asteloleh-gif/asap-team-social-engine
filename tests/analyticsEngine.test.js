@@ -207,3 +207,61 @@ test("unsupported analytics stays distinct from measured zero", async () => {
   assert.equal(failure.unsupported, true);
   assert.equal(failure.reason, "INSIGHTS_UNSUPPORTED");
 });
+
+for (const scenario of [
+  { hours: 24, toleranceHours: 2, start: "2026-10-02T13:59:00.000Z", finish: "2026-10-02T14:01:00.000Z" },
+  { hours: 72, toleranceHours: 6, start: "2026-10-04T17:59:00.000Z", finish: "2026-10-04T18:01:00.000Z" },
+]) {
+  test(`checkpoint ${scenario.hours}h uses fresh claim and response clocks across the close boundary`, async () => {
+    let current = new Date(scenario.start);
+    let claimedAt = null;
+    let observedAt = null;
+    const publishedAt = "2026-10-01T12:00:00.000Z";
+    const bounds = checkpointBounds({ publishedAt, hours: scenario.hours, toleranceHours: scenario.toleranceHours });
+    const checkpoint = {
+      checkpointId: String(scenario.hours),
+      claimToken: `claim-${scenario.hours}`,
+      accountKey: "asap_gta6:threads",
+      platformPostId: `p-${scenario.hours}`,
+      checkpointHours: scenario.hours,
+      toleranceHours: scenario.toleranceHours,
+      publishedAt,
+      opensAt: bounds.opensAt,
+      dueAt: bounds.dueAt,
+      closesAt: bounds.closesAt,
+    };
+    const repository = {
+      isReady: () => true,
+      health: () => ({ connected: true }),
+      async recordSnapshot() {},
+      async upsertDiscoveredPost() {},
+      async ensureCheckpoints() {},
+      async claimDueCheckpoints(input) { claimedAt = input.now; return [checkpoint]; },
+      async completeCheckpoint(input) {
+        observedAt = input.observedAt;
+        return { status: checkpointWindowState({ publishedAt, hours: scenario.hours, toleranceHours: scenario.toleranceHours, now: input.observedAt }).state === "LATE" ? "LATE" : "CAPTURED" };
+      },
+      async failCheckpoint() { return { status: "FAILED" }; },
+    };
+    const provider = {
+      platform: "threads",
+      accountKey: "asap_gta6:threads",
+      account: { enabled: true, userId: "u1" },
+      capabilities: { insights: true },
+      async getAccountInsights() { return { status: "ok", metrics: {} }; },
+      async listRecentPosts() { return { status: "ok", posts: [] }; },
+      async getPostInsights() { current = new Date(scenario.finish); return { status: "ok", metrics: { views: 0 } }; },
+    };
+    const engine = createAnalyticsEngine({
+      providerRegistry: { list: () => [provider] },
+      repository,
+      enabled: true,
+      now: () => new Date(current),
+    });
+    const result = await engine.runOnce();
+    assert.equal(new Date(claimedAt).toISOString(), scenario.start);
+    assert.equal(new Date(observedAt).toISOString(), scenario.finish);
+    assert.equal(result.checkpoints.late, 1);
+    assert.equal(result.checkpoints.captured, 0);
+  });
+}

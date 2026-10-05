@@ -110,20 +110,21 @@ function createAnalyticsEngine({
     return summary;
   }
 
-  async function runCheckpoints(provider, runAt) {
-    const summary = { claimed: 0, captured: 0, late: 0, missed: 0, failed: 0, unsupported: 0 };
+  async function runCheckpoints(provider) {
+    const summary = { claimed: 0, captured: 0, late: 0, missed: 0, failed: 0, unsupported: 0, stale: 0 };
     if (typeof repository.claimDueCheckpoints !== "function") return summary;
+    const claimAt = clock();
     const checkpoints = await repository.claimDueCheckpoints({
       accountKey: provider.accountKey,
-      now: runAt,
+      now: claimAt,
       limit: Math.max(1, checkpointBatchSize || 100),
     });
     summary.claimed = checkpoints.length;
     const supported = provider.capabilities?.insights && typeof provider.getPostInsights === "function";
     for (const checkpoint of checkpoints) {
       if (!supported) {
-        await repository.failCheckpoint({ checkpoint, reason: "INSIGHTS_UNSUPPORTED", unsupported: true, now: runAt });
-        summary.unsupported += 1;
+        const failed = await repository.failCheckpoint({ checkpoint, reason: "INSIGHTS_UNSUPPORTED", unsupported: true, now: clock() });
+        summary[failed.status === "STALE_CLAIM" ? "stale" : "unsupported"] += 1;
         continue;
       }
       try {
@@ -133,9 +134,9 @@ function createAnalyticsEngine({
             checkpoint,
             reason: result?.reason || "INSIGHTS_FAILED",
             unsupported: result?.reason === "INSIGHTS_UNSUPPORTED" || result?.reason === "UNSUPPORTED",
-            now: runAt,
+            now: clock(),
           });
-          summary[failed.status === "MISSED" ? "missed" : failed.status === "UNSUPPORTED" ? "unsupported" : "failed"] += 1;
+          summary[failed.status === "STALE_CLAIM" ? "stale" : failed.status === "MISSED" ? "missed" : failed.status === "UNSUPPORTED" ? "unsupported" : "failed"] += 1;
           continue;
         }
         const completed = await repository.completeCheckpoint({
@@ -143,12 +144,12 @@ function createAnalyticsEngine({
           metrics: result.metrics || {},
           periods: result.periods || {},
           platform: provider.platform,
-          observedAt: runAt,
+          observedAt: clock(),
         });
-        summary[completed.status === "LATE" ? "late" : "captured"] += 1;
+        summary[completed.status === "STALE_CLAIM" ? "stale" : completed.status === "LATE" ? "late" : "captured"] += 1;
       } catch (error) {
-        const failed = await repository.failCheckpoint({ checkpoint, reason: error?.message || "INSIGHTS_EXCEPTION", now: runAt });
-        summary[failed.status === "MISSED" ? "missed" : "failed"] += 1;
+        const failed = await repository.failCheckpoint({ checkpoint, reason: error?.message || "INSIGHTS_EXCEPTION", now: clock() });
+        summary[failed.status === "STALE_CLAIM" ? "stale" : failed.status === "MISSED" ? "missed" : "failed"] += 1;
       }
     }
     return summary;
@@ -169,7 +170,7 @@ function createAnalyticsEngine({
       for (const provider of providers) results.push(await runProvider(provider, runAt));
       if (typeof repository.ensureCheckpoints === "function") await repository.ensureCheckpoints();
       const checkpointResults = [];
-      for (const provider of allProviders) checkpointResults.push({ accountKey: provider.accountKey, ...(await runCheckpoints(provider, runAt)) });
+      for (const provider of allProviders) checkpointResults.push({ accountKey: provider.accountKey, ...(await runCheckpoints(provider)) });
       lastCompletedAt = clock().toISOString();
       lastSummary = {
         status: "ok",
@@ -186,6 +187,7 @@ function createAnalyticsEngine({
           missed: checkpointResults.reduce((sum, item) => sum + item.missed, 0),
           failed: checkpointResults.reduce((sum, item) => sum + item.failed, 0),
           unsupported: checkpointResults.reduce((sum, item) => sum + item.unsupported, 0),
+          stale: checkpointResults.reduce((sum, item) => sum + item.stale, 0),
           accounts: checkpointResults,
         },
       };

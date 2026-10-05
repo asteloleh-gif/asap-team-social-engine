@@ -1,3 +1,15 @@
+function publicationTimestamp(result, completedAt) {
+  const directVerified = result?.verified === true && result?.publishedAt;
+  const readbackVerified = result?.readback?.publishedAt && result?.readback?.verified !== false;
+  const publishedAt = directVerified ? result.publishedAt : readbackVerified ? result.readback.publishedAt : null;
+  return {
+    publishedAt,
+    provenance: publishedAt
+      ? { source: "platform_readback", verified: true, localCompletionAt: new Date(completedAt).toISOString() }
+      : { source: "local_completion", verified: false, localCompletionAt: new Date(completedAt).toISOString() },
+  };
+}
+
 function createDurablePublishRepository({ hotRepository, durable } = {}) {
   if (!hotRepository) throw new Error("Hot publish repository is required");
   if (!durable) throw new Error("Durable repository is required");
@@ -71,6 +83,8 @@ function createDurablePublishRepository({ hotRepository, durable } = {}) {
       });
       if (status === "PUBLISHED" && (options.result?.id || job?.result?.id)) {
         const platformPostId = options.result?.id || job.result.id;
+        const completedAt = options.now || new Date();
+        const timestamp = publicationTimestamp(options.result || job.result || {}, completedAt);
         await durable.upsertPost({
           accountKey: job.accountKey,
           platformPostId,
@@ -78,8 +92,8 @@ function createDurablePublishRepository({ hotRepository, durable } = {}) {
           text: job.content?.text || null,
           permalink: options.result?.permalink || null,
           status: "PUBLISHED",
-          publishedAt: options.now || new Date(),
-          metadata: { publishJobId: id, ...(job.metadata || {}) },
+          publishedAt: timestamp.publishedAt,
+          metadata: { publishJobId: id, ...(job.metadata || {}), publishedAtProvenance: timestamp.provenance },
         });
       }
     });
@@ -126,8 +140,9 @@ function createDurablePublishRepository({ hotRepository, durable } = {}) {
     const changed = await hotRepository.reconcilePublished(id, result, now);
     if (!changed) return false;
     const projected = await persist(async () => {
+      const timestamp = publicationTimestamp(result, now);
       await durable.recordPublishState({ jobId: id, status: 'PUBLISHED', result, errorCode: null, finishedAt: now });
-      await durable.upsertPost({ accountKey: job.accountKey, platformPostId: result.id, contentType: job.content?.type || 'text', text: job.content?.text || null, status: 'PUBLISHED', permalink: result.permalink || null, publishedAt: result.readback?.publishedAt || now, metadata: { publishJobId: id, ...(job.metadata || {}), reconciled: true } });
+      await durable.upsertPost({ accountKey: job.accountKey, platformPostId: result.id, contentType: job.content?.type || 'text', text: job.content?.text || null, status: 'PUBLISHED', permalink: result.permalink || null, publishedAt: timestamp.publishedAt, metadata: { publishJobId: id, ...(job.metadata || {}), reconciled: true, publishedAtProvenance: timestamp.provenance } });
     });
     await hotRepository.markDurableProjection?.(id, projected);
     return projected;
@@ -140,8 +155,9 @@ function createDurablePublishRepository({ hotRepository, durable } = {}) {
       const job = await hotRepository.get(id);
       if (!job) continue;
       const projected = await persist(async () => {
+        const timestamp = publicationTimestamp(job.result || {}, job.updatedAt);
         await durable.recordPublishState({ jobId: id, status: job.status, result: job.result || {}, errorCode: job.errorCode, finishedAt: job.updatedAt });
-        if (job.status === 'PUBLISHED' && job.result?.id) await durable.upsertPost({ accountKey: job.accountKey, platformPostId: job.result.id, contentType: job.content?.type || 'text', text: job.content?.text || null, status: 'PUBLISHED', permalink: job.result.permalink || null, publishedAt: job.result.readback?.publishedAt || job.updatedAt, metadata: { publishJobId: id, ...(job.metadata || {}), durableProjectionRetried: true } });
+        if (job.status === 'PUBLISHED' && job.result?.id) await durable.upsertPost({ accountKey: job.accountKey, platformPostId: job.result.id, contentType: job.content?.type || 'text', text: job.content?.text || null, status: 'PUBLISHED', permalink: job.result.permalink || null, publishedAt: timestamp.publishedAt, metadata: { publishJobId: id, ...(job.metadata || {}), durableProjectionRetried: true, publishedAtProvenance: timestamp.provenance } });
       });
       await hotRepository.markDurableProjection?.(id, projected);
       if (projected) confirmed++;

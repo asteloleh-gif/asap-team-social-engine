@@ -10,7 +10,7 @@ test('ASAP rejects production brand, DB, namespaces and account identities', () 
  for (const patch of [{ASAP_BRAND:'astel.us'},{DATABASE_URL:'postgresql://localhost/railway'},{ASAP_STATE_NAMESPACE:'astel:publish:v1'},{THREADS_USERNAME:'astel.us'}]) assert.throws(()=>loadScope({...env,...patch}));
  assert.equal(preflight({}).secretsIncluded,false);
  assert.throws(()=>loadScope({...env,ASAP_FORBIDDEN_ACCOUNT_IDS:'123'}),/ASTEL_ACCOUNT_FORBIDDEN/);
- assert.throws(()=>loadScope({...env,ASAP_PROJECT_ID:'ignored-project'}),/ASAP_PROJECT_ID_REQUIRED/);
+ assert.equal(loadScope({...env,ASAP_PROJECT_ID:'ignored-project'}).projectId,'asap-team');
  assert.throws(()=>loadScope({...env,SOCIAL_BRAND:''}),/ASAP_SOCIAL_BRAND_MISMATCH/);
 });
 test('content hashes survive PostgreSQL JSONB key order normalization', () => { assert.equal(hash({type:'text',text:'Hello'}),hash({text:'Hello',type:'text'})); });
@@ -26,6 +26,12 @@ test('Distribution preview is scoped, exact-version reviewed and has zero AI cal
 test('both brands require distinct state namespace and dedicated database',()=>{
  const scope=loadScope({...base(),ASAP_BRAND:'asap_katy',SOCIAL_BRAND:'asap_katy',ASAP_STATE_NAMESPACE:'asap:asap_katy:v1',DATABASE_URL:'postgresql://localhost/asap_katy',THREADS_USERNAME:'asapkaty'});
  assert.equal(scope.accounts[0].key,'asap_katy:threads');
+});
+
+test('ASAP_PROJECT_ID is an ignored compatibility label and never changes scope',()=>{
+ assert.equal(loadScope({...base(),ASAP_PROJECT_ID:''}).projectId,'asap-team');
+ assert.equal(loadScope({...base(),ASAP_PROJECT_ID:'untrusted-label'}).projectId,'asap-team');
+ assert.equal(preflight({...base(),ASAP_PROJECT_ID:'',ASAP_CONTROL_TOKEN:'control-fixture-'.repeat(3)}).missing.includes('ASAP_PROJECT_ID'),false);
 });
 
 test('preflight rejects all-disabled routes with the same readiness reason as startup', async () => {

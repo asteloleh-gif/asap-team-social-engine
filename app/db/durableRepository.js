@@ -182,15 +182,38 @@ function createDurableRepository({ store } = {}) {
 
   async function upsertPost({ accountKey, platformPostId, contentType = "text", text = null, status = "PUBLISHED", permalink = null, publishedAt = null, metadata = {} } = {}) {
     if (!accountKey || !platformPostId) throw new Error("Post requires accountKey and platformPostId");
+    const requestedProvenance = metadata?.publishedAtProvenance || {};
+    const verifiedPublishedAt = Boolean(publishedAt && requestedProvenance.verified === true);
+    const normalizedMetadata = {
+      ...json(metadata, {}),
+      publishedAtProvenance: {
+        source: String(requestedProvenance.source || (verifiedPublishedAt ? "verified_platform" : "unknown")),
+        verified: verifiedPublishedAt,
+        ...(requestedProvenance.localCompletionAt ? { localCompletionAt: new Date(requestedProvenance.localCompletionAt).toISOString() } : {}),
+      },
+    };
     await store.query(
       `INSERT INTO posts(account_key, platform_post_id, content_type, text, status, permalink, published_at, metadata, updated_at)
        VALUES ($1,$2,$3,$4,$5,$6,$7,$8::jsonb,NOW())
        ON CONFLICT (account_key, platform_post_id) WHERE platform_post_id IS NOT NULL
        DO UPDATE SET content_type = EXCLUDED.content_type, text = COALESCE(EXCLUDED.text, posts.text), status = EXCLUDED.status,
          permalink = COALESCE(EXCLUDED.permalink, posts.permalink),
-         published_at = COALESCE(posts.published_at, EXCLUDED.published_at),
-         metadata = posts.metadata || EXCLUDED.metadata, updated_at = NOW()`,
-      [String(accountKey), String(platformPostId), String(contentType), text == null ? null : String(text), String(status), permalink, publishedAt ? new Date(publishedAt).toISOString() : null, JSON.stringify(json(metadata, {}))],
+         published_at = CASE
+           WHEN (EXCLUDED.metadata #> '{publishedAtProvenance,verified}') = 'true'::jsonb THEN EXCLUDED.published_at
+           WHEN (posts.metadata #> '{publishedAtProvenance,verified}') = 'true'::jsonb THEN posts.published_at
+           ELSE NULL
+         END,
+         metadata = (posts.metadata || EXCLUDED.metadata) || jsonb_build_object(
+           'publishedAtProvenance',
+           CASE
+             WHEN (EXCLUDED.metadata #> '{publishedAtProvenance,verified}') = 'true'::jsonb
+               THEN EXCLUDED.metadata #> '{publishedAtProvenance}'
+             WHEN (posts.metadata #> '{publishedAtProvenance,verified}') = 'true'::jsonb
+               THEN posts.metadata #> '{publishedAtProvenance}'
+             ELSE EXCLUDED.metadata #> '{publishedAtProvenance}'
+           END
+         ), updated_at = NOW()`,
+      [String(accountKey), String(platformPostId), String(contentType), text == null ? null : String(text), String(status), permalink, verifiedPublishedAt ? new Date(publishedAt).toISOString() : null, JSON.stringify(normalizedMetadata)],
     );
     return { stored: true };
   }
