@@ -1,0 +1,25 @@
+{
+  "purpose": "Isolated ASAP GTA6/Katy social engine; original source services are not changed.",
+  "sources": [
+    {
+      "repository": "asteloleh-gif/threads-bot",
+      "commit": "81338658909d8dc2ada8bea7b999c8348d504c6f",
+      "url": "https://github.com/asteloleh-gif/threads-bot/tree/81338658909d8dc2ada8bea7b999c8348d504c6f",
+      "reuse": "Engine, provider contracts, durable publishing, content storage, safety and analytics."
+    },
+    {
+      "repository": "asteloleh-gif/astel-hyper-crew",
+      "commit": "591b001be2126718fae8a7e4cc4a9eba70b4bd82",
+      "url": "https://github.com/asteloleh-gif/astel-hyper-crew/tree/591b001be2126718fae8a7e4cc4a9eba70b4bd82",
+      "reuse": "Selected registry and analytics connector contract; no existing binding overwritten."
+    },
+    {
+      "repository": "asteloleh-gif/asteloleh-gif-astel-lazy-distribution",
+      "commit": "0c713f25d809baeb31be47e535a95321a53d115c",
+      "url": "https://github.com/asteloleh-gif/asteloleh-gif-astel-lazy-distribution/tree/0c713f25d809baeb31be47e535a95321a53d115c",
+      "reuse": "ContentEnvelope and packaging adapter; Meta publication remains owned by Publish Engine."
+    }
+  ],
+  "excluded": "No credentials, private runtime bindings, billing data, deployment IDs or private operational audit are part of this public provenance.",
+  "license_note": "Original attribution and source links retained. No LICENSE file was present in the inspected source trees; no new license is asserted."
+}
