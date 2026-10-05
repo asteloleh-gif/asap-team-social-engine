@@ -138,6 +138,7 @@ function createAnalyticsRepository({ store, durable } = {}) {
            'dueAt', analytics_checkpoints.due_at,
            'closesAt', analytics_checkpoints.closes_at,
            'status', analytics_checkpoints.status,
+           'lastError', analytics_checkpoints.last_error,
            'observedAt', analytics_checkpoints.observed_at,
            'correctedAt', NOW()
          )),
@@ -153,12 +154,30 @@ function createAnalyticsRepository({ store, durable } = {}) {
                 AND analytics_checkpoints.observed_at > EXCLUDED.closes_at THEN 'LATE'
            WHEN analytics_checkpoints.observed_at IS NOT NULL THEN 'CAPTURED'
            WHEN analytics_checkpoints.status = 'IN_PROGRESS' THEN 'PENDING'
+           WHEN analytics_checkpoints.status = 'MISSED'
+                AND analytics_checkpoints.observed_at IS NULL
+                AND EXCLUDED.closes_at >= NOW() THEN 'PENDING'
            ELSE analytics_checkpoints.status
          END,
-         claim_token = CASE WHEN analytics_checkpoints.status = 'IN_PROGRESS' THEN NULL ELSE analytics_checkpoints.claim_token END,
-         lease_until = CASE WHEN analytics_checkpoints.status = 'IN_PROGRESS' THEN NULL ELSE analytics_checkpoints.lease_until END,
+         claim_token = CASE
+           WHEN analytics_checkpoints.status = 'IN_PROGRESS'
+             OR (analytics_checkpoints.status = 'MISSED'
+                 AND analytics_checkpoints.observed_at IS NULL
+                 AND EXCLUDED.closes_at >= NOW()) THEN NULL
+           ELSE analytics_checkpoints.claim_token
+         END,
+         lease_until = CASE
+           WHEN analytics_checkpoints.status = 'IN_PROGRESS'
+             OR (analytics_checkpoints.status = 'MISSED'
+                 AND analytics_checkpoints.observed_at IS NULL
+                 AND EXCLUDED.closes_at >= NOW()) THEN NULL
+           ELSE analytics_checkpoints.lease_until
+         END,
          last_error = CASE
-           WHEN analytics_checkpoints.status = 'IN_PROGRESS' THEN 'PUBLICATION_TIME_CORRECTED'
+           WHEN analytics_checkpoints.status = 'IN_PROGRESS'
+             OR (analytics_checkpoints.status = 'MISSED'
+                 AND analytics_checkpoints.observed_at IS NULL
+                 AND EXCLUDED.closes_at >= NOW()) THEN 'PUBLICATION_TIME_CORRECTED'
            ELSE analytics_checkpoints.last_error
          END,
          updated_at = NOW()

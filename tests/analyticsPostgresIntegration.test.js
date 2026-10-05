@@ -336,6 +336,54 @@ test("real PostgreSQL fences and reconciles checkpoints, preserves legacy histor
     assert.equal(capturedAfterCorrection.snapshot_metadata.checkpoint.publishedAt, publishedAt);
     assert.deepEqual(capturedAfterCorrection.snapshot_metadata.checkpoint.publishedAtProvenance, { source: "platform_discovery", verified: true });
 
+    const missedOriginalPublication = "2042-01-31T11:00:00.000Z";
+    const missedCorrectedPublication = "2042-02-01T12:00:00.000Z";
+    await repository.upsertDiscoveredPost({
+      accountKey: correctionAccount,
+      post: { id: "correct-after-missed", publishedAt: missedOriginalPublication, text: "missed correction" },
+    });
+    await repository.ensureCheckpoints();
+    const missedClaim = (await repository.claimDueCheckpoints({
+      accountKey: correctionAccount,
+      now: new Date("2042-02-01T12:00:00.000Z"),
+      limit: 10,
+      leaseMs: 60_000,
+    })).find(item => item.platformPostId === "correct-after-missed" && item.checkpointHours === 24);
+    assert.ok(missedClaim);
+    assert.equal((await repository.failCheckpoint({
+      checkpoint: missedClaim,
+      reason: "OLD_WINDOW_ELAPSED",
+      now: new Date("2042-02-01T14:01:00.000Z"),
+    })).status, "MISSED");
+    await repository.upsertDiscoveredPost({
+      accountKey: correctionAccount,
+      post: { id: "correct-after-missed", publishedAt: missedCorrectedPublication, text: "missed corrected" },
+    });
+    const reconsidered = (await store.query(
+      `SELECT * FROM analytics_checkpoints WHERE checkpoint_id = $1`,
+      [missedClaim.checkpointId],
+    )).rows[0];
+    assert.equal(reconsidered.status, "PENDING");
+    assert.equal(reconsidered.observed_at, null);
+    assert.equal(reconsidered.claim_token, null);
+    assert.equal(reconsidered.lease_until, null);
+    assert.equal(reconsidered.last_error, "PUBLICATION_TIME_CORRECTED");
+    assert.equal(reconsidered.timing_history.length, 1);
+    assert.equal(reconsidered.timing_history[0].status, "MISSED");
+    assert.equal(reconsidered.timing_history[0].lastError, "OLD_WINDOW_ELAPSED");
+    const reclaimed = (await repository.claimDueCheckpoints({
+      accountKey: correctionAccount,
+      now: new Date("2042-02-02T12:00:00.000Z"),
+      limit: 10,
+      leaseMs: 60_000,
+    })).find(item => item.platformPostId === "correct-after-missed" && item.checkpointHours === 24);
+    assert.ok(reclaimed);
+    assert.equal((await repository.completeCheckpoint({
+      checkpoint: reclaimed,
+      metrics: { views: 4 },
+      observedAt: new Date("2042-02-02T12:00:00.000Z"),
+    })).status, "CAPTURED");
+
     await repository.upsertDiscoveredPost({
       accountKey: "asap_katy:threads",
       post: { id: "katy-post", publishedAt, text: "katy" },
@@ -363,6 +411,18 @@ test("real PostgreSQL fences and reconciles checkpoints, preserves legacy histor
     assert.equal(correctedExport.comparable, false);
     assert.equal(correctedExport.timingRevision, 2);
     assert.equal(correctedExport.timingHistory.length, 1);
+    const correctedMetric = body.metrics.find(item => item.entityId === "correct-after-capture" && item.dimensions.checkpointHours === 24);
+    assert.ok(correctedMetric);
+    assert.equal(correctedMetric.dimensions.postAgeHours, 26.5);
+    assert.equal(correctedMetric.dimensions.checkpointStatus, correctedExport.collectionStatus);
+    assert.equal(correctedMetric.dimensions.checkpointWindowStatus, correctedExport.windowStatus);
+    assert.equal(correctedMetric.dimensions.checkpointComparable, correctedExport.comparable);
+    assert.equal(correctedMetric.collectionStatus, correctedExport.collectionStatus);
+    assert.equal(correctedMetric.windowStatus, correctedExport.windowStatus);
+    assert.equal(correctedMetric.comparable, correctedExport.comparable);
+    assert.equal(correctedMetric.dimensions.originalCheckpointStatus, "CAPTURED");
+    assert.equal(correctedMetric.metadata.originalCheckpoint.status, "CAPTURED");
+    assert.equal(correctedMetric.metadata.originalCheckpoint.publishedAt, publishedAt);
 
     async function independentExport(schema, brandKey, accountKey, username) {
       const pool = await schemaPool(store, schema);

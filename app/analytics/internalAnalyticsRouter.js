@@ -50,10 +50,21 @@ function createInternalAnalyticsRouter({
         store.query(
           `SELECT s.account_key, a.brand_key, a.platform, s.entity_type, s.entity_id, s.metrics, s.metadata, s.captured_at,
                   p.id AS durable_post_id, p.published_at, p.content_type, p.metadata AS post_metadata,
+                  c.status AS current_checkpoint_status,
+                  CASE
+                    WHEN c.observed_at IS NOT NULL AND c.observed_at < c.opens_at THEN 'EARLY'
+                    WHEN c.observed_at IS NOT NULL AND c.observed_at <= c.closes_at THEN 'IN_WINDOW'
+                    WHEN c.observed_at IS NOT NULL THEN 'LATE'
+                    WHEN c.closes_at < $3 THEN 'MISSED'
+                    WHEN c.opens_at <= $3 THEN 'DUE'
+                    ELSE 'PENDING'
+                  END AS current_checkpoint_window_status,
+                  c.observed_at AS current_checkpoint_observed_at,
                   pr.job_id AS publish_job_id, pr.draft_id, d.metadata AS draft_metadata
            FROM analytics_snapshots s
            JOIN social_accounts a ON a.account_key = s.account_key
            LEFT JOIN posts p ON s.entity_type = 'post' AND p.account_key = s.account_key AND p.platform_post_id = s.entity_id
+           LEFT JOIN analytics_checkpoints c ON c.captured_snapshot_id = s.id
            LEFT JOIN LATERAL (
              SELECT job_id, draft_id FROM publish_runs
              WHERE account_key = p.account_key AND platform_post_id = p.platform_post_id
@@ -62,7 +73,7 @@ function createInternalAnalyticsRouter({
            LEFT JOIN drafts d ON d.draft_id = pr.draft_id
            WHERE s.captured_at >= $1 AND ($2::text IS NULL OR a.brand_key = $2)
            ORDER BY s.captured_at ASC`,
-          [cutoff, scopedBrand],
+          [cutoff, scopedBrand, capturedAt],
         ),
         store.query(
           `SELECT account_key, brand_key, platform, username
@@ -138,7 +149,12 @@ function createInternalAnalyticsRouter({
         ),
       ]);
 
-      const metricRows = (snapshotsResult.rows || []).map(row => ({
+      const metricRows = (snapshotsResult.rows || []).map(row => {
+        const originalCheckpoint = row.metadata?.checkpoint || null;
+        const checkpointStatus = row.current_checkpoint_status || originalCheckpoint?.status || null;
+        const checkpointWindowStatus = row.current_checkpoint_window_status || null;
+        const checkpointComparable = row.current_checkpoint_observed_at != null && checkpointWindowStatus === "IN_WINDOW";
+        return ({
         source: row.platform || "social",
         projectId,
         accountKey: row.account_key,
@@ -150,7 +166,10 @@ function createInternalAnalyticsRouter({
         dimensions: {
           postAgeHours: row.published_at ? Math.max(0, (new Date(row.captured_at).getTime() - new Date(row.published_at).getTime()) / 3_600_000) : null,
           checkpointHours: row.metadata?.checkpoint?.hours ?? null,
-          checkpointStatus: row.metadata?.checkpoint?.status ?? null,
+          checkpointStatus,
+          checkpointWindowStatus,
+          checkpointComparable,
+          originalCheckpointStatus: originalCheckpoint?.status ?? null,
         },
         mapping: row.entity_type === "post" ? {
           durablePostId: row.durable_post_id == null ? null : String(row.durable_post_id),
@@ -163,8 +182,15 @@ function createInternalAnalyticsRouter({
         publishedAt: row.published_at || null,
         publishedAtProvenance: row.post_metadata?.publishedAtProvenance || null,
         observedAt: row.captured_at,
+        collectionStatus: originalCheckpoint ? checkpointStatus : null,
+        windowStatus: originalCheckpoint ? checkpointWindowStatus : null,
+        comparable: originalCheckpoint ? checkpointComparable : null,
         availability: "MEASURED",
-        metadata: { ...(row.metadata || {}), origin: "social-engine" },
+        metadata: {
+          ...(row.metadata || {}),
+          originalCheckpoint,
+          origin: "social-engine",
+        },
         capturedAt: row.captured_at,
         idempotencyKey: row.metadata?.checkpoint?.hours != null
           ? `social:checkpoint-snapshot:${checkpointExportIdentity({
@@ -175,7 +201,8 @@ function createInternalAnalyticsRouter({
             checkpointHours: row.metadata.checkpoint.hours,
           })}`
           : `social:snapshot:${row.account_key}:${row.entity_type}:${row.entity_id}:${new Date(row.captured_at).toISOString()}`,
-      }));
+        });
+      });
 
       const commentMap = new Map((commentsResult.rows || []).map(row => [row.account_key, Number(row.count || 0)]));
       const replyMap = new Map((repliesResult.rows || []).map(row => [row.account_key, {

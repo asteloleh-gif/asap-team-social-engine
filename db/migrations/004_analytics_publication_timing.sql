@@ -37,6 +37,7 @@ BEGIN
           'dueAt', c.due_at,
           'closesAt', c.closes_at,
           'status', c.status,
+          'lastError', c.last_error,
           'observedAt', c.observed_at,
           'correctedAt', NOW()
         )),
@@ -52,12 +53,32 @@ BEGIN
             THEN 'LATE'
           WHEN c.observed_at IS NOT NULL THEN 'CAPTURED'
           WHEN c.status = 'IN_PROGRESS' THEN 'PENDING'
+          WHEN c.status = 'MISSED'
+               AND c.observed_at IS NULL
+               AND NEW.published_at + (c.checkpoint_hours + c.tolerance_hours) * INTERVAL '1 hour' >= NOW()
+            THEN 'PENDING'
           ELSE c.status
         END,
-        claim_token = CASE WHEN c.status = 'IN_PROGRESS' THEN NULL ELSE c.claim_token END,
-        lease_until = CASE WHEN c.status = 'IN_PROGRESS' THEN NULL ELSE c.lease_until END,
+        claim_token = CASE
+          WHEN c.status = 'IN_PROGRESS'
+            OR (c.status = 'MISSED'
+                AND c.observed_at IS NULL
+                AND NEW.published_at + (c.checkpoint_hours + c.tolerance_hours) * INTERVAL '1 hour' >= NOW()) THEN NULL
+          ELSE c.claim_token
+        END,
+        lease_until = CASE
+          WHEN c.status = 'IN_PROGRESS'
+            OR (c.status = 'MISSED'
+                AND c.observed_at IS NULL
+                AND NEW.published_at + (c.checkpoint_hours + c.tolerance_hours) * INTERVAL '1 hour' >= NOW()) THEN NULL
+          ELSE c.lease_until
+        END,
         last_error = CASE
-          WHEN c.status = 'IN_PROGRESS' THEN 'PUBLICATION_TIME_CORRECTED'
+          WHEN c.status = 'IN_PROGRESS'
+            OR (c.status = 'MISSED'
+                AND c.observed_at IS NULL
+                AND NEW.published_at + (c.checkpoint_hours + c.tolerance_hours) * INTERVAL '1 hour' >= NOW())
+            THEN 'PUBLICATION_TIME_CORRECTED'
           ELSE c.last_error
         END,
         updated_at = NOW()
