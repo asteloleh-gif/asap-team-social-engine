@@ -1,0 +1,1233 @@
+{
+  "schema_version": "1.0",
+  "project_id": "ASAP_TEAM_AUTOPILOT",
+  "created_at_utc": "2026-10-05T03:41:00Z",
+  "language": "en",
+  "count": 10,
+  "brands": {
+    "ASAP_GTA6": 5,
+    "ASAP_KATY": 5
+  },
+  "release_state": "DRAFTING_COMPLETE_NOT_PUBLISHED",
+  "data_status": "NO_ACTUAL_PERFORMANCE_DATA",
+  "operator_notes": [
+    "Use native text first on a verified Threads route. Facebook text is prepared separately; do not infer Page support from Instagram.",
+    "Ten unique core items have 30 exact platform copy variants. They are not 30 independent hypotheses.",
+    "No video, voice, music, paid AI calls or new media engine.",
+    "Do not send private Drive links as public Meta asset URLs; stage assets through an approved existing route with minimum scope.",
+    "No API-verified destination IDs were available to this workstream. account_key stays null."
+  ],
+  "items": [
+    {
+      "content_id": "G01",
+      "brand_id": "ASAP_GTA6",
+      "account_key": null,
+      "account_ids_verified": false,
+      "proposed_day": 1,
+      "persona": "ASAP editorial desk",
+      "claim_class": "OBSERVATION",
+      "source_urls": [
+        "https://www.rockstargames.com/VI/trailer-1",
+        "https://media-rockstargames-com.akamaized.net/VI/downloads/videos/GTAVI_Trailer_1/GTAVI_Trailer_1.mp4"
+      ],
+      "experiment_id": "H01",
+      "primary_metric": "meaningful_comment_rate",
+      "pass_fail_rule_id": "LAB_RELATIVE_V1",
+      "content_version": 1,
+      "asset": {
+        "asset_id": "ASAP-SOURCE-04",
+        "kind": "OFFICIAL_SOURCE_REFERENCE_JPEG",
+        "local_path": "LOCAL_ASSET_REFERENCE",
+        "sha256": "9efe17b33a5240787fdb0ad2e66944ff010fdf5819322ece8b2c0433c88d2255",
+        "mime_type": "image/jpeg",
+        "dimensions": [
+          1920,
+          1080
+        ],
+        "drive_url": null,
+        "official_source_urls": [
+          "https://media-rockstargames-com.akamaized.net/VI/downloads/videos/GTAVI_Trailer_1/GTAVI_Trailer_1.mp4",
+          "https://www.rockstargames.com/VI/trailer-1"
+        ],
+        "source_identifier": "T1-S028",
+        "pack_slot": 4,
+        "pixels_viewed_at_utc": "2026-10-05T03:40:23Z",
+        "preexisting_adaptations": [],
+        "new_pixel_edits_in_this_package": false,
+        "is_ai_editorial_cover": false,
+        "alt_text": "Frame from GTA VI Trailer 1: an alligator enters a shop; FRONT DOOR and a timestamp appear at the top left.",
+        "crop_note": "Preserved source reference inspected at supplied dimensions; see original per-asset manifest for provenance."
+      },
+      "variants": [
+        {
+          "variant_id": "G01-threads-v1",
+          "platform": "threads",
+          "format": "TEXT",
+          "text": "The alligator is obvious. The camera label matters more.\n\nTrailer 1’s shop shot says FRONT DOOR and carries a timestamp. That frames the joke as CCTV; it does not establish a playable security-camera feature.\n\nWhich other shot changes when you identify its camera?\nhttps://www.rockstargames.com/VI/trailer-1",
+          "character_count": 307,
+          "text_sha256": "415db40ee06986a1f5d340894c51d34f1ac9f1f9f169f69bc28c5142c8b97823",
+          "asset_ids": [],
+          "alt_text": null,
+          "copy_status": "CONTENT_READY",
+          "runtime_status": "UNBOUND_NOT_QUEUED",
+          "publication_id": null,
+          "permalink": null,
+          "published_at": null,
+          "actual_metrics": null,
+          "preflight": [
+            "verify exact ASAP account ID and brand",
+            "readback current source and check duplicate topic/content hash",
+            "platform capabilities/limits and safety review",
+            "persist idempotency key before publish"
+          ]
+        },
+        {
+          "variant_id": "G01-facebook-v1",
+          "platform": "facebook",
+          "format": "TEXT",
+          "text": "The alligator gets your attention. The camera label tells you how the scene is being told.\n\nIn this Trailer 1 frame, FRONT DOOR and a timestamp put us in a security-camera viewpoint. That mundane framing makes the absurd visitor funnier. The humor is our reading; a playable CCTV feature is not established by this shot.\n\nWhich other trailer moment feels different once you identify who is filming?\nSource: https://www.rockstargames.com/VI/trailer-1",
+          "character_count": 449,
+          "text_sha256": "0a5f6502c5ea602052d599357f7dd9873acaa83b066d10240bd4d63b695f53ef",
+          "asset_ids": [],
+          "alt_text": null,
+          "copy_status": "CONTENT_READY",
+          "runtime_status": "UNBOUND_NOT_QUEUED",
+          "publication_id": null,
+          "permalink": null,
+          "published_at": null,
+          "actual_metrics": null,
+          "preflight": [
+            "verify exact ASAP account ID and brand",
+            "readback current source and check duplicate topic/content hash",
+            "platform capabilities/limits and safety review",
+            "persist idempotency key before publish"
+          ]
+        },
+        {
+          "variant_id": "G01-instagram-v1",
+          "platform": "instagram",
+          "format": "IMAGE",
+          "text": "The small label changes the joke.\n\nVisible: FRONT DOOR, a timestamp and an alligator entering the shop.\nOur reading: a routine security feed makes an absurd visitor feel almost administrative.\nLimit: this frame cannot establish a playable CCTV feature.\n\nWhich other official trailer shot should we read this closely?\nFrame: Rockstar Games, GTA VI Trailer 1, T1-S028.\nhttps://www.rockstargames.com/VI/trailer-1",
+          "character_count": 409,
+          "text_sha256": "7027bacaca6b2e51def4359e4cb406bb69aca0617729d2831cb8cadb13b8830f",
+          "asset_ids": [
+            "ASAP-SOURCE-04"
+          ],
+          "alt_text": "Frame from GTA VI Trailer 1: an alligator enters a shop; FRONT DOOR and a timestamp appear at the top left.",
+          "copy_status": "CONTENT_READY",
+          "runtime_status": "UNBOUND_NOT_QUEUED",
+          "publication_id": null,
+          "permalink": null,
+          "published_at": null,
+          "actual_metrics": null,
+          "preflight": [
+            "verify exact ASAP account ID and brand",
+            "readback current source and check duplicate topic/content hash",
+            "platform capabilities/limits and safety review",
+            "persist idempotency key before publish",
+            "verify lawful editorial use/rights for source image",
+            "stage the exact hashed JPEG at a permitted platform-fetchable location or supported upload route",
+            "check platform image constraints and final mobile rendering; no blind crop",
+            "verify image publishing capability separately from replies"
+          ]
+        }
+      ],
+      "publish_policy": "Previously granted ASAP scope applies only after exact account binding and preflight. No new approval implied by this artifact; no publication performed here.",
+      "packaging_note": "Threads and Facebook text are complete and need no media generation. Instagram copy and local JPEG are prepared, but rights, upload staging and provider route remain preflight gates.",
+      "topic_family_id": "camera-presentation",
+      "brand_topic_family_key": "ASAP_GTA6:camera-presentation",
+      "source_evidence_precedence": "Caption factual citation + this exact asset reference. Source image is illustration where caption says so."
+    },
+    {
+      "content_id": "K01",
+      "brand_id": "ASAP_KATY",
+      "account_key": null,
+      "account_ids_verified": false,
+      "proposed_day": 1,
+      "persona": "Katy Carmack, disclosed fictional adult gaming host",
+      "claim_class": "FICTIONAL_PERSONA_OPINION",
+      "source_urls": [
+        "https://www.rockstargames.com/VI",
+        "https://www.rockstargames.com/VI/_next/static/media/Jason_and_Lucia_06.1035xf1yo78.b.jpg",
+        "https://www.rockstargames.com/VI/media/screenshots"
+      ],
+      "experiment_id": "H02",
+      "primary_metric": "meaningful_comment_rate",
+      "pass_fail_rule_id": "LAB_RELATIVE_V1",
+      "content_version": 1,
+      "asset": {
+        "asset_id": "ASAP-SOURCE-06",
+        "kind": "OFFICIAL_SOURCE_REFERENCE_JPEG",
+        "local_path": "LOCAL_ASSET_REFERENCE",
+        "sha256": "1191228478ddd84353ba3a229aa6919ae19aea2fd1b29bd3b6c5187548065b4b",
+        "mime_type": "image/jpeg",
+        "dimensions": [
+          1920,
+          1080
+        ],
+        "drive_url": null,
+        "official_source_urls": [
+          "https://www.rockstargames.com/VI/_next/static/media/Jason_and_Lucia_06.1035xf1yo78.b.jpg",
+          "https://www.rockstargames.com/VI/media/screenshots"
+        ],
+        "source_identifier": "Jason_and_Lucia_06",
+        "pack_slot": 6,
+        "pixels_viewed_at_utc": "2026-10-05T03:40:23Z",
+        "preexisting_adaptations": [],
+        "new_pixel_edits_in_this_package": false,
+        "is_ai_editorial_cover": false,
+        "alt_text": "Official GTA VI screenshot of Jason and Lucia inside a vehicle. This image illustrates a discussion about trust; it is not evidence of an unrevealed plot outcome.",
+        "crop_note": "Preserved source reference inspected at supplied dimensions; see original per-asset manifest for provenance."
+      },
+      "variants": [
+        {
+          "variant_id": "K01-threads-v1",
+          "platform": "threads",
+          "format": "TEXT",
+          "text": "I trust a plan. The person saying “trust me” needs a second slide.\n\nJason and Lucia’s official premise puts reliance on each other at the center. My question: what earns your trust in a GTA partner, the plan or the history?\n\nKaty Carmack • fictional host\nhttps://www.rockstargames.com/VI",
+          "character_count": 287,
+          "text_sha256": "0a8f1a7a2d40a5b9ee87540043af6372e9044ddc8c967cef694bac9189f7673d",
+          "asset_ids": [],
+          "alt_text": null,
+          "copy_status": "CONTENT_READY",
+          "runtime_status": "UNBOUND_NOT_QUEUED",
+          "publication_id": null,
+          "permalink": null,
+          "published_at": null,
+          "actual_metrics": null,
+          "preflight": [
+            "verify exact ASAP account ID and brand",
+            "readback current source and check duplicate topic/content hash",
+            "platform capabilities/limits and safety review",
+            "persist idempotency key before publish"
+          ]
+        },
+        {
+          "variant_id": "K01-facebook-v1",
+          "platform": "facebook",
+          "format": "TEXT",
+          "text": "I trust a plan. The person saying “trust me” needs a second slide.\n\nThat is my fictional-host take on Jason and Lucia’s official story premise. We know dependence on each other is part of the setup. How that plays out is still a story question, not something I can read out of this image.\n\nFor you, what earns trust in a GTA partner: a careful plan or a shared history?\nKaty Carmack, fictional ASAP host.\nOfficial premise: https://www.rockstargames.com/VI",
+          "character_count": 455,
+          "text_sha256": "eae95c46f1342bdfebcb48bb16a238d29cd57ea978b6d7989333275b401c3c9a",
+          "asset_ids": [],
+          "alt_text": null,
+          "copy_status": "CONTENT_READY",
+          "runtime_status": "UNBOUND_NOT_QUEUED",
+          "publication_id": null,
+          "permalink": null,
+          "published_at": null,
+          "actual_metrics": null,
+          "preflight": [
+            "verify exact ASAP account ID and brand",
+            "readback current source and check duplicate topic/content hash",
+            "platform capabilities/limits and safety review",
+            "persist idempotency key before publish"
+          ]
+        },
+        {
+          "variant_id": "K01-instagram-v1",
+          "platform": "instagram",
+          "format": "IMAGE",
+          "text": "The plan or the history?\n\nJason and Lucia’s official premise makes their reliance on each other central. My take: the interesting tension is whether you trust someone before the plan goes wrong. That is a reading, not a plot reveal.\n\nWhat earns your trust in a fictional partner?\nKaty Carmack, fictional ASAP host.\nImage: official Jason and Lucia 06 screenshot.\nPremise: https://www.rockstargames.com/VI",
+          "character_count": 403,
+          "text_sha256": "b5961ec2ee46bccf3a09425c82b1e9d753724a3142d71e79abc71cf778ae2f6f",
+          "asset_ids": [
+            "ASAP-SOURCE-06"
+          ],
+          "alt_text": "Official GTA VI screenshot of Jason and Lucia inside a vehicle. This image illustrates a discussion about trust; it is not evidence of an unrevealed plot outcome.",
+          "copy_status": "CONTENT_READY",
+          "runtime_status": "UNBOUND_NOT_QUEUED",
+          "publication_id": null,
+          "permalink": null,
+          "published_at": null,
+          "actual_metrics": null,
+          "preflight": [
+            "verify exact ASAP account ID and brand",
+            "readback current source and check duplicate topic/content hash",
+            "platform capabilities/limits and safety review",
+            "persist idempotency key before publish",
+            "verify lawful editorial use/rights for source image",
+            "stage the exact hashed JPEG at a permitted platform-fetchable location or supported upload route",
+            "check platform image constraints and final mobile rendering; no blind crop",
+            "verify image publishing capability separately from replies"
+          ]
+        }
+      ],
+      "publish_policy": "Previously granted ASAP scope applies only after exact account binding and preflight. No new approval implied by this artifact; no publication performed here.",
+      "packaging_note": "Threads and Facebook text are complete and need no media generation. Instagram copy and local JPEG are prepared, but rights, upload staging and provider route remain preflight gates.",
+      "topic_family_id": "trust-dilemma",
+      "brand_topic_family_key": "ASAP_KATY:trust-dilemma",
+      "source_evidence_precedence": "Caption factual citation + this exact asset reference. Source image is illustration where caption says so."
+    },
+    {
+      "content_id": "G02",
+      "brand_id": "ASAP_GTA6",
+      "account_key": null,
+      "account_ids_verified": false,
+      "proposed_day": 2,
+      "persona": "ASAP editorial desk",
+      "claim_class": "OBSERVATION_AND_OPINION",
+      "source_urls": [
+        "https://www.rockstargames.com/VI/trailer-1",
+        "https://media-rockstargames-com.akamaized.net/VI/downloads/videos/GTAVI_Trailer_1/GTAVI_Trailer_1.mp4"
+      ],
+      "experiment_id": "H06",
+      "primary_metric": "meaningful_comment_rate",
+      "pass_fail_rule_id": "LAB_RELATIVE_V1",
+      "content_version": 1,
+      "asset": {
+        "asset_id": "ASAP-SOURCE-12",
+        "kind": "OFFICIAL_SOURCE_REFERENCE_JPEG",
+        "local_path": "LOCAL_ASSET_REFERENCE",
+        "sha256": "1d76801f5d5a0dbf6aeeeffda51febc2c511189ac1d1fc135d3857f2bc36b081",
+        "mime_type": "image/jpeg",
+        "dimensions": [
+          1920,
+          1080
+        ],
+        "drive_url": null,
+        "official_source_urls": [
+          "https://media-rockstargames-com.akamaized.net/VI/downloads/videos/GTAVI_Trailer_1/GTAVI_Trailer_1.mp4",
+          "https://www.rockstargames.com/VI/trailer-1"
+        ],
+        "source_identifier": "T1-S018",
+        "pack_slot": 12,
+        "pixels_viewed_at_utc": "2026-10-05T03:40:23Z",
+        "preexisting_adaptations": [],
+        "new_pixel_edits_in_this_package": false,
+        "is_ai_editorial_cover": false,
+        "alt_text": "GTA VI Trailer 1 street at dusk, with neon-lit hotels, palm trees, cars and pedestrians.",
+        "crop_note": "Preserved source reference inspected at supplied dimensions; see original per-asset manifest for provenance."
+      },
+      "variants": [
+        {
+          "variant_id": "G02-threads-v1",
+          "platform": "threads",
+          "format": "TEXT",
+          "text": "The street tells you the mood before the story does.\n\nIn Trailer 1’s hotel-street shot, neon edges, palms and tightly packed cars do the work. My reading: familiar Vice City atmosphere without needing a map comparison.\n\nWhich visible detail gives you that feeling?\nhttps://www.rockstargames.com/VI/trailer-1",
+          "character_count": 307,
+          "text_sha256": "e53d6a06eb3727f18d0db87e7f7c219870d2d939ff191cb2320f45220a569157",
+          "asset_ids": [],
+          "alt_text": null,
+          "copy_status": "CONTENT_READY",
+          "runtime_status": "UNBOUND_NOT_QUEUED",
+          "publication_id": null,
+          "permalink": null,
+          "published_at": null,
+          "actual_metrics": null,
+          "preflight": [
+            "verify exact ASAP account ID and brand",
+            "readback current source and check duplicate topic/content hash",
+            "platform capabilities/limits and safety review",
+            "persist idempotency key before publish"
+          ]
+        },
+        {
+          "variant_id": "G02-facebook-v1",
+          "platform": "facebook",
+          "format": "TEXT",
+          "text": "Why does this street feel familiar so quickly?\n\nLook at the neon outlines, palms and tightly packed cars in Trailer 1. Those are visible details. The nostalgic feeling is our interpretation. Neither requires claiming the street is identical to an older game’s map.\n\nWhich single detail gives you the strongest Vice City association?\nSource: https://www.rockstargames.com/VI/trailer-1",
+          "character_count": 383,
+          "text_sha256": "5d2b0347d96b9a47e4b4ddb0840773b51369532fd2f866340a9e0a9d2c03fab9",
+          "asset_ids": [],
+          "alt_text": null,
+          "copy_status": "CONTENT_READY",
+          "runtime_status": "UNBOUND_NOT_QUEUED",
+          "publication_id": null,
+          "permalink": null,
+          "published_at": null,
+          "actual_metrics": null,
+          "preflight": [
+            "verify exact ASAP account ID and brand",
+            "readback current source and check duplicate topic/content hash",
+            "platform capabilities/limits and safety review",
+            "persist idempotency key before publish"
+          ]
+        },
+        {
+          "variant_id": "G02-instagram-v1",
+          "platform": "instagram",
+          "format": "IMAGE",
+          "text": "Three details carrying the mood:\n1. Neon around the buildings\n2. Palms interrupting the lights\n3. Cars packed along the street\n\nThose are observations from Trailer 1. The nostalgia is our reading.\nWhich detail does the most work for you?\nFrame: Rockstar Games, GTA VI Trailer 1, T1-S018.\nhttps://www.rockstargames.com/VI/trailer-1",
+          "character_count": 330,
+          "text_sha256": "cd8bc1ca78cd0c860bccdfbdaa727eb9adf57492607ce04f5c8507191b33a890",
+          "asset_ids": [
+            "ASAP-SOURCE-12"
+          ],
+          "alt_text": "GTA VI Trailer 1 street at dusk, with neon-lit hotels, palm trees, cars and pedestrians.",
+          "copy_status": "CONTENT_READY",
+          "runtime_status": "UNBOUND_NOT_QUEUED",
+          "publication_id": null,
+          "permalink": null,
+          "published_at": null,
+          "actual_metrics": null,
+          "preflight": [
+            "verify exact ASAP account ID and brand",
+            "readback current source and check duplicate topic/content hash",
+            "platform capabilities/limits and safety review",
+            "persist idempotency key before publish",
+            "verify lawful editorial use/rights for source image",
+            "stage the exact hashed JPEG at a permitted platform-fetchable location or supported upload route",
+            "check platform image constraints and final mobile rendering; no blind crop",
+            "verify image publishing capability separately from replies"
+          ]
+        }
+      ],
+      "publish_policy": "Previously granted ASAP scope applies only after exact account binding and preflight. No new approval implied by this artifact; no publication performed here.",
+      "packaging_note": "Threads and Facebook text are complete and need no media generation. Instagram copy and local JPEG are prepared, but rights, upload staging and provider route remain preflight gates.",
+      "topic_family_id": "neon-nostalgia",
+      "brand_topic_family_key": "ASAP_GTA6:neon-nostalgia",
+      "source_evidence_precedence": "Caption factual citation + this exact asset reference. Source image is illustration where caption says so."
+    },
+    {
+      "content_id": "K03",
+      "brand_id": "ASAP_KATY",
+      "account_key": null,
+      "account_ids_verified": false,
+      "proposed_day": 2,
+      "persona": "Katy Carmack, disclosed fictional adult gaming host",
+      "claim_class": "WISHLIST_AND_JOKE",
+      "source_urls": [
+        "https://www.rockstargames.com/VI/trailer-1",
+        "https://media-rockstargames-com.akamaized.net/VI/downloads/videos/GTAVI_Trailer_1/GTAVI_Trailer_1.mp4"
+      ],
+      "experiment_id": "H02",
+      "primary_metric": "meaningful_comment_rate",
+      "pass_fail_rule_id": "LAB_RELATIVE_V1",
+      "content_version": 1,
+      "asset": {
+        "asset_id": "ASAP-SOURCE-20",
+        "kind": "OFFICIAL_SOURCE_REFERENCE_JPEG",
+        "local_path": "LOCAL_ASSET_REFERENCE",
+        "sha256": "43fb61101efe2b06ccaadda1f35d018dc6d17d78796400552957e998ae63dd71",
+        "mime_type": "image/jpeg",
+        "dimensions": [
+          1920,
+          1080
+        ],
+        "drive_url": null,
+        "official_source_urls": [
+          "https://media-rockstargames-com.akamaized.net/VI/downloads/videos/GTAVI_Trailer_1/GTAVI_Trailer_1.mp4",
+          "https://www.rockstargames.com/VI/trailer-1"
+        ],
+        "source_identifier": "T1-S010",
+        "pack_slot": 20,
+        "pixels_viewed_at_utc": "2026-10-05T03:40:23Z",
+        "preexisting_adaptations": [],
+        "new_pixel_edits_in_this_package": false,
+        "is_ai_editorial_cover": false,
+        "alt_text": "GTA VI Trailer 1 frame showing flamingos and other birds over a wetland. Used to illustrate a clearly labelled first-stop wishlist.",
+        "crop_note": "Preserved source reference inspected at supplied dimensions; see original per-asset manifest for provenance."
+      },
+      "variants": [
+        {
+          "variant_id": "K03-threads-v1",
+          "platform": "threads",
+          "format": "TEXT",
+          "text": "My imaginary first-hour plan: find the quiet part. Ambitious, I know.\n\nTrailer 1’s wetland shot is the mood board. This is a wishlist, not a promise about where the game lets us go first.\n\nCity lights or quiet water for your first stop?\nKaty Carmack • fictional host\nhttps://www.rockstargames.com/VI/trailer-1",
+          "character_count": 309,
+          "text_sha256": "492be5428a2645dc61f632ec147553907a7e4b5fa87fe2533306fa18b6221173",
+          "asset_ids": [],
+          "alt_text": null,
+          "copy_status": "CONTENT_READY",
+          "runtime_status": "UNBOUND_NOT_QUEUED",
+          "publication_id": null,
+          "permalink": null,
+          "published_at": null,
+          "actual_metrics": null,
+          "preflight": [
+            "verify exact ASAP account ID and brand",
+            "readback current source and check duplicate topic/content hash",
+            "platform capabilities/limits and safety review",
+            "persist idempotency key before publish"
+          ]
+        },
+        {
+          "variant_id": "K03-facebook-v1",
+          "platform": "facebook",
+          "format": "TEXT",
+          "text": "My imaginary first-hour plan: find the quiet part. Ambitious, I know.\n\nThe flamingos and wetland in Trailer 1 make a strong case for slowing down. I am choosing a mood, not describing a confirmed opening route or playable activity.\n\nWould your ideal first stop be city lights or quiet water? What would you want to notice?\nKaty Carmack, fictional ASAP host. Wishlist.\nSource: https://www.rockstargames.com/VI/trailer-1",
+          "character_count": 418,
+          "text_sha256": "b993865a9c03ff218add9fe2158495a9ae19c2978b256a36cad091630ee080f1",
+          "asset_ids": [],
+          "alt_text": null,
+          "copy_status": "CONTENT_READY",
+          "runtime_status": "UNBOUND_NOT_QUEUED",
+          "publication_id": null,
+          "permalink": null,
+          "published_at": null,
+          "actual_metrics": null,
+          "preflight": [
+            "verify exact ASAP account ID and brand",
+            "readback current source and check duplicate topic/content hash",
+            "platform capabilities/limits and safety review",
+            "persist idempotency key before publish"
+          ]
+        },
+        {
+          "variant_id": "K03-instagram-v1",
+          "platform": "instagram",
+          "format": "IMAGE",
+          "text": "WISHLIST: a quiet first stop.\n\nThe birds, water and low horizon in this Trailer 1 frame make me want to slow down before chasing the next objective. That is an imagined player preference, not a promise about the opening hour.\n\nCity lights or quiet water?\nKaty Carmack, fictional ASAP host.\nFrame: Rockstar Games, GTA VI Trailer 1, T1-S010.\nhttps://www.rockstargames.com/VI/trailer-1",
+          "character_count": 382,
+          "text_sha256": "88f126c1b8903ed6048eb8550bebb4b3e9759691f4b4785e19897841d3a1d855",
+          "asset_ids": [
+            "ASAP-SOURCE-20"
+          ],
+          "alt_text": "GTA VI Trailer 1 frame showing flamingos and other birds over a wetland. Used to illustrate a clearly labelled first-stop wishlist.",
+          "copy_status": "CONTENT_READY",
+          "runtime_status": "UNBOUND_NOT_QUEUED",
+          "publication_id": null,
+          "permalink": null,
+          "published_at": null,
+          "actual_metrics": null,
+          "preflight": [
+            "verify exact ASAP account ID and brand",
+            "readback current source and check duplicate topic/content hash",
+            "platform capabilities/limits and safety review",
+            "persist idempotency key before publish",
+            "verify lawful editorial use/rights for source image",
+            "stage the exact hashed JPEG at a permitted platform-fetchable location or supported upload route",
+            "check platform image constraints and final mobile rendering; no blind crop",
+            "verify image publishing capability separately from replies"
+          ]
+        }
+      ],
+      "publish_policy": "Previously granted ASAP scope applies only after exact account binding and preflight. No new approval implied by this artifact; no publication performed here.",
+      "packaging_note": "Threads and Facebook text are complete and need no media generation. Instagram copy and local JPEG are prepared, but rights, upload staging and provider route remain preflight gates.",
+      "topic_family_id": "first-stop-wishlist",
+      "brand_topic_family_key": "ASAP_KATY:first-stop-wishlist",
+      "source_evidence_precedence": "Caption factual citation + this exact asset reference. Source image is illustration where caption says so."
+    },
+    {
+      "content_id": "G03",
+      "brand_id": "ASAP_GTA6",
+      "account_key": null,
+      "account_ids_verified": false,
+      "proposed_day": 3,
+      "persona": "ASAP editorial desk",
+      "claim_class": "OFFICIAL_FACT_AND_COMMENTARY",
+      "source_urls": [
+        "https://www.rockstargames.com/VI/only-in-leonida",
+        "https://www.rockstargames.com/VI/_next/static/media/Jason_Duval_01.07m377xeb6jhq.jpg",
+        "https://www.rockstargames.com/VI/media/screenshots"
+      ],
+      "experiment_id": "H03",
+      "primary_metric": "share_repost_rate",
+      "pass_fail_rule_id": "LAB_RELATIVE_V1",
+      "content_version": 1,
+      "asset": {
+        "asset_id": "ASAP-SOURCE-26",
+        "kind": "OFFICIAL_SOURCE_REFERENCE_JPEG",
+        "local_path": "LOCAL_ASSET_REFERENCE",
+        "sha256": "e21df3c20fb2193066cc9cb181ab82b513750c94b6799ba83b6038bd46e22e9a",
+        "mime_type": "image/jpeg",
+        "dimensions": [
+          1920,
+          1080
+        ],
+        "drive_url": null,
+        "official_source_urls": [
+          "https://www.rockstargames.com/VI/_next/static/media/Jason_Duval_01.07m377xeb6jhq.jpg",
+          "https://www.rockstargames.com/VI/media/screenshots"
+        ],
+        "source_identifier": null,
+        "pack_slot": 26,
+        "pixels_viewed_at_utc": "2026-10-05T03:40:23Z",
+        "preexisting_adaptations": [],
+        "new_pixel_edits_in_this_package": false,
+        "is_ai_editorial_cover": false,
+        "alt_text": "Official GTA VI Jason Duval 01 screenshot, showing Jason beside a green motorcycle. The rent discussion comes from Brian’s written biography, not the image.",
+        "crop_note": "Preserved source reference inspected at supplied dimensions; see original per-asset manifest for provenance."
+      },
+      "variants": [
+        {
+          "variant_id": "G03-threads-v1",
+          "platform": "threads",
+          "format": "TEXT",
+          "text": "Jason’s rent deal has fine print.\n\nBrian’s official bio includes help with local shakedowns and occasional visits for Lori’s sangria. Both conditions belong in the summary.\n\nWould you call that cheap rent?\nhttps://www.rockstargames.com/VI/only-in-leonida",
+          "character_count": 254,
+          "text_sha256": "130a382fb8ff606ddbdef17aa7bf8843909113acf94b97ce35ad5f5e435cfee1",
+          "asset_ids": [],
+          "alt_text": null,
+          "copy_status": "CONTENT_READY",
+          "runtime_status": "UNBOUND_NOT_QUEUED",
+          "publication_id": null,
+          "permalink": null,
+          "published_at": null,
+          "actual_metrics": null,
+          "preflight": [
+            "verify exact ASAP account ID and brand",
+            "readback current source and check duplicate topic/content hash",
+            "platform capabilities/limits and safety review",
+            "persist idempotency key before publish"
+          ]
+        },
+        {
+          "variant_id": "G03-facebook-v1",
+          "platform": "facebook",
+          "format": "TEXT",
+          "text": "“Rent-free” is the short version. The conditions are the useful part.\n\nBrian’s official biography describes Jason helping with local shakedowns and stopping by for Lori’s sangria from time to time. Keep both when retelling the deal.\n\nOur reading: a character relationship can be doing more work than the headline benefit. Would you call this cheap rent?\nSource: https://www.rockstargames.com/VI/only-in-leonida",
+          "character_count": 410,
+          "text_sha256": "2b9a68bef56eea2171a24a6a30949fbbfe6f53bebf8cf9983e491e7269ec4328",
+          "asset_ids": [],
+          "alt_text": null,
+          "copy_status": "CONTENT_READY",
+          "runtime_status": "UNBOUND_NOT_QUEUED",
+          "publication_id": null,
+          "permalink": null,
+          "published_at": null,
+          "actual_metrics": null,
+          "preflight": [
+            "verify exact ASAP account ID and brand",
+            "readback current source and check duplicate topic/content hash",
+            "platform capabilities/limits and safety review",
+            "persist idempotency key before publish"
+          ]
+        },
+        {
+          "variant_id": "G03-instagram-v1",
+          "platform": "instagram",
+          "format": "IMAGE",
+          "text": "READ THE WHOLE DEAL.\n\nBrian’s official biography attaches two conditions to Jason’s rent arrangement: help with local shakedowns, plus occasional visits for Lori’s sangria.\n\nOur takeaway: character context disappears when a summary keeps only the benefit.\nWould you call this cheap rent?\nImage: official Jason Duval 01 screenshot, used as a character illustration. The image does not prove the arrangement.\nSource: https://www.rockstargames.com/VI/only-in-leonida",
+          "character_count": 463,
+          "text_sha256": "09804be95743dce6c86a7aaa802ce0993f1fe568ef9f2aa1513a59555de2b28c",
+          "asset_ids": [
+            "ASAP-SOURCE-26"
+          ],
+          "alt_text": "Official GTA VI Jason Duval 01 screenshot, showing Jason beside a green motorcycle. The rent discussion comes from Brian’s written biography, not the image.",
+          "copy_status": "CONTENT_READY",
+          "runtime_status": "UNBOUND_NOT_QUEUED",
+          "publication_id": null,
+          "permalink": null,
+          "published_at": null,
+          "actual_metrics": null,
+          "preflight": [
+            "verify exact ASAP account ID and brand",
+            "readback current source and check duplicate topic/content hash",
+            "platform capabilities/limits and safety review",
+            "persist idempotency key before publish",
+            "verify lawful editorial use/rights for source image",
+            "stage the exact hashed JPEG at a permitted platform-fetchable location or supported upload route",
+            "check platform image constraints and final mobile rendering; no blind crop",
+            "verify image publishing capability separately from replies"
+          ]
+        }
+      ],
+      "publish_policy": "Previously granted ASAP scope applies only after exact account binding and preflight. No new approval implied by this artifact; no publication performed here.",
+      "packaging_note": "Threads and Facebook text are complete and need no media generation. Instagram copy and local JPEG are prepared, but rights, upload staging and provider route remain preflight gates.",
+      "topic_family_id": "rent-fine-print",
+      "brand_topic_family_key": "ASAP_GTA6:rent-fine-print",
+      "source_evidence_precedence": "Caption factual citation + this exact asset reference. Source image is illustration where caption says so."
+    },
+    {
+      "content_id": "K06",
+      "brand_id": "ASAP_KATY",
+      "account_key": null,
+      "account_ids_verified": false,
+      "proposed_day": 3,
+      "persona": "Katy Carmack, disclosed fictional adult gaming host",
+      "claim_class": "JOKE_AND_OBSERVATION",
+      "source_urls": [
+        "https://www.rockstargames.com/VI/trailer-1",
+        "https://media-rockstargames-com.akamaized.net/VI/downloads/videos/GTAVI_Trailer_1/GTAVI_Trailer_1.mp4"
+      ],
+      "experiment_id": "H04",
+      "primary_metric": "share_repost_rate",
+      "pass_fail_rule_id": "LAB_RELATIVE_V1",
+      "content_version": 1,
+      "asset": {
+        "asset_id": "ASAP-SOURCE-03",
+        "kind": "OFFICIAL_SOURCE_REFERENCE_JPEG",
+        "local_path": "LOCAL_ASSET_REFERENCE",
+        "sha256": "89ac5a661d3b085b7f2fdfee2bd4def6a18f970c93a196df765779a713911b75",
+        "mime_type": "image/jpeg",
+        "dimensions": [
+          1920,
+          1080
+        ],
+        "drive_url": null,
+        "official_source_urls": [
+          "https://media-rockstargames-com.akamaized.net/VI/downloads/videos/GTAVI_Trailer_1/GTAVI_Trailer_1.mp4",
+          "https://www.rockstargames.com/VI/trailer-1"
+        ],
+        "source_identifier": "T1-S024",
+        "pack_slot": 3,
+        "pixels_viewed_at_utc": "2026-10-05T03:40:23Z",
+        "preexisting_adaptations": [],
+        "new_pixel_edits_in_this_package": false,
+        "is_ai_editorial_cover": false,
+        "alt_text": "GTA VI Trailer 1 pool scene: a uniformed person and an alligator beside a swimming pool, with the trailer’s in-world social-video interface visible.",
+        "crop_note": "Preserved source reference inspected at supplied dimensions; see original per-asset manifest for provenance."
+      },
+      "variants": [
+        {
+          "variant_id": "K06-threads-v1",
+          "platform": "threads",
+          "format": "TEXT",
+          "text": "The brochure said pool access. It left out the roommate.\n\nA fictional holiday review, inspired by the alligator pool scene in GTA VI Trailer 1. The source’s social-video framing makes it feel like a very local problem.\n\nWhich detail turns paradise into GTA?\nKaty Carmack • fictional host\nhttps://www.rockstargames.com/VI/trailer-1",
+          "character_count": 330,
+          "text_sha256": "a90542998eb9e1ff624e54971a768f468188b1bcbd7f845058eaec47c6f74b52",
+          "asset_ids": [],
+          "alt_text": null,
+          "copy_status": "CONTENT_READY",
+          "runtime_status": "UNBOUND_NOT_QUEUED",
+          "publication_id": null,
+          "permalink": null,
+          "published_at": null,
+          "actual_metrics": null,
+          "preflight": [
+            "verify exact ASAP account ID and brand",
+            "readback current source and check duplicate topic/content hash",
+            "platform capabilities/limits and safety review",
+            "persist idempotency key before publish"
+          ]
+        },
+        {
+          "variant_id": "K06-facebook-v1",
+          "platform": "facebook",
+          "format": "TEXT",
+          "text": "The brochure said pool access. It left out the roommate.\n\nThat is my fictional holiday review of Trailer 1’s alligator pool moment. The scene is presented through an in-world social-video frame, which makes the joke feel like someone else’s very ordinary afternoon.\n\nWhich small detail turns a perfect holiday into a GTA holiday for you?\nKaty Carmack, fictional ASAP host. Joke and trailer observation.\nSource: https://www.rockstargames.com/VI/trailer-1",
+          "character_count": 453,
+          "text_sha256": "b275d121705ac311cdfcddaf3f6756d6510e4c99e2f248dc5fc15039bf7fcc84",
+          "asset_ids": [],
+          "alt_text": null,
+          "copy_status": "CONTENT_READY",
+          "runtime_status": "UNBOUND_NOT_QUEUED",
+          "publication_id": null,
+          "permalink": null,
+          "published_at": null,
+          "actual_metrics": null,
+          "preflight": [
+            "verify exact ASAP account ID and brand",
+            "readback current source and check duplicate topic/content hash",
+            "platform capabilities/limits and safety review",
+            "persist idempotency key before publish"
+          ]
+        },
+        {
+          "variant_id": "K06-instagram-v1",
+          "platform": "instagram",
+          "format": "IMAGE",
+          "text": "FICTIONAL HOLIDAY REVIEW: pool access, unexpected roommate.\n\nThe alligator is the obvious joke. The in-world social-video wrapper is the detail I like: it turns the scene into a post someone would share about their afternoon. That is my reading of the presentation.\n\nWhich detail turns paradise into GTA?\nKaty Carmack, fictional ASAP host.\nFrame: Rockstar Games, GTA VI Trailer 1, T1-S024.\nhttps://www.rockstargames.com/VI/trailer-1",
+          "character_count": 432,
+          "text_sha256": "7a3fa287ee198ad787b3449c531ded8548f28cad700376c3273fca17fcb99fd3",
+          "asset_ids": [
+            "ASAP-SOURCE-03"
+          ],
+          "alt_text": "GTA VI Trailer 1 pool scene: a uniformed person and an alligator beside a swimming pool, with the trailer’s in-world social-video interface visible.",
+          "copy_status": "CONTENT_READY",
+          "runtime_status": "UNBOUND_NOT_QUEUED",
+          "publication_id": null,
+          "permalink": null,
+          "published_at": null,
+          "actual_metrics": null,
+          "preflight": [
+            "verify exact ASAP account ID and brand",
+            "readback current source and check duplicate topic/content hash",
+            "platform capabilities/limits and safety review",
+            "persist idempotency key before publish",
+            "verify lawful editorial use/rights for source image",
+            "stage the exact hashed JPEG at a permitted platform-fetchable location or supported upload route",
+            "check platform image constraints and final mobile rendering; no blind crop",
+            "verify image publishing capability separately from replies"
+          ]
+        }
+      ],
+      "publish_policy": "Previously granted ASAP scope applies only after exact account binding and preflight. No new approval implied by this artifact; no publication performed here.",
+      "packaging_note": "Threads and Facebook text are complete and need no media generation. Instagram copy and local JPEG are prepared, but rights, upload staging and provider route remain preflight gates.",
+      "topic_family_id": "pool-holiday-joke",
+      "brand_topic_family_key": "ASAP_KATY:pool-holiday-joke",
+      "source_evidence_precedence": "Caption factual citation + this exact asset reference. Source image is illustration where caption says so."
+    },
+    {
+      "content_id": "G04",
+      "brand_id": "ASAP_GTA6",
+      "account_key": null,
+      "account_ids_verified": false,
+      "proposed_day": 5,
+      "persona": "ASAP editorial desk",
+      "claim_class": "EVIDENCE_BOUNDARY",
+      "source_urls": [
+        "https://www.rockstargames.com/VI/media",
+        "https://www.rockstargames.com/VI/_next/static/media/Leonida_Keys_01.0zgz7tveur6y8.jpg",
+        "https://www.rockstargames.com/VI/media/screenshots"
+      ],
+      "experiment_id": "H03",
+      "primary_metric": "share_repost_rate",
+      "pass_fail_rule_id": "LAB_RELATIVE_V1",
+      "content_version": 1,
+      "asset": {
+        "asset_id": "ASAP-SOURCE-38",
+        "kind": "OFFICIAL_SOURCE_REFERENCE_JPEG",
+        "local_path": "LOCAL_ASSET_REFERENCE",
+        "sha256": "593f7a52bb6fca517f503dca15d34f9e268ea8ff558048e1f142645f5427e1f5",
+        "mime_type": "image/jpeg",
+        "dimensions": [
+          1920,
+          1080
+        ],
+        "drive_url": null,
+        "official_source_urls": [
+          "https://www.rockstargames.com/VI/_next/static/media/Leonida_Keys_01.0zgz7tveur6y8.jpg",
+          "https://www.rockstargames.com/VI/media/screenshots"
+        ],
+        "source_identifier": "Leonida Keys 01",
+        "pack_slot": 38,
+        "pixels_viewed_at_utc": "2026-10-05T03:40:23Z",
+        "preexisting_adaptations": [],
+        "new_pixel_edits_in_this_package": false,
+        "is_ai_editorial_cover": false,
+        "alt_text": "Official GTA VI Leonida Keys 01 screenshot: a bridge crosses islands, a distant skyline sits on the horizon, and a seaplane is visible in the foreground.",
+        "crop_note": "Preserved source reference inspected at supplied dimensions; see original per-asset manifest for provenance."
+      },
+      "variants": [
+        {
+          "variant_id": "G04-threads-v1",
+          "platform": "threads",
+          "format": "TEXT",
+          "text": "Beautiful view. Still no map measurement.\n\nRockstar’s Leonida Keys 01 screenshot shows a bridge, islands and a distant skyline. It gives us composition and atmosphere; it cannot establish total playable area on its own.\n\nWhat evidence would make a map-size comparison useful?\nhttps://www.rockstargames.com/VI/media",
+          "character_count": 314,
+          "text_sha256": "254dd609446d3f16f2b65211f01117cf855bb67daa0d0af63d520cc0bf4346f5",
+          "asset_ids": [],
+          "alt_text": null,
+          "copy_status": "CONTENT_READY",
+          "runtime_status": "UNBOUND_NOT_QUEUED",
+          "publication_id": null,
+          "permalink": null,
+          "published_at": null,
+          "actual_metrics": null,
+          "preflight": [
+            "verify exact ASAP account ID and brand",
+            "readback current source and check duplicate topic/content hash",
+            "platform capabilities/limits and safety review",
+            "persist idempotency key before publish"
+          ]
+        },
+        {
+          "variant_id": "G04-facebook-v1",
+          "platform": "facebook",
+          "format": "TEXT",
+          "text": "A wide view is a good invitation to look closer. It is a poor ruler.\n\nRockstar’s Leonida Keys 01 image gives us a bridge, islands and a distant skyline. We can discuss how that composition suggests distance. We cannot calculate the game’s total playable area from this picture alone.\n\nWhat would make a map-size comparison useful to you: a scale, a defined boundary or a measured route?\nSource image: https://www.rockstargames.com/VI/media",
+          "character_count": 439,
+          "text_sha256": "9e4b25c3f38d456d24fd14fe61c3e1be9c1bf85c5e22f8627b520c29642f1aa7",
+          "asset_ids": [],
+          "alt_text": null,
+          "copy_status": "CONTENT_READY",
+          "runtime_status": "UNBOUND_NOT_QUEUED",
+          "publication_id": null,
+          "permalink": null,
+          "published_at": null,
+          "actual_metrics": null,
+          "preflight": [
+            "verify exact ASAP account ID and brand",
+            "readback current source and check duplicate topic/content hash",
+            "platform capabilities/limits and safety review",
+            "persist idempotency key before publish"
+          ]
+        },
+        {
+          "variant_id": "G04-instagram-v1",
+          "platform": "instagram",
+          "format": "IMAGE",
+          "text": "What the image gives us: bridge, islands, skyline, a strong sense of distance.\n\nWhat it does not give us by itself: a measured total playable map area.\n\nThis source image invites a close look; a measurement needs separate evidence.\nWhat evidence should a map-size comparison include?\nImage: Rockstar Games, Leonida Keys 01.\nhttps://www.rockstargames.com/VI/media",
+          "character_count": 362,
+          "text_sha256": "4245116f5f7ed1b91407290b653ff23bc330c00b33eeb5a571648a78be66301f",
+          "asset_ids": [
+            "ASAP-SOURCE-38"
+          ],
+          "alt_text": "Official GTA VI Leonida Keys 01 screenshot: a bridge crosses islands, a distant skyline sits on the horizon, and a seaplane is visible in the foreground.",
+          "copy_status": "CONTENT_READY",
+          "runtime_status": "UNBOUND_NOT_QUEUED",
+          "publication_id": null,
+          "permalink": null,
+          "published_at": null,
+          "actual_metrics": null,
+          "preflight": [
+            "verify exact ASAP account ID and brand",
+            "readback current source and check duplicate topic/content hash",
+            "platform capabilities/limits and safety review",
+            "persist idempotency key before publish",
+            "verify lawful editorial use/rights for source image",
+            "stage the exact hashed JPEG at a permitted platform-fetchable location or supported upload route",
+            "check platform image constraints and final mobile rendering; no blind crop",
+            "verify image publishing capability separately from replies"
+          ]
+        }
+      ],
+      "publish_policy": "Previously granted ASAP scope applies only after exact account binding and preflight. No new approval implied by this artifact; no publication performed here.",
+      "packaging_note": "Threads and Facebook text are complete and need no media generation. Instagram copy and local JPEG are prepared, but rights, upload staging and provider route remain preflight gates.",
+      "topic_family_id": "map-measurement",
+      "brand_topic_family_key": "ASAP_GTA6:map-measurement",
+      "source_evidence_precedence": "Caption factual citation + this exact asset reference. Source image is illustration where caption says so."
+    },
+    {
+      "content_id": "K16",
+      "brand_id": "ASAP_KATY",
+      "account_key": null,
+      "account_ids_verified": false,
+      "proposed_day": 5,
+      "persona": "Katy Carmack, disclosed fictional adult gaming host",
+      "claim_class": "EDITORIAL_METHOD",
+      "source_urls": [
+        "https://www.rockstargames.com/VI/media",
+        "https://www.rockstargames.com/VI/_next/static/media/Leonida_Keys_02.0~ptk-53gl0lq.jpg",
+        "https://www.rockstargames.com/VI/media/screenshots"
+      ],
+      "experiment_id": "H03",
+      "primary_metric": "share_repost_rate",
+      "pass_fail_rule_id": "LAB_RELATIVE_V1",
+      "content_version": 1,
+      "asset": {
+        "asset_id": "ASAP-SOURCE-42",
+        "kind": "OFFICIAL_SOURCE_REFERENCE_JPEG",
+        "local_path": "LOCAL_ASSET_REFERENCE",
+        "sha256": "c39a93636b359996456a011ed06a103e5f616a7fe5fce16c947ac02d57abdef0",
+        "mime_type": "image/jpeg",
+        "dimensions": [
+          1920,
+          1080
+        ],
+        "drive_url": null,
+        "official_source_urls": [
+          "https://www.rockstargames.com/VI/_next/static/media/Leonida_Keys_02.0~ptk-53gl0lq.jpg",
+          "https://www.rockstargames.com/VI/media/screenshots"
+        ],
+        "source_identifier": "Leonida Keys 02",
+        "pack_slot": 42,
+        "pixels_viewed_at_utc": "2026-10-05T03:40:23Z",
+        "preexisting_adaptations": [],
+        "new_pixel_edits_in_this_package": false,
+        "is_ai_editorial_cover": false,
+        "alt_text": "Official GTA VI Leonida Keys 02 street screenshot with a person on a mobility scooter and an iguana in the foreground. Its presence does not establish player control.",
+        "crop_note": "Preserved source reference inspected at supplied dimensions; see original per-asset manifest for provenance."
+      },
+      "variants": [
+        {
+          "variant_id": "K16-threads-v1",
+          "platform": "threads",
+          "format": "TEXT",
+          "text": "A scooter in a screenshot. I am resisting the urge to write its entire vehicle manual.\n\nRockstar’s Leonida Keys 02 shows the object. This image alone does not establish player control. It does not establish the opposite either.\n\nWhat evidence would settle it for you?\nKaty Carmack • fictional host\nhttps://www.rockstargames.com/VI/media",
+          "character_count": 336,
+          "text_sha256": "84bfd81ac97e17038ba20693ede8240f2bb30a2f26795c748ef715ce40e2b1e6",
+          "asset_ids": [],
+          "alt_text": null,
+          "copy_status": "CONTENT_READY",
+          "runtime_status": "UNBOUND_NOT_QUEUED",
+          "publication_id": null,
+          "permalink": null,
+          "published_at": null,
+          "actual_metrics": null,
+          "preflight": [
+            "verify exact ASAP account ID and brand",
+            "readback current source and check duplicate topic/content hash",
+            "platform capabilities/limits and safety review",
+            "persist idempotency key before publish"
+          ]
+        },
+        {
+          "variant_id": "K16-facebook-v1",
+          "platform": "facebook",
+          "format": "TEXT",
+          "text": "A scooter in a screenshot. I am resisting the urge to write its entire vehicle manual.\n\nRockstar’s Leonida Keys 02 image gives us a visible scooter in a street scene. On its own, that establishes presence. Whether a player can control it needs separate evidence.\n\nThat is the useful limit, not a claim that the feature is absent. What would settle the question for you?\nKaty Carmack, fictional ASAP host.\nSource image: https://www.rockstargames.com/VI/media",
+          "character_count": 457,
+          "text_sha256": "b7b379d6a4490b2b47c9b0091dd52a59255a730e836f8d8aaef8c60d7118713e",
+          "asset_ids": [],
+          "alt_text": null,
+          "copy_status": "CONTENT_READY",
+          "runtime_status": "UNBOUND_NOT_QUEUED",
+          "publication_id": null,
+          "permalink": null,
+          "published_at": null,
+          "actual_metrics": null,
+          "preflight": [
+            "verify exact ASAP account ID and brand",
+            "readback current source and check duplicate topic/content hash",
+            "platform capabilities/limits and safety review",
+            "persist idempotency key before publish"
+          ]
+        },
+        {
+          "variant_id": "K16-instagram-v1",
+          "platform": "instagram",
+          "format": "IMAGE",
+          "text": "VISIBLE OBJECT: scooter.\nPLAYER CONTROL: this screenshot alone cannot settle it.\n\nMy rule for a rewatch: enjoy the detail, then keep the conclusion the same size as the evidence. We do not need to turn uncertainty into a yes or a no.\n\nWhat additional evidence would you want?\nKaty Carmack, fictional ASAP host.\nImage: Rockstar Games, Leonida Keys 02.\nhttps://www.rockstargames.com/VI/media",
+          "character_count": 389,
+          "text_sha256": "47a8f4326748805a4e0810a82fe811651a4d015c1feccf266d43bd251305a710",
+          "asset_ids": [
+            "ASAP-SOURCE-42"
+          ],
+          "alt_text": "Official GTA VI Leonida Keys 02 street screenshot with a person on a mobility scooter and an iguana in the foreground. Its presence does not establish player control.",
+          "copy_status": "CONTENT_READY",
+          "runtime_status": "UNBOUND_NOT_QUEUED",
+          "publication_id": null,
+          "permalink": null,
+          "published_at": null,
+          "actual_metrics": null,
+          "preflight": [
+            "verify exact ASAP account ID and brand",
+            "readback current source and check duplicate topic/content hash",
+            "platform capabilities/limits and safety review",
+            "persist idempotency key before publish",
+            "verify lawful editorial use/rights for source image",
+            "stage the exact hashed JPEG at a permitted platform-fetchable location or supported upload route",
+            "check platform image constraints and final mobile rendering; no blind crop",
+            "verify image publishing capability separately from replies"
+          ]
+        }
+      ],
+      "publish_policy": "Previously granted ASAP scope applies only after exact account binding and preflight. No new approval implied by this artifact; no publication performed here.",
+      "packaging_note": "Threads and Facebook text are complete and need no media generation. Instagram copy and local JPEG are prepared, but rights, upload staging and provider route remain preflight gates.",
+      "topic_family_id": "image-evidence-type",
+      "brand_topic_family_key": "ASAP_KATY:image-evidence-type",
+      "source_evidence_precedence": "Caption factual citation + this exact asset reference. Source image is illustration where caption says so."
+    },
+    {
+      "content_id": "G25",
+      "brand_id": "ASAP_GTA6",
+      "account_key": null,
+      "account_ids_verified": false,
+      "proposed_day": 7,
+      "persona": "ASAP editorial desk",
+      "claim_class": "EDITORIAL_PROMISE",
+      "source_urls": [
+        "https://www.rockstargames.com/VI/trailer-1",
+        "https://media-rockstargames-com.akamaized.net/VI/downloads/videos/GTAVI_Trailer_1/GTAVI_Trailer_1.mp4"
+      ],
+      "experiment_id": "H05",
+      "primary_metric": "attributed_follow_conversion",
+      "pass_fail_rule_id": "LAB_RELATIVE_V1",
+      "content_version": 1,
+      "asset": {
+        "asset_id": "ASAP-SOURCE-14",
+        "kind": "OFFICIAL_SOURCE_REFERENCE_JPEG",
+        "local_path": "LOCAL_ASSET_REFERENCE",
+        "sha256": "49de78955c543f55985204cca5f43da3f726f6c9d9f9eae820edb76d98bbf07e",
+        "mime_type": "image/jpeg",
+        "dimensions": [
+          1280,
+          720
+        ],
+        "drive_url": null,
+        "official_source_urls": [
+          "https://media-rockstargames-com.akamaized.net/VI/downloads/videos/GTAVI_Trailer_1/GTAVI_Trailer_1.mp4",
+          "https://www.rockstargames.com/VI/trailer-1"
+        ],
+        "source_identifier": "T1-S007",
+        "pack_slot": 14,
+        "pixels_viewed_at_utc": "2026-10-05T03:40:23Z",
+        "preexisting_adaptations": [],
+        "new_pixel_edits_in_this_package": false,
+        "is_ai_editorial_cover": false,
+        "alt_text": "Preserved reference from the GTA VI Trailer 1 beach aerial: sea, beach umbrellas and buildings. The source is an official 720p proxy frame at approximately 13.93 seconds.",
+        "crop_note": "Source manifest identifies an official 720p proxy frame418 at30fps =13.933333s, T1-S007 +3.000s. No crop performed in delivery or this workstream.",
+        "source_quality": "Verified official 720p proxy, 1280x720; original PNG hash recorded in source manifest.",
+        "source_frame_number": 418,
+        "source_time_seconds": 13.933333,
+        "source_manifest_caution": "Legacy thumbnail_id/thumbnail_filename fields in asset14 retain T1-S011 metadata. Resolve using actual_reference_original, preserved_numbered_reference and the verified compact-reference hash, not those stale thumbnail fields."
+      },
+      "variants": [
+        {
+          "variant_id": "G25-threads-v1",
+          "platform": "threads",
+          "format": "TEXT",
+          "text": "One frame. One observation. A source you can check.\n\nOur GTA VI rewatch notes revisit familiar footage without turning a visual detail into a confirmed feature. Start with Trailer 1’s beach aerial: the shoreline, umbrellas and buildings do plenty of storytelling.\n\nFollow for short, source-linked close reads.\nhttps://www.rockstargames.com/VI/trailer-1",
+          "character_count": 352,
+          "text_sha256": "3e16cad7307a6a0c57b90ab50f3532b6b27c0c4e1777ef43532f14d5c3396d74",
+          "asset_ids": [],
+          "alt_text": null,
+          "copy_status": "CONTENT_READY",
+          "runtime_status": "UNBOUND_NOT_QUEUED",
+          "publication_id": null,
+          "permalink": null,
+          "published_at": null,
+          "actual_metrics": null,
+          "preflight": [
+            "verify exact ASAP account ID and brand",
+            "readback current source and check duplicate topic/content hash",
+            "platform capabilities/limits and safety review",
+            "persist idempotency key before publish"
+          ]
+        },
+        {
+          "variant_id": "G25-facebook-v1",
+          "platform": "facebook",
+          "format": "TEXT",
+          "text": "Our rewatch format is simple: one frame, one useful observation, a source you can check.\n\nTake Trailer 1’s beach aerial. The shoreline, umbrellas and buildings already give us a visual story. We can read that composition without inventing a feature list.\n\nIf that is your kind of GTA VI discussion, follow for short, source-linked close reads.\nSource: https://www.rockstargames.com/VI/trailer-1",
+          "character_count": 394,
+          "text_sha256": "48c796775362f46ab5b3b05be79451bf34b3c82740748dac214e1f67038e6c30",
+          "asset_ids": [],
+          "alt_text": null,
+          "copy_status": "CONTENT_READY",
+          "runtime_status": "UNBOUND_NOT_QUEUED",
+          "publication_id": null,
+          "permalink": null,
+          "published_at": null,
+          "actual_metrics": null,
+          "preflight": [
+            "verify exact ASAP account ID and brand",
+            "readback current source and check duplicate topic/content hash",
+            "platform capabilities/limits and safety review",
+            "persist idempotency key before publish"
+          ]
+        },
+        {
+          "variant_id": "G25-instagram-v1",
+          "platform": "instagram",
+          "format": "IMAGE",
+          "text": "ONE FRAME. ONE USEFUL OBSERVATION.\n\nHere, the composition stacks water, beach umbrellas and buildings into three visible bands. That is a visual reading of Trailer 1, not a gameplay claim.\n\nThis is what our rewatch notes will do: show the cue, link the source and keep the conclusion honest.\nFollow for short GTA VI close reads.\nFrame: Rockstar Games, GTA VI Trailer 1, T1-S007.\nhttps://www.rockstargames.com/VI/trailer-1",
+          "character_count": 421,
+          "text_sha256": "31e3fe8a283e397c864a076a0b9896ba642567de74ba510e5175421660795b04",
+          "asset_ids": [
+            "ASAP-SOURCE-14"
+          ],
+          "alt_text": "Preserved reference from the GTA VI Trailer 1 beach aerial: sea, beach umbrellas and buildings. The source is an official 720p proxy frame at approximately 13.93 seconds.",
+          "copy_status": "CONTENT_READY",
+          "runtime_status": "UNBOUND_NOT_QUEUED",
+          "publication_id": null,
+          "permalink": null,
+          "published_at": null,
+          "actual_metrics": null,
+          "preflight": [
+            "verify exact ASAP account ID and brand",
+            "readback current source and check duplicate topic/content hash",
+            "platform capabilities/limits and safety review",
+            "persist idempotency key before publish",
+            "verify lawful editorial use/rights for source image",
+            "stage the exact hashed JPEG at a permitted platform-fetchable location or supported upload route",
+            "check platform image constraints and final mobile rendering; no blind crop",
+            "verify image publishing capability separately from replies"
+          ]
+        }
+      ],
+      "publish_policy": "Previously granted ASAP scope applies only after exact account binding and preflight. No new approval implied by this artifact; no publication performed here.",
+      "packaging_note": "Threads and Facebook text are complete and need no media generation. Instagram copy and local JPEG are prepared, but rights, upload staging and provider route remain preflight gates.",
+      "topic_family_id": "source-linked-series",
+      "brand_topic_family_key": "ASAP_GTA6:source-linked-series",
+      "source_evidence_precedence": "Caption factual citation + this exact asset reference. Source image is illustration where caption says so."
+    },
+    {
+      "content_id": "K19",
+      "brand_id": "ASAP_KATY",
+      "account_key": null,
+      "account_ids_verified": false,
+      "proposed_day": 7,
+      "persona": "Katy Carmack, disclosed fictional adult gaming host",
+      "claim_class": "FICTIONAL_PERSONA_DISCLOSURE_AND_OBSERVATION",
+      "source_urls": [
+        "https://www.rockstargames.com/VI/media",
+        "PRIVATE_SOURCE_REFERENCE",
+        "https://www.rockstargames.com/VI/_next/static/media/Vice_City_11.09paum3g942sc.jpg",
+        "https://www.rockstargames.com/VI/media/screenshots"
+      ],
+      "experiment_id": "H05",
+      "primary_metric": "attributed_follow_conversion",
+      "pass_fail_rule_id": "LAB_RELATIVE_V1",
+      "content_version": 1,
+      "asset": {
+        "asset_id": "ASAP-SOURCE-40",
+        "kind": "OFFICIAL_SOURCE_REFERENCE_JPEG",
+        "local_path": "LOCAL_ASSET_REFERENCE",
+        "sha256": "5bb44948defc0396e96715d40ce4718ef339a006ab6cff2ee70e8ac1b76a12d8",
+        "mime_type": "image/jpeg",
+        "dimensions": [
+          1920,
+          1080
+        ],
+        "drive_url": null,
+        "official_source_urls": [
+          "https://www.rockstargames.com/VI/_next/static/media/Vice_City_11.09paum3g942sc.jpg",
+          "https://www.rockstargames.com/VI/media/screenshots"
+        ],
+        "source_identifier": "Vice City 11",
+        "pack_slot": 40,
+        "pixels_viewed_at_utc": "2026-10-05T03:40:23Z",
+        "preexisting_adaptations": [],
+        "new_pixel_edits_in_this_package": false,
+        "is_ai_editorial_cover": false,
+        "alt_text": "Official GTA VI Vice City 11 screenshot at sunset, showing a tall building, a helicopter, water and the skyline. Used for a fictional host’s evidence-first series introduction.",
+        "crop_note": "Preserved source reference inspected at supplied dimensions; see original per-asset manifest for provenance."
+      },
+      "variants": [
+        {
+          "variant_id": "K19-threads-v1",
+          "platform": "threads",
+          "format": "TEXT",
+          "text": "Katy Carmack. Fictional host. Real source links.\n\nI like a good GTA VI theory. I like knowing where the observation ends, too. A helicopter in this official Vice City image is a detail to notice, not a whole feature announcement.\n\nFollow for the detail, the source and the honest limit.\nhttps://www.rockstargames.com/VI/media",
+          "character_count": 325,
+          "text_sha256": "d133bf047276c2c44bf6b83b03b0a2de920298fd7669ddec2e78cc6f448d249b",
+          "asset_ids": [],
+          "alt_text": null,
+          "copy_status": "CONTENT_READY",
+          "runtime_status": "UNBOUND_NOT_QUEUED",
+          "publication_id": null,
+          "permalink": null,
+          "published_at": null,
+          "actual_metrics": null,
+          "preflight": [
+            "verify exact ASAP account ID and brand",
+            "readback current source and check duplicate topic/content hash",
+            "platform capabilities/limits and safety review",
+            "persist idempotency key before publish"
+          ]
+        },
+        {
+          "variant_id": "K19-facebook-v1",
+          "platform": "facebook",
+          "format": "TEXT",
+          "text": "Katy Carmack. Fictional host. Real source links.\n\nI like a good GTA VI theory. I also like knowing where the observation ends. A helicopter over the city gives me a visual detail to discuss. It does not hand me a complete feature list.\n\nIf you enjoy revisiting familiar official imagery with a little skepticism and a little sarcasm, follow along.\nOfficial image source: https://www.rockstargames.com/VI/media",
+          "character_count": 409,
+          "text_sha256": "566b693fca155082f8208857ec370ec2df9707a4669712927e59ceb4db658d56",
+          "asset_ids": [],
+          "alt_text": null,
+          "copy_status": "CONTENT_READY",
+          "runtime_status": "UNBOUND_NOT_QUEUED",
+          "publication_id": null,
+          "permalink": null,
+          "published_at": null,
+          "actual_metrics": null,
+          "preflight": [
+            "verify exact ASAP account ID and brand",
+            "readback current source and check duplicate topic/content hash",
+            "platform capabilities/limits and safety review",
+            "persist idempotency key before publish"
+          ]
+        },
+        {
+          "variant_id": "K19-instagram-v1",
+          "platform": "instagram",
+          "format": "IMAGE",
+          "text": "KATY CARMACK. FICTIONAL HOST. REAL SOURCE LINKS.\n\nIn this official Vice City 11 screenshot, the helicopter and skyline pull attention in different directions. That is a composition observation. Any story I build around it needs a theory label.\n\nFollow for the detail, the source and the honest limit.\nKaty Carmack is an original fictional ASAP host, not a Rockstar spokesperson.\nImage: Rockstar Games, Vice City 11.\nhttps://www.rockstargames.com/VI/media",
+          "character_count": 454,
+          "text_sha256": "0424fee1bd6651e102aaeec8081c97baabae4ceb5593fa1459f841d883033a35",
+          "asset_ids": [
+            "ASAP-SOURCE-40"
+          ],
+          "alt_text": "Official GTA VI Vice City 11 screenshot at sunset, showing a tall building, a helicopter, water and the skyline. Used for a fictional host’s evidence-first series introduction.",
+          "copy_status": "CONTENT_READY",
+          "runtime_status": "UNBOUND_NOT_QUEUED",
+          "publication_id": null,
+          "permalink": null,
+          "published_at": null,
+          "actual_metrics": null,
+          "preflight": [
+            "verify exact ASAP account ID and brand",
+            "readback current source and check duplicate topic/content hash",
+            "platform capabilities/limits and safety review",
+            "persist idempotency key before publish",
+            "verify lawful editorial use/rights for source image",
+            "stage the exact hashed JPEG at a permitted platform-fetchable location or supported upload route",
+            "check platform image constraints and final mobile rendering; no blind crop",
+            "verify image publishing capability separately from replies"
+          ]
+        }
+      ],
+      "publish_policy": "Previously granted ASAP scope applies only after exact account binding and preflight. No new approval implied by this artifact; no publication performed here.",
+      "packaging_note": "Threads and Facebook text are complete and need no media generation. Instagram copy and local JPEG are prepared, but rights, upload staging and provider route remain preflight gates.",
+      "topic_family_id": "source-linked-series",
+      "brand_topic_family_key": "ASAP_KATY:source-linked-series",
+      "source_evidence_precedence": "Caption factual citation + this exact asset reference. Source image is illustration where caption says so."
+    }
+  ],
+  "finalized_at_utc": "2026-10-05T03:55:00Z"
+}

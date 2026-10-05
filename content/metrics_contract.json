@@ -1,0 +1,336 @@
+{
+  "schema_version": "1.0",
+  "contract_id": "ASAP-META-METRICS-v1",
+  "status": "PROVIDER_MAPPING_UNVERIFIED",
+  "same_metric_multiple_sources_policy": "Choose one canonical provider observation; retain other source as validation, not additive.",
+  "required_dimensions": [
+    "project_id",
+    "brand_id",
+    "account_key",
+    "platform",
+    "content_id",
+    "content_version",
+    "variant_id",
+    "platform_post_id",
+    "published_at_utc",
+    "collected_at_utc",
+    "post_age_hours",
+    "target_window_hours",
+    "provider",
+    "provider_metric_name",
+    "metric_scope",
+    "unit",
+    "value",
+    "availability",
+    "definition_version",
+    "window_status",
+    "window_tolerance_hours",
+    "comparison_eligible",
+    "comparison_exclusion_reason"
+  ],
+  "null_semantics": {
+    "measured_zero": 0,
+    "not_collected": null,
+    "unsupported": null,
+    "permission_missing": null,
+    "not_attributable": null
+  },
+  "availability_values": [
+    "available",
+    "not_collected",
+    "unsupported",
+    "permission_missing",
+    "not_attributable",
+    "provider_error"
+  ],
+  "metric_scopes": [
+    "post_lifetime_at_snapshot",
+    "account_period",
+    "editorial_annotation"
+  ],
+  "raw_metrics": [
+    {
+      "name": "impressions",
+      "value": null,
+      "availability": "not_collected",
+      "provider_metric_name": null,
+      "metric_scope": "post_lifetime_at_snapshot",
+      "unit": "count"
+    },
+    {
+      "name": "reach",
+      "value": null,
+      "availability": "not_collected",
+      "provider_metric_name": null,
+      "metric_scope": "post_lifetime_at_snapshot",
+      "unit": "count"
+    },
+    {
+      "name": "views",
+      "value": null,
+      "availability": "not_collected",
+      "provider_metric_name": null,
+      "metric_scope": "post_lifetime_at_snapshot",
+      "unit": "count"
+    },
+    {
+      "name": "likes_reactions",
+      "value": null,
+      "availability": "not_collected",
+      "provider_metric_name": null,
+      "metric_scope": "post_lifetime_at_snapshot",
+      "unit": "count"
+    },
+    {
+      "name": "comments_replies",
+      "value": null,
+      "availability": "not_collected",
+      "provider_metric_name": null,
+      "metric_scope": "post_lifetime_at_snapshot",
+      "unit": "count"
+    },
+    {
+      "name": "shares",
+      "value": null,
+      "availability": "not_collected",
+      "provider_metric_name": null,
+      "metric_scope": "post_lifetime_at_snapshot",
+      "unit": "count"
+    },
+    {
+      "name": "reposts",
+      "value": null,
+      "availability": "not_collected",
+      "provider_metric_name": null,
+      "metric_scope": "post_lifetime_at_snapshot",
+      "unit": "count"
+    },
+    {
+      "name": "quotes",
+      "value": null,
+      "availability": "not_collected",
+      "provider_metric_name": null,
+      "metric_scope": "post_lifetime_at_snapshot",
+      "unit": "count"
+    },
+    {
+      "name": "saves",
+      "value": null,
+      "availability": "not_collected",
+      "provider_metric_name": null,
+      "metric_scope": "post_lifetime_at_snapshot",
+      "unit": "count"
+    },
+    {
+      "name": "profile_visits",
+      "value": null,
+      "availability": "not_collected",
+      "provider_metric_name": null,
+      "metric_scope": "post_lifetime_at_snapshot",
+      "unit": "count"
+    },
+    {
+      "name": "follows",
+      "value": null,
+      "availability": "not_collected",
+      "provider_metric_name": null,
+      "metric_scope": "post_lifetime_at_snapshot",
+      "unit": "count"
+    },
+    {
+      "name": "link_clicks",
+      "value": null,
+      "availability": "not_collected",
+      "provider_metric_name": null,
+      "metric_scope": "post_lifetime_at_snapshot",
+      "unit": "count"
+    },
+    {
+      "name": "watch_time_seconds",
+      "value": null,
+      "availability": "not_collected",
+      "provider_metric_name": null,
+      "metric_scope": "post_lifetime_at_snapshot",
+      "unit": "seconds"
+    },
+    {
+      "name": "average_watch_time_seconds",
+      "value": null,
+      "availability": "not_collected",
+      "provider_metric_name": null,
+      "metric_scope": "post_lifetime_at_snapshot",
+      "unit": "seconds"
+    },
+    {
+      "name": "negative_feedback",
+      "value": null,
+      "availability": "not_collected",
+      "provider_metric_name": null,
+      "metric_scope": "post_lifetime_at_snapshot",
+      "unit": "count"
+    }
+  ],
+  "derived_metrics": [
+    {
+      "name": "engagement_rate_reach",
+      "unit": "percent",
+      "formula": "100 * sum(frozen nonoverlapping available engagement components) / reach",
+      "requires": [
+        "reach > 0",
+        "same post and snapshot",
+        "component_set_id fixed before comparison"
+      ],
+      "missing_policy": "unavailable; partial component sets must use a distinct metric name"
+    },
+    {
+      "name": "engagement_rate_views",
+      "unit": "percent",
+      "formula": "100 * sum(frozen nonoverlapping available engagement components) / views",
+      "requires": [
+        "views > 0",
+        "same definition and component_set_id"
+      ],
+      "missing_policy": "unavailable; never silently substitute for ER_reach"
+    },
+    {
+      "name": "meaningful_comment_rate",
+      "unit": "per_1000_denominator",
+      "formula": "1000 * distinct substantive external commenters / frozen_denominator",
+      "requires": [
+        "manual/editorial comment coding with evidence",
+        "exclude owner/brand, spam, duplicates and emoji-only",
+        "denominator > 0"
+      ],
+      "missing_policy": "unavailable; do not treat raw replies as coded meaningful replies"
+    },
+    {
+      "name": "share_repost_rate",
+      "unit": "per_1000_denominator",
+      "formula": "1000 * nonoverlapping native sharing components / frozen_denominator",
+      "requires": [
+        "provider component overlap audited",
+        "denominator > 0"
+      ],
+      "missing_policy": "unavailable"
+    },
+    {
+      "name": "save_rate",
+      "unit": "per_1000_denominator",
+      "formula": "1000 * saves / frozen_denominator",
+      "requires": [
+        "post saves available",
+        "denominator > 0"
+      ],
+      "missing_policy": "unavailable"
+    },
+    {
+      "name": "profile_visit_rate",
+      "unit": "per_1000_denominator",
+      "formula": "1000 * post_attributed_profile_visits / frozen_denominator",
+      "requires": [
+        "post attribution verified",
+        "denominator > 0"
+      ],
+      "missing_policy": "unavailable; account visits are diagnostic only"
+    },
+    {
+      "name": "follow_rate",
+      "unit": "per_1000_denominator",
+      "formula": "1000 * post_attributed_follows / frozen_denominator",
+      "requires": [
+        "post attribution verified",
+        "denominator > 0"
+      ],
+      "missing_policy": "unavailable; account net follows are not post follows"
+    },
+    {
+      "name": "attributed_follow_conversion",
+      "unit": "percent",
+      "formula": "100 * post_attributed_follows / post_attributed_profile_visits",
+      "requires": [
+        "same post and window for both fields",
+        "profile_visits > 0"
+      ],
+      "missing_policy": "unavailable; no causal post attribution from account-level change"
+    }
+  ],
+  "denominator_defaults": {
+    "threads": "post views, only if actual endpoint provides this metric",
+    "instagram": "post reach; separate named views-based rates if reach unavailable",
+    "facebook": "post reach; separate named views-based rates if reach unavailable"
+  },
+  "snapshot_policy": {
+    "hours": [
+      24,
+      72
+    ],
+    "save_actual_age": true,
+    "cumulative_not_incremental": true,
+    "late_snapshot": "Keep the observed value with availability available when successfully read, flag window_status late and actual age; not eligible for exact-age comparison without a predeclared tolerance rule."
+  },
+  "account_diagnostics": [
+    "followers_start",
+    "followers_end",
+    "followers_gained",
+    "followers_lost",
+    "net_follower_change",
+    "account_profile_visits"
+  ],
+  "account_diagnostics_rule": "Keep periods and attribution separate from post metrics. Do not infer gained from net or sum follower counts across platforms as unique people.",
+  "cost_fields": {
+    "ai_api_cost": null,
+    "worker_cost": null,
+    "storage_cost": null,
+    "currency": null,
+    "availability": "unknown",
+    "note": "This drafting run made no paid AI/media calls; existing runtime costs were not measured."
+  },
+  "guardrails": [
+    "no manufactured engagement or paid boost in organic cohort",
+    "no deletion of weak posts",
+    "no after-the-fact primary metric substitution",
+    "no cross-platform rate rankings with unlike denominators",
+    "no combining mirrored connector values"
+  ],
+  "example_observation": {
+    "project_id": "ASAP_TEAM_AUTOPILOT",
+    "brand_id": "ASAP_GTA6",
+    "account_key": null,
+    "platform": "threads",
+    "content_id": "G01",
+    "content_version": 1,
+    "variant_id": "G01-threads-v1",
+    "platform_post_id": null,
+    "published_at_utc": null,
+    "collected_at_utc": null,
+    "post_age_hours": null,
+    "target_window_hours": 24,
+    "provider": null,
+    "provider_metric_name": null,
+    "metric_scope": "post_lifetime_at_snapshot",
+    "unit": "count",
+    "value": null,
+    "availability": "not_collected",
+    "definition_version": "ASAP-META-METRICS-v1",
+    "window_status": "not_collected",
+    "window_tolerance_hours": 2,
+    "comparison_eligible": false,
+    "comparison_exclusion_reason": "not_collected"
+  },
+  "window_status_values": [
+    "not_collected",
+    "within_preferred_window",
+    "early",
+    "late"
+  ],
+  "comparison_eligibility": {
+    "eligible_when": [
+      "observed value is available",
+      "brand/platform/format/account and component definitions match baseline",
+      "age is within the predeclared window tolerance",
+      "metric has required post attribution",
+      "baseline and denominator gates pass"
+    ],
+    "ineligible_observations": "Retain original values and availability; record explicit comparison_eligible=false and reason. Do not turn them into zero or drop the audit trail."
+  }
+}

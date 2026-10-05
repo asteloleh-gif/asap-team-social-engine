@@ -1,0 +1,41 @@
+{
+  "checked_at_utc": "2026-10-05T04:50:54.138747+00:00",
+  "source_scope": "isolated ASAP public source only",
+  "engineering_tests": {
+    "passed": 290,
+    "failed": 0,
+    "toolchain": {
+      "node": "24.19.0",
+      "npm": "11.9.0"
+    },
+    "pinned_toolchain_ci": "NOT_RUN"
+  },
+  "marketing_qa": {
+    "checks_passed": 22,
+    "checks_total": 22,
+    "first_wave_items": 10,
+    "platform_variants": 30,
+    "image_assets_independently_verified": 10,
+    "source_assets_packaged_here": false
+  },
+  "prior_local_storage": {
+    "checkpoint_engineering_tests": 266,
+    "redis": "8.0.2",
+    "postgres": "17.11",
+    "queue_dedupe_and_projection": "PASS",
+    "process_and_server_restarts": "PASS",
+    "http_draft_schedule_replay": "PASS",
+    "identity": "injected fixture",
+    "external_publication_calls": 0
+  },
+  "latest_projection_regression": "PASS in 18 targeted regression tests and fresh local Redis 8.0.2 fixture; atomic transitions, 600 scan IDs, persistent dedupe and legacy live-key upgrade; zero provider calls",
+  "live_acceptance": {
+    "deployment": "UNVERIFIED",
+    "actual_account_grants": "UNVERIFIED",
+    "runtime_persistence": "UNVERIFIED",
+    "paid_headroom": "UNVERIFIED",
+    "publication_and_readback": "NOT_RUN",
+    "scheduler_enabled": false
+  },
+  "release_boundary": "Source delivery only. Do not enable live routes before account, runtime, budget and publication/readback gates pass."
+}

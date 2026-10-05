@@ -1,0 +1,26 @@
+{
+  "name": "asap-team-social-engine",
+  "version": "1.2.0",
+  "description": "Isolated ASAP GTA6/Katy social publishing engine",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server-asap.js",
+    "start:meta-legacy": "node server-meta.js",
+    "start:legacy": "node server.js",
+    "test": "node --test tests/*.test.js",
+    "preflight": "node tools/asap-preflight.js"
+  },
+  "engines": {
+    "node": "24.20.0",
+    "npm": "11.19.0"
+  },
+  "packageManager": "npm@11.19.0",
+  "dependencies": {
+    "express": "^4.19.2",
+    "body-parser": "^1.20.2",
+    "node-fetch": "^2.7.0",
+    "dotenv": "^16.4.5",
+    "redis": "^4.7.0",
+    "pg": "8.23.0"
+  }
+}

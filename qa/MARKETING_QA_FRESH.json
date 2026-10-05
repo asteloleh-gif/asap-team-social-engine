@@ -1,0 +1,128 @@
+{
+  "schema_version": "1.1",
+  "checked_at_utc": "2026-10-05T12:42:52.819144Z",
+  "result": "PASS",
+  "checks_passed": 22,
+  "checks_total": 22,
+  "checks": [
+    {
+      "check": "60 concepts and 30 per brand",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "60 unique content IDs",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Required concept fields",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "10 core items, five per brand",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "30 unique variants and text hashes",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Text hashes and lengths correct",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Threads text <=500 chars",
+      "passed": true,
+      "detail": "352"
+    },
+    {
+      "check": "No invented account bindings or metrics",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "10 distinct image hashes",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Asset files exist and hashes match",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "JPEG dimensions match",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "No AI cover selected as source evidence",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Pool and first-wave source/asset bindings match",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "No same-brand first-wave topic family collision",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "42 matrix cells, 30 publishing, 12 observing",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Matrix variants join exact brand/platform/content",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Scheduler not silently enabled",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Timing quality separate from availability",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Raw metrics unobserved not zeros",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Asset ledger matches first wave",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Katy disclosure in all variants",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "No held cover files in first wave",
+      "passed": true,
+      "detail": ""
+    }
+  ],
+  "asset_hash_matches": 10,
+  "asset_hash_total": 10,
+  "independent_review": "Fresh deterministic replay of the marketing data, exact text hashes and supplied JPEG ledger. Historical editorial review remains in MARKETING_QA.json.",
+  "boundaries": [
+    "Static data/hash/dimension QA only. No live publication test, permissions validation, metric ingestion test, new visual editorial review or commercial licence determination.",
+    "Asset locations are supplied privately at runtime and are not written to this report.",
+    "Exact asset hash matches do not establish image-use rights, staging approval or publishing authorization.",
+    "No paid AI, media generation, deployment or publication was performed."
+  ]
+}

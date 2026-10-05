@@ -1,0 +1,15 @@
+{
+  "checked_at_utc": "2026-10-05T04:50:54.138747+00:00",
+  "status": "PASS",
+  "content_files_scanned_before_generated_scan_and_manifest": 202,
+  "prohibited_path_findings": 0,
+  "credential_signature_findings": 0,
+  "private_resource_url_findings": 0,
+  "absolute_private_path_findings": 0,
+  "private_infrastructure_id_findings": 0,
+  "non_utf8_findings": 0,
+  "additional_redactions": {
+    "prior_baseline_private_airtable_urls": 2
+  },
+  "method": "Local allowlisted source tree; UTF-8 scan for known credential signatures, private resource URLs, infrastructure identifiers and local paths; private Git history and audit/configuration copies excluded. This is a pattern-based review, not a universal proof that all secrets are absent."
+}

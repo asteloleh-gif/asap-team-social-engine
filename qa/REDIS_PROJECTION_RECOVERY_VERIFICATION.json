@@ -1,0 +1,17 @@
+{
+  "ok": true,
+  "redis": "8.0.2",
+  "results": [
+    "terminal commit survives worker recreation and projects without provider call",
+    "expired lease atomically tracks pending hold",
+    "reconciliation atomically tracks pending projection",
+    "cancel atomically tracks pending projection",
+    "all 600 pending IDs reachable with COUNT=1 (602 calls)",
+    "legacy 1-second TTL reproduces old requeue risk; legacy default intentionally unchanged",
+    "persistent ASAP dedupe blocks replay after accelerated legacy expiry window",
+    "unexpired legacy dedupe converted to persistent on replay"
+  ],
+  "externalPublicationCalls": 0,
+  "fixture_process_stopped": true,
+  "scope": "Fresh isolated local Redis fixture, not deployed storage or live provider access."
+}

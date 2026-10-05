@@ -1,0 +1,245 @@
+{
+  "schema_version": "1.0",
+  "created_at_utc": "2026-10-05T03:35:00Z",
+  "sources": {
+    "RSG_VI": {
+      "url": "https://www.rockstargames.com/VI",
+      "type": "official_current_page",
+      "verified_at": "2026-10-05T03:29:40Z",
+      "summary": "Current page lists November 19, 2026, PS5 and Xbox Series X|S; includes An Extended Look. Recheck release/platform claims on publication day."
+    },
+    "RSG_T1": {
+      "url": "https://www.rockstargames.com/VI/trailer-1",
+      "type": "official_archive_video",
+      "verified_at": "2026-10-05T03:31:47Z",
+      "summary": "Trailer 1 page dated December 4, 2023. Scene evidence comes from the specific existing source frame/clip, not this page text."
+    },
+    "RSG_T2": {
+      "url": "https://www.rockstargames.com/VI/trailer-2",
+      "type": "official_archive_video",
+      "verified_at": "2026-10-05T03:31:47Z",
+      "summary": "Trailer 2 page dated May 6, 2025. Archived cards can be superseded; do not reuse their dates as current."
+    },
+    "RSG_EL": {
+      "url": "https://www.rockstargames.com/VI/an-extended-look",
+      "type": "official_archive_video",
+      "verified_at": "2026-10-05T03:31:47Z",
+      "summary": "An Extended Look page dated August 27, 2026 describes in-game footage captured on PS5. It does not justify invented performance or control claims for individual scenes."
+    },
+    "RSG_BIO": {
+      "url": "https://www.rockstargames.com/VI/only-in-leonida",
+      "type": "official_biographies",
+      "verified_at": "2026-10-05T03:29:58Z",
+      "summary": "Official character biographies and location labels. Distinguish relationships, motivations and author interpretation."
+    },
+    "RSG_MEDIA": {
+      "url": "https://www.rockstargames.com/VI/media",
+      "type": "official_media_catalogue",
+      "verified_at": "2026-10-05T03:29:58Z",
+      "summary": "Separate video, screenshot and artwork sections. Download availability is not a blanket commercial or music licence."
+    },
+    "RSG_MUSIC": {
+      "url": "https://www.rockstargames.com/VI/music",
+      "type": "official_music_page",
+      "verified_at": "2026-10-05T03:31:47Z",
+      "summary": "The official album is described as 34 tracks, with six singles available. Do not call 34 the total in-game radio/score library."
+    },
+    "META_THREADS": {
+      "url": "https://about.fb.com/news/2024/10/find-your-community-with-new-threads-educational-insights/",
+      "type": "official_aggregate_guidance",
+      "verified_at": "2026-10-05T03:31:12Z",
+      "summary": "Meta associates original conversational posts, humor and contextual text with views; suggests 2–5 weekly posts. Aggregate guidance, not an ASAP causal finding or guaranteed reach."
+    },
+    "META_ORIGINAL": {
+      "url": "https://about.fb.com/news/2026/03/rewarding-original-creators-on-facebook/",
+      "type": "official_platform_guidance",
+      "verified_at": "2026-10-05T03:30:40Z",
+      "summary": "Facebook emphasizes substantial creative contribution and deprioritizes duplicative/minor-edit content. A host face or captions alone do not establish originality or rights."
+    },
+    "META_INSIGHTS": {
+      "url": "https://about.fb.com/news/2024/08/new-threads-features-for-creators-and-businesses/amp/",
+      "type": "official_product_guidance",
+      "verified_at": "2026-10-05T03:30:40Z",
+      "summary": "Threads describes post views, replies, reposts and quotes in Insights. Runtime field availability remains separately unverified."
+    },
+    "ASAP_MISSION": {
+      "url": "PRIVATE_SOURCE_REFERENCE",
+      "type": "owner_brief",
+      "verified_at": "2026-10-05T03:29:00Z",
+      "summary": "Mission 02 revised 03:02 UTC: two brands, three Meta platforms, isolated target repository; only three selected input repos."
+    },
+    "ASAP_CALENDAR": {
+      "url": "PRIVATE_SOURCE_REFERENCE",
+      "type": "existing_editorial_plan",
+      "verified_at": "2026-10-05T03:30:20Z",
+      "summary": "Reuse R11/R27/R31 etc as topic families; plans are not publication records. This Meta pilot does not overwrite the 47-day video calendar."
+    },
+    "ASAP_K6H06": {
+      "url": "PRIVATE_SOURCE_REFERENCE",
+      "type": "existing_experiment_protocol",
+      "verified_at": "2026-10-05T03:30:20Z",
+      "summary": "Separate YouTube originality/host pilot. Do not merge its Shorts metrics, voice decisions, or publication scope with this Meta pilot."
+    },
+    "KATY_VISUAL": {
+      "url": "PRIVATE_SOURCE_REFERENCE",
+      "type": "owner_character_reference",
+      "verified_at": "2026-10-05T03:30:20Z",
+      "summary": "Canonical adult fictional Katy; dark curly hair, black bomber/hoodie, fixed studio. No new generation needed for text-first launch."
+    },
+    "ASSET_PACK": {
+      "url": "PRIVATE_SOURCE_REFERENCE",
+      "type": "existing_editorial_assets",
+      "verified_at": "2026-10-05T03:29:30Z",
+      "summary": "41 landscape / 40 vertical AI-editorial covers; source frames separately preserved. Not proof of game mechanics or measured CTR."
+    },
+    "AIRTABLE_CLIPS": {
+      "url": "PRIVATE_SOURCE_REFERENCE",
+      "type": "source_asset_catalogue",
+      "verified_at": "2026-10-05T03:29:48Z",
+      "summary": "141 records reported. Sample of 30 records read; FILE_QC_PASSED is file QA, not a licence or final-publication approval. No claim that all 141 were reinspected."
+    }
+  },
+  "rules": {
+    "FACT": "Only explicit official statements, timestamped source.",
+    "OBSERVATION": "Only what is visible in the identified original frame/clip. A catalogue description is a lead until pixels checked.",
+    "THEORY": "Explicitly labelled interpretation, not a confirmed mechanic or plot.",
+    "JOKE": "Clearly fictional/editorial; never dress a fabricated announcement as news.",
+    "AI_EDITORIAL": "Disclose altered/generated packaging and do not use it as visual evidence."
+  },
+  "claims": [
+    {
+      "claim_id": "C01",
+      "claim": "Current official release listing: November 19, 2026.",
+      "source": "RSG_VI",
+      "status": "VERIFIED_CURRENT_2026_10_05",
+      "publish_gate": "Same-day recheck. No countdown or launch claim from cached text."
+    },
+    {
+      "claim_id": "C02",
+      "claim": "Extended Look is officially available; its page gives August 27, 2026.",
+      "source": "RSG_EL",
+      "status": "VERIFIED_CURRENT",
+      "publish_gate": "Never write that no gameplay has been shown."
+    },
+    {
+      "claim_id": "C03",
+      "claim": "The preserved shop frame visibly contains a FRONT DOOR timestamp overlay and an alligator.",
+      "source": "RSG_T1",
+      "asset_slot": 4,
+      "clip_id": "T1-S028",
+      "status": "PIXELS_VIEWED_2026_10_05",
+      "publish_gate": "Camera framing observation only; not a promise of playable CCTV."
+    },
+    {
+      "claim_id": "C04",
+      "claim": "The supplied GTA cover pack has 41 horizontal and 40 vertical images, with separate source frames.",
+      "source": "ASSET_PACK",
+      "status": "LOCAL_MANIFEST_AND_DELIVERY_RECEIPT_VERIFIED",
+      "publish_gate": "Do not describe covers as unmodified Rockstar screenshots."
+    },
+    {
+      "claim_id": "C05",
+      "claim": "Map-size and current-release headlines on covers #38/#43 require revision.",
+      "source": "ASSET_PACK",
+      "status": "HOLD",
+      "publish_gate": "Never schedule these covers unchanged. #38 can use source-only alternative; #43 remains excluded."
+    },
+    {
+      "claim_id": "C06",
+      "claim": "Brian’s rent arrangement includes local shakedowns and occasional sangria visits.",
+      "source": "RSG_BIO",
+      "status": "VERIFIED_CURRENT",
+      "publish_gate": "Keep both conditions; avoid inventing a formal contract."
+    },
+    {
+      "claim_id": "C07",
+      "claim": "Katy is a fictional creator/host, not a Rockstar employee or a real-person impersonation.",
+      "source": "KATY_VISUAL",
+      "status": "OWNER_CONTEXT",
+      "publish_gate": "Fictional-host disclosure in first-wave Katy copy; consistent profile identity before live."
+    },
+    {
+      "claim_id": "C08",
+      "claim": "34 describes the official album’s track count.",
+      "source": "RSG_MUSIC",
+      "status": "VERIFIED_CURRENT",
+      "publish_gate": "Do not extrapolate to complete radio/score catalogue; do not use licensed recordings without clearance."
+    },
+    {
+      "claim_id": "C09",
+      "claim": "One still cannot establish map scale, complete game mechanics or which objects are controllable.",
+      "source": "RSG_MEDIA",
+      "status": "EDITORIAL_EVIDENCE_BOUNDARY",
+      "publish_gate": "Do not reverse the claim into saying those features are absent."
+    }
+  ],
+  "blocked_assets": [
+    {
+      "slots": [
+        2,
+        11,
+        29
+      ],
+      "format": "horizontal",
+      "reason": "Existing safety holds; no regeneration or workaround."
+    },
+    {
+      "slots": [
+        2,
+        11,
+        28,
+        29
+      ],
+      "format": "vertical",
+      "reason": "Existing holds; do not manufacture missing files."
+    },
+    {
+      "slots": [
+        38,
+        43
+      ],
+      "format": "both",
+      "reason": "Unresolved headline claim review."
+    }
+  ],
+  "excluded_audio": {
+    "url": "https://www.youtube.com/watch?v=eblieeSmCoA",
+    "reason": "Published longform has a known Free-voice licensing issue in task context. Being published does not clear reuse; no audio is reused here."
+  },
+  "reverification_scope": "Official pages checked live; local manifest read; 30/141 Airtable clip records sampled. No all-assets rights clearance, no all-clip decode, no live performance analytics.",
+  "pixel_review": {
+    "reviewed_source_slots": [
+      3,
+      4,
+      6,
+      12,
+      14,
+      20,
+      23,
+      26,
+      38,
+      40,
+      42
+    ],
+    "first_wave_slots": [
+      4,
+      6,
+      12,
+      20,
+      26,
+      3,
+      38,
+      42,
+      14,
+      40
+    ],
+    "findings": [
+      "Source38 original Keys01 vista is distinct from held AI cover38 and supports a map-evidence-limit discussion.",
+      "Source42 Keys02 is a street/scooter image, not a coastline vista. K16 uses it accurately.",
+      "Source23 narrow reference crop does not show lawn-watering; related media concepts require full clip/frame inspection.",
+      "Source14 is an official 720p proxy frame418 /13.933s. No prior crop is established. Some legacy thumbnail fields point to T1-S011; the selected compact-reference hash and actual-reference PNG are authoritative."
+    ],
+    "rights_status": "Provenance/pixel QA is not a blanket rights clearance."
+  },
+  "finalized_at_utc": "2026-10-05T03:55:00Z"
+}
