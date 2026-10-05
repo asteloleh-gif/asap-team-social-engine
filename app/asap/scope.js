@@ -13,6 +13,8 @@ const hash = value => crypto.createHash('sha256').update(JSON.stringify(canonica
 function loadScope(env = process.env) {
   const brand = String(env.ASAP_BRAND || '').toLowerCase();
   if (!Object.hasOwn(BRANDS, brand)) throw new Error('ASAP_BRAND_REQUIRED');
+  const projectId = String(env.ASAP_PROJECT_ID || '');
+  if (projectId !== 'asap-team') throw new Error('ASAP_PROJECT_ID_REQUIRED');
   if (env.SOCIAL_BRAND !== brand) throw new Error('ASAP_SOCIAL_BRAND_MISMATCH');
   const namespace = `asap:${brand}:v1`;
   if (env.ASAP_STATE_NAMESPACE !== namespace) throw new Error('ASAP_STATE_NAMESPACE_REQUIRED');
@@ -35,7 +37,7 @@ function loadScope(env = process.env) {
     if (platform === 'instagram' && env.INSTAGRAM_AUTH_MODE !== 'facebook_login') throw new Error('ASAP_INSTAGRAM_FACEBOOK_LOGIN_REQUIRED');
     accounts.push(Object.freeze({ key: `${brand}:${platform}`, brand, platform, userId: id, username, accessToken: token, enabled: true, dryRun: env.ASAP_LIVE_ENABLED !== 'true', language: 'en' }));
   }
-  return Object.freeze({ projectId: 'asap-team', brand, namespace, accounts: Object.freeze(accounts), live: env.ASAP_LIVE_ENABLED === 'true', maxPostsPerDay: Math.max(1, Math.min(3, Number(env.ASAP_MAX_POSTS_PER_PLATFORM_DAY) || 2)) });
+  return Object.freeze({ projectId, brand, namespace, accounts: Object.freeze(accounts), live: env.ASAP_LIVE_ENABLED === 'true', maxPostsPerDay: Math.max(1, Math.min(3, Number(env.ASAP_MAX_POSTS_PER_PLATFORM_DAY) || 2)) });
 }
 
 function assertAccount(scope, accountKey) {
@@ -45,7 +47,7 @@ function assertAccount(scope, accountKey) {
 }
 
 function preflight(env = process.env) {
-  const required = ['ASAP_BRAND', 'SOCIAL_BRAND', 'ASAP_STATE_NAMESPACE', 'DATABASE_URL', 'REDIS_URL', 'ASAP_CONTROL_TOKEN'];
+  const required = ['ASAP_PROJECT_ID', 'ASAP_BRAND', 'SOCIAL_BRAND', 'ASAP_STATE_NAMESPACE', 'DATABASE_URL', 'REDIS_URL', 'ASAP_CONTROL_TOKEN'];
   const missing = required.filter(k => !env[k]);
   let reason = null;
   try {

@@ -10,16 +10,23 @@ function fakeStore() {
       if (sql.includes("FROM analytics_snapshots")) {
         return { rows: [{
           account_key: "astel-us:threads",
+          brand_key: "astel-us",
           platform: "threads",
           entity_type: "post",
           entity_id: "p1",
-          metrics: { views: 100, likes: 7 },
-          metadata: { permalink: "https://example.test/p1" },
+          metrics: { views: 100, likes: 7, shares: 0 },
+          metadata: { permalink: "https://example.test/p1", checkpoint: { hours: 24, status: "CAPTURED" } },
+          durable_post_id: "44",
+          published_at: new Date("2026-09-22T12:00:00Z"),
+          post_metadata: { contentId: "content-1", contentHash: "hash-1", publishJobId: "job-1" },
+          publish_job_id: "job-1",
+          draft_id: "draft-1",
+          draft_metadata: {},
           captured_at: new Date("2026-09-23T12:00:00Z"),
         }] };
       }
       if (sql.includes("FROM social_accounts") && sql.includes("enabled = TRUE")) {
-        return { rows: [{ account_key: "astel-us:threads", platform: "threads", username: "astel.us" }] };
+        return { rows: [{ account_key: "astel-us:threads", brand_key: "astel-us", platform: "threads", username: "astel.us" }] };
       }
       if (sql.includes("FROM comments")) return { rows: [{ account_key: "astel-us:threads", platform: "threads", count: "4" }] };
       if (sql.includes("FROM replies")) return { rows: [{ account_key: "astel-us:threads", platform: "threads", total: "3", published: "3" }] };
@@ -39,6 +46,30 @@ function fakeStore() {
           latency_ms: "500",
           metadata: {},
           created_at: new Date("2026-09-23T12:00:00Z"),
+        }] };
+      }
+      if (sql.includes("FROM analytics_checkpoints")) {
+        return { rows: [{
+          account_key: "astel-us:threads",
+          brand_key: "astel-us",
+          platform: "threads",
+          platform_post_id: "p1",
+          checkpoint_hours: 72,
+          tolerance_hours: 6,
+          published_at: new Date("2026-09-22T12:00:00Z"),
+          opens_at: new Date("2026-09-25T06:00:00Z"),
+          due_at: new Date("2026-09-25T12:00:00Z"),
+          closes_at: new Date("2026-09-25T18:00:00Z"),
+          status: "UNSUPPORTED",
+          window_status: "UNSUPPORTED",
+          attempt_count: 1,
+          observed_at: null,
+          last_error: "INSIGHTS_UNSUPPORTED",
+          durable_post_id: "44",
+          post_metadata: { contentId: "content-1", contentHash: "hash-1" },
+          publish_job_id: "job-1",
+          draft_id: "draft-1",
+          draft_metadata: {},
         }] };
       }
       throw new Error("unexpected SQL");
@@ -75,10 +106,17 @@ test("analytics export is bearer protected and returns normalized Edie payload",
     assert.equal(body.accounts, 1);
     assert.equal(body.metrics.length, 2);
     assert.equal(body.metrics[0].source, "threads");
+    assert.equal(body.metrics[0].brand, "astel-us");
+    assert.equal(body.metrics[0].metrics.shares, 0);
+    assert.equal(body.metrics[0].mapping.contentId, "content-1");
+    assert.equal(body.metrics[0].publishedAt, "2026-09-22T12:00:00.000Z");
+    assert.equal(body.metrics[0].availability, "MEASURED");
     assert.equal(body.metrics[1].metrics.comments_received, 4);
     assert.equal(body.metrics[1].metrics.replies_published, 3);
     assert.equal(body.costs.length, 1);
     assert.equal(body.costs[0].amountMicrousd, 1500);
+    assert.equal(body.checkpoints[0].availability, "UNSUPPORTED");
+    assert.equal(body.checkpoints[0].reason, "INSIGHTS_UNSUPPORTED");
   });
 });
 

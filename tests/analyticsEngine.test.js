@@ -4,6 +4,7 @@ const assert = require("node:assert/strict");
 const { createThreadsInsightsAdapter, normalizeInsightData } = require("../adapters/threadsInsightsAdapter");
 const { normalizeMetrics, computeMetricDeltas } = require("../app/analytics/metrics");
 const { createAnalyticsEngine } = require("../app/analytics/analyticsEngine");
+const { checkpointWindowState, checkpointBounds } = require("../app/analytics/checkpointPolicy");
 
 test("Threads insights normalizer supports total_value and lifetime values", () => {
   const result = normalizeInsightData([
@@ -98,4 +99,111 @@ test("analytics engine is read-only disabled by default gate", async () => {
   });
   assert.deepEqual(await engine.runOnce(), { status: "skipped", reason: "ANALYTICS_DISABLED" });
   assert.equal(called, false);
+});
+
+test("checkpoint windows use actual published_at with inclusive 24h and 72h boundaries", () => {
+  const publishedAt = "2026-10-01T12:00:00.000Z";
+  const day = checkpointBounds({ publishedAt, hours: 24, toleranceHours: 2 });
+  assert.equal(day.opensAt.toISOString(), "2026-10-02T10:00:00.000Z");
+  assert.equal(day.closesAt.toISOString(), "2026-10-02T14:00:00.000Z");
+  assert.equal(checkpointWindowState({ publishedAt, hours: 24, toleranceHours: 2, now: day.opensAt }).state, "DUE");
+  assert.equal(checkpointWindowState({ publishedAt, hours: 24, toleranceHours: 2, now: day.closesAt }).state, "DUE");
+  assert.equal(checkpointWindowState({ publishedAt, hours: 24, toleranceHours: 2, now: new Date(day.closesAt.getTime() + 1) }).state, "LATE");
+  const threeDays = checkpointBounds({ publishedAt, hours: 72, toleranceHours: 6 });
+  assert.equal(threeDays.opensAt.toISOString(), "2026-10-04T06:00:00.000Z");
+  assert.equal(threeDays.closesAt.toISOString(), "2026-10-04T18:00:00.000Z");
+});
+
+test("durable checkpoint survives a failed run and restart without rediscovery or duplicate capture", async () => {
+  const checkpoint = {
+    accountKey: "asap_gta6:threads",
+    platformPostId: "post-old-not-in-discovery",
+    checkpointHours: 24,
+    toleranceHours: 2,
+    publishedAt: "2026-10-04T12:00:00.000Z",
+    opensAt: "2026-10-05T10:00:00.000Z",
+    dueAt: "2026-10-05T12:00:00.000Z",
+    closesAt: "2026-10-05T14:00:00.000Z",
+  };
+  let state = "PENDING";
+  let insightAttempts = 0;
+  let captures = 0;
+  const repository = {
+    isReady: () => true,
+    health: () => ({ connected: true }),
+    async recordSnapshot() {},
+    async upsertDiscoveredPost() {},
+    async ensureCheckpoints() { return { created: 0 }; },
+    async claimDueCheckpoints() { return ["PENDING", "FAILED"].includes(state) ? [checkpoint] : []; },
+    async failCheckpoint() { state = "FAILED"; return { status: "FAILED" }; },
+    async completeCheckpoint() { state = "CAPTURED"; captures += 1; return { status: "CAPTURED" }; },
+  };
+  const provider = {
+    platform: "threads",
+    accountKey: "asap_gta6:threads",
+    account: { enabled: true, userId: "u1" },
+    capabilities: { insights: true },
+    async getAccountInsights() { return { status: "ok", metrics: {} }; },
+    async listRecentPosts() { return { status: "ok", posts: [] }; },
+    async getPostInsights() {
+      insightAttempts += 1;
+      if (insightAttempts === 1) throw new Error("TRANSIENT");
+      return { status: "ok", metrics: { views: 0 }, periods: { views: "lifetime" } };
+    },
+  };
+  const options = { providerRegistry: { list: () => [provider] }, repository, enabled: true, now: () => new Date("2026-10-05T12:00:00.000Z") };
+  const firstProcess = createAnalyticsEngine(options);
+  assert.equal((await firstProcess.runOnce()).checkpoints.failed, 1);
+  const restartedProcess = createAnalyticsEngine(options);
+  assert.equal((await restartedProcess.runOnce()).checkpoints.captured, 1);
+  assert.equal((await restartedProcess.runOnce()).checkpoints.claimed, 0);
+  assert.equal(captures, 1);
+  assert.equal(insightAttempts, 2);
+});
+
+test("delayed checkpoint collection is marked late, while failed post-window collection is missed", async () => {
+  const baseCheckpoint = {
+    accountKey: "asap_katy:threads",
+    platformPostId: "p1",
+    checkpointHours: 24,
+    toleranceHours: 2,
+    publishedAt: "2026-10-01T12:00:00.000Z",
+    opensAt: "2026-10-02T10:00:00.000Z",
+    dueAt: "2026-10-02T12:00:00.000Z",
+    closesAt: "2026-10-02T14:00:00.000Z",
+  };
+  async function run(result) {
+    let claimed = true;
+    const repository = {
+      isReady: () => true, health: () => ({ connected: true }),
+      async recordSnapshot() {}, async upsertDiscoveredPost() {}, async ensureCheckpoints() {},
+      async claimDueCheckpoints() { if (!claimed) return []; claimed = false; return [baseCheckpoint]; },
+      async completeCheckpoint() { return { status: "LATE" }; },
+      async failCheckpoint() { return { status: "MISSED" }; },
+    };
+    const provider = {
+      platform: "threads", accountKey: "asap_katy:threads", account: { enabled: true }, capabilities: { insights: true },
+      async getAccountInsights() { return { status: "ok", metrics: {} }; },
+      async listRecentPosts() { return { status: "ok", posts: [] }; },
+      async getPostInsights() { return result; },
+    };
+    return createAnalyticsEngine({ providerRegistry: { list: () => [provider] }, repository, enabled: true, now: () => new Date("2026-10-03T00:00:00.000Z") }).runOnce();
+  }
+  assert.equal((await run({ status: "ok", metrics: { views: 1 } })).checkpoints.late, 1);
+  assert.equal((await run({ status: "failed", reason: "RATE_LIMITED" })).checkpoints.missed, 1);
+});
+
+test("unsupported analytics stays distinct from measured zero", async () => {
+  const checkpoint = { accountKey: "asap_gta6:instagram", platformPostId: "p1", checkpointHours: 24, toleranceHours: 2, publishedAt: "2026-10-01T00:00:00Z" };
+  let failure = null;
+  const repository = {
+    isReady: () => true, health: () => ({ connected: true }), async ensureCheckpoints() {},
+    async claimDueCheckpoints() { return failure ? [] : [checkpoint]; },
+    async failCheckpoint(value) { failure = value; return { status: "UNSUPPORTED" }; },
+  };
+  const provider = { accountKey: "asap_gta6:instagram", platform: "instagram", account: { enabled: true }, capabilities: { insights: false } };
+  const result = await createAnalyticsEngine({ providerRegistry: { list: () => [provider] }, repository, enabled: true, now: () => new Date("2026-10-02T00:00:00Z") }).runOnce();
+  assert.equal(result.checkpoints.unsupported, 1);
+  assert.equal(failure.unsupported, true);
+  assert.equal(failure.reason, "INSIGHTS_UNSUPPORTED");
 });

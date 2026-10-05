@@ -186,21 +186,25 @@ function createDurableRepository({ store } = {}) {
       `INSERT INTO posts(account_key, platform_post_id, content_type, text, status, permalink, published_at, metadata, updated_at)
        VALUES ($1,$2,$3,$4,$5,$6,$7,$8::jsonb,NOW())
        ON CONFLICT (account_key, platform_post_id) WHERE platform_post_id IS NOT NULL
-       DO UPDATE SET content_type = EXCLUDED.content_type, text = EXCLUDED.text, status = EXCLUDED.status,
-         permalink = EXCLUDED.permalink, published_at = EXCLUDED.published_at, metadata = EXCLUDED.metadata, updated_at = NOW()`,
+       DO UPDATE SET content_type = EXCLUDED.content_type, text = COALESCE(EXCLUDED.text, posts.text), status = EXCLUDED.status,
+         permalink = COALESCE(EXCLUDED.permalink, posts.permalink),
+         published_at = COALESCE(posts.published_at, EXCLUDED.published_at),
+         metadata = posts.metadata || EXCLUDED.metadata, updated_at = NOW()`,
       [String(accountKey), String(platformPostId), String(contentType), text == null ? null : String(text), String(status), permalink, publishedAt ? new Date(publishedAt).toISOString() : null, JSON.stringify(json(metadata, {}))],
     );
     return { stored: true };
   }
 
-  async function recordAnalyticsSnapshot({ accountKey, entityType, entityId, metrics, capturedAt = new Date(), metadata = {} } = {}) {
+  async function recordAnalyticsSnapshot({ accountKey, entityType, entityId, metrics, capturedAt = new Date(), metadata = {}, idempotencyKey = null } = {}) {
     if (!accountKey || !entityType || !entityId || !metrics) throw new Error("Analytics snapshot is incomplete");
-    await store.query(
-      `INSERT INTO analytics_snapshots(account_key, entity_type, entity_id, metrics, captured_at, metadata)
-       VALUES ($1,$2,$3,$4::jsonb,$5,$6::jsonb)`,
-      [String(accountKey), String(entityType), String(entityId), JSON.stringify(metrics), new Date(capturedAt).toISOString(), JSON.stringify(json(metadata, {}))],
+    const result = await store.query(
+      `INSERT INTO analytics_snapshots(account_key, entity_type, entity_id, metrics, captured_at, metadata, idempotency_key)
+       VALUES ($1,$2,$3,$4::jsonb,$5,$6::jsonb,$7)
+       ON CONFLICT (idempotency_key) WHERE idempotency_key IS NOT NULL DO NOTHING
+       RETURNING id`,
+      [String(accountKey), String(entityType), String(entityId), JSON.stringify(metrics), new Date(capturedAt).toISOString(), JSON.stringify(json(metadata, {})), idempotencyKey ? String(idempotencyKey) : null],
     );
-    return { stored: true };
+    return { stored: (result?.rowCount || 0) > 0, duplicate: (result?.rowCount || 0) === 0, snapshotId: result?.rows?.[0]?.id || null };
   }
 
   async function saveContentBrief({ briefId = crypto.randomUUID(), accountKey, objective = null, status = "CREATED", brief, metadata = {} } = {}) {

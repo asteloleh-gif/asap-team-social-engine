@@ -4,12 +4,14 @@ const { loadScope, hash, preflight } = require('../app/asap/scope');
 const { packageEnvelope } = require('../app/asap/distributionAdapter');
 const { applyStandingGrant } = require('../app/asap/standingGrant');
 
-const base = () => ({ ASAP_BRAND:'asap_gta6',SOCIAL_BRAND:'asap_gta6',ASAP_STATE_NAMESPACE:'asap:asap_gta6:v1',DATABASE_URL:'postgresql://test:fixture@localhost/asap_gta6',REDIS_URL:'redis://localhost:6379',THREADS_ENABLED:'true',THREADS_USERNAME:'asapgta6',THREADS_USER_ID:'123',THREADS_ACCESS_TOKEN:'fixture-not-a-real-secret' });
+const base = () => ({ ASAP_PROJECT_ID:'asap-team',ASAP_BRAND:'asap_gta6',SOCIAL_BRAND:'asap_gta6',ASAP_STATE_NAMESPACE:'asap:asap_gta6:v1',DATABASE_URL:'postgresql://test:fixture@localhost/asap_gta6',REDIS_URL:'redis://localhost:6379',THREADS_ENABLED:'true',THREADS_USERNAME:'asapgta6',THREADS_USER_ID:'123',THREADS_ACCESS_TOKEN:'fixture-not-a-real-secret' });
 test('ASAP rejects production brand, DB, namespaces and account identities', () => {
  const env=base(); assert.equal(loadScope(env).accounts[0].key,'asap_gta6:threads');
  for (const patch of [{ASAP_BRAND:'astel.us'},{DATABASE_URL:'postgresql://localhost/railway'},{ASAP_STATE_NAMESPACE:'astel:publish:v1'},{THREADS_USERNAME:'astel.us'}]) assert.throws(()=>loadScope({...env,...patch}));
  assert.equal(preflight({}).secretsIncluded,false);
  assert.throws(()=>loadScope({...env,ASAP_FORBIDDEN_ACCOUNT_IDS:'123'}),/ASTEL_ACCOUNT_FORBIDDEN/);
+ assert.throws(()=>loadScope({...env,ASAP_PROJECT_ID:'ignored-project'}),/ASAP_PROJECT_ID_REQUIRED/);
+ assert.throws(()=>loadScope({...env,SOCIAL_BRAND:''}),/ASAP_SOCIAL_BRAND_MISMATCH/);
 });
 test('content hashes survive PostgreSQL JSONB key order normalization', () => { assert.equal(hash({type:'text',text:'Hello'}),hash({text:'Hello',type:'text'})); });
 test('Distribution preview is scoped, exact-version reviewed and has zero AI calls', () => {

@@ -44,7 +44,7 @@ async function start(env = process.env, testDependencies = {}) {
   const repository = createDurablePublishRepository({ hotRepository: hot, durable });
   const guardedRepository = { ...repository, due: async (...args) => await state.isPaused() ? [] : repository.due(...args) };
   const publishEngine = createPublishEngine({ providerRegistry: providers, repository: guardedRepository, enabled: true, dryRun: !scope.live, batchSize: 1, pollIntervalMs: 5000, leaseMs: 120000 });
-  const analyticsEngine = createAnalyticsEngine({ providerRegistry: providers, repository: createAnalyticsRepository({ store: postgres, durable }), enabled: env.ASAP_ANALYTICS_ENABLED === 'true', intervalMs: 6 * 60 * 60 * 1000 });
+  const analyticsEngine = createAnalyticsEngine({ providerRegistry: providers, repository: createAnalyticsRepository({ store: postgres, durable }), enabled: env.ASAP_ANALYTICS_ENABLED === 'true', intervalMs: Number(env.ASAP_ANALYTICS_INTERVAL_MS || 60 * 60 * 1000) });
   const operationStore = createContentControlStore({ redisUrl: env.REDIS_URL, namespace: `${scope.namespace}:control`, ttlSeconds: 30 * 86400 });
   await operationStore.init();
   const control = createAsapControl({ scope, token: env.ASAP_CONTROL_TOKEN, contentRepository: createContentRepository({ store: postgres }), publishEngine, operationStore, state, providers, publishRepository: repository });
@@ -65,7 +65,7 @@ async function start(env = process.env, testDependencies = {}) {
   router.post('/pause', handle(req => control.run('pause', req.get('idempotency-key'), {})));
   router.post('/resume', handle(req => control.run('resume', req.get('idempotency-key'), {})));
   app.use('/internal/asap', router);
-  if (env.ASAP_ANALYTICS_TOKEN) app.use('/internal/analytics', createInternalAnalyticsRouter({ store: postgres, token: env.ASAP_ANALYTICS_TOKEN, projectId: scope.projectId }));
+  if (env.ASAP_ANALYTICS_TOKEN) app.use('/internal/analytics', createInternalAnalyticsRouter({ store: postgres, token: env.ASAP_ANALYTICS_TOKEN, projectId: scope.projectId, brand: scope.brand }));
   await publishEngine.start();
   await analyticsEngine.start();
   const server = app.listen(Number(env.PORT || 3000), env.HOST === '127.0.0.1' ? '127.0.0.1' : '0.0.0.0');

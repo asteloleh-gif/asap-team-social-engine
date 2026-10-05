@@ -10,6 +10,8 @@ function createAnalyticsEngine({
   intervalMs = Number(process.env.ANALYTICS_INTERVAL_MS || 21_600_000),
   maxPostsPerAccount = Number(process.env.ANALYTICS_MAX_POSTS_PER_ACCOUNT || 25),
   lookbackDays = Number(process.env.ANALYTICS_LOOKBACK_DAYS || 30),
+  checkpointBatchSize = Number(process.env.ANALYTICS_CHECKPOINT_BATCH_SIZE || 100),
+  now = () => new Date(),
 } = {}) {
   if (!providerRegistry) throw new Error("Analytics engine requires provider registry");
   if (!repository) throw new Error("Analytics engine requires analytics repository");
@@ -29,7 +31,13 @@ function createAnalyticsEngine({
     );
   }
 
-  async function runProvider(provider) {
+  function clock() {
+    const value = new Date(now());
+    if (Number.isNaN(value.getTime())) throw new Error("Analytics clock returned invalid date");
+    return value;
+  }
+
+  async function runProvider(provider, runAt) {
     const summary = {
       accountKey: provider.accountKey,
       platform: provider.platform,
@@ -47,6 +55,7 @@ function createAnalyticsEngine({
           entityType: "account",
           entityId: provider.account?.userId || provider.accountKey,
           metrics: accountResult.metrics || {},
+          capturedAt: runAt,
           metadata: { platform: provider.platform, periods: accountResult.periods || {} },
         });
         summary.accountSnapshot = true;
@@ -61,7 +70,7 @@ function createAnalyticsEngine({
 
     let postsResult;
     try {
-      const since = Math.floor((Date.now() - Math.max(1, lookbackDays) * 86_400_000) / 1000);
+      const since = Math.floor((runAt.getTime() - Math.max(1, lookbackDays) * 86_400_000) / 1000);
       postsResult = await provider.listRecentPosts({ limit: maxPostsPerAccount, since });
     } catch (error) {
       summary.failures.push({ scope: "posts", reason: "DISCOVERY_EXCEPTION", error: error?.message || String(error) });
@@ -89,6 +98,7 @@ function createAnalyticsEngine({
           entityType: "post",
           entityId: String(post.id),
           metrics: result.metrics || {},
+          capturedAt: runAt,
           metadata: { platform: provider.platform, periods: result.periods || {}, permalink: post.permalink || null },
         });
         summary.postSnapshots += 1;
@@ -100,18 +110,67 @@ function createAnalyticsEngine({
     return summary;
   }
 
+  async function runCheckpoints(provider, runAt) {
+    const summary = { claimed: 0, captured: 0, late: 0, missed: 0, failed: 0, unsupported: 0 };
+    if (typeof repository.claimDueCheckpoints !== "function") return summary;
+    const checkpoints = await repository.claimDueCheckpoints({
+      accountKey: provider.accountKey,
+      now: runAt,
+      limit: Math.max(1, checkpointBatchSize || 100),
+    });
+    summary.claimed = checkpoints.length;
+    const supported = provider.capabilities?.insights && typeof provider.getPostInsights === "function";
+    for (const checkpoint of checkpoints) {
+      if (!supported) {
+        await repository.failCheckpoint({ checkpoint, reason: "INSIGHTS_UNSUPPORTED", unsupported: true, now: runAt });
+        summary.unsupported += 1;
+        continue;
+      }
+      try {
+        const result = await provider.getPostInsights(checkpoint.platformPostId);
+        if (result?.status !== "ok") {
+          const failed = await repository.failCheckpoint({
+            checkpoint,
+            reason: result?.reason || "INSIGHTS_FAILED",
+            unsupported: result?.reason === "INSIGHTS_UNSUPPORTED" || result?.reason === "UNSUPPORTED",
+            now: runAt,
+          });
+          summary[failed.status === "MISSED" ? "missed" : failed.status === "UNSUPPORTED" ? "unsupported" : "failed"] += 1;
+          continue;
+        }
+        const completed = await repository.completeCheckpoint({
+          checkpoint,
+          metrics: result.metrics || {},
+          periods: result.periods || {},
+          platform: provider.platform,
+          observedAt: runAt,
+        });
+        summary[completed.status === "LATE" ? "late" : "captured"] += 1;
+      } catch (error) {
+        const failed = await repository.failCheckpoint({ checkpoint, reason: error?.message || "INSIGHTS_EXCEPTION", now: runAt });
+        summary[failed.status === "MISSED" ? "missed" : "failed"] += 1;
+      }
+    }
+    return summary;
+  }
+
   async function runOnce() {
     if (!enabled) return { status: "skipped", reason: "ANALYTICS_DISABLED" };
     if (!repository.isReady()) return { status: "skipped", reason: "ANALYTICS_REPOSITORY_UNAVAILABLE" };
     if (running) return { status: "skipped", reason: "ANALYTICS_RUN_IN_PROGRESS" };
 
     running = true;
-    lastRunAt = new Date().toISOString();
-    const providers = providerRegistry.list().filter(providerSupportsAnalytics);
+    const runAt = clock();
+    lastRunAt = runAt.toISOString();
+    const allProviders = providerRegistry.list();
+    const providers = allProviders.filter(providerSupportsAnalytics);
     const results = [];
     try {
-      for (const provider of providers) results.push(await runProvider(provider));
-      lastCompletedAt = new Date().toISOString();
+      for (const provider of providers) results.push(await runProvider(provider, runAt));
+      if (typeof repository.ensureCheckpoints === "function") await repository.ensureCheckpoints();
+      const checkpointResults = [];
+      for (const provider of allProviders) checkpointResults.push({ accountKey: provider.accountKey, ...(await runCheckpoints(provider, runAt)) });
+      lastCompletedAt = clock().toISOString();
       lastSummary = {
         status: "ok",
         providers: results.length,
@@ -120,6 +179,15 @@ function createAnalyticsEngine({
         postSnapshots: results.reduce((sum, item) => sum + item.postSnapshots, 0),
         failures: results.reduce((sum, item) => sum + item.failures.length, 0),
         accounts: results,
+        checkpoints: {
+          claimed: checkpointResults.reduce((sum, item) => sum + item.claimed, 0),
+          captured: checkpointResults.reduce((sum, item) => sum + item.captured, 0),
+          late: checkpointResults.reduce((sum, item) => sum + item.late, 0),
+          missed: checkpointResults.reduce((sum, item) => sum + item.missed, 0),
+          failed: checkpointResults.reduce((sum, item) => sum + item.failed, 0),
+          unsupported: checkpointResults.reduce((sum, item) => sum + item.unsupported, 0),
+          accounts: checkpointResults,
+        },
       };
       return lastSummary;
     } finally {
@@ -154,6 +222,7 @@ function createAnalyticsEngine({
       intervalMs: Math.max(60_000, intervalMs || 21_600_000),
       maxPostsPerAccount: Math.max(1, maxPostsPerAccount || 25),
       lookbackDays: Math.max(1, lookbackDays || 30),
+      checkpointBatchSize: Math.max(1, checkpointBatchSize || 100),
       repository: repository.health(),
       capableProviders,
       lastRunAt,
