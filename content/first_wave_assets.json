@@ -1,0 +1,250 @@
+{
+  "schema_version": "1.0",
+  "assets": [
+    {
+      "asset_id": "ASAP-SOURCE-04",
+      "kind": "OFFICIAL_SOURCE_REFERENCE_JPEG",
+      "local_path": "LOCAL_ASSET_REFERENCE",
+      "sha256": "9efe17b33a5240787fdb0ad2e66944ff010fdf5819322ece8b2c0433c88d2255",
+      "mime_type": "image/jpeg",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "drive_url": null,
+      "official_source_urls": [
+        "https://media-rockstargames-com.akamaized.net/VI/downloads/videos/GTAVI_Trailer_1/GTAVI_Trailer_1.mp4",
+        "https://www.rockstargames.com/VI/trailer-1"
+      ],
+      "source_identifier": "T1-S028",
+      "pack_slot": 4,
+      "pixels_viewed_at_utc": "2026-10-05T03:40:23Z",
+      "preexisting_adaptations": [],
+      "new_pixel_edits_in_this_package": false,
+      "is_ai_editorial_cover": false,
+      "alt_text": "Frame from GTA VI Trailer 1: an alligator enters a shop; FRONT DOOR and a timestamp appear at the top left.",
+      "crop_note": "Preserved source reference inspected at supplied dimensions; see original per-asset manifest for provenance."
+    },
+    {
+      "asset_id": "ASAP-SOURCE-06",
+      "kind": "OFFICIAL_SOURCE_REFERENCE_JPEG",
+      "local_path": "LOCAL_ASSET_REFERENCE",
+      "sha256": "1191228478ddd84353ba3a229aa6919ae19aea2fd1b29bd3b6c5187548065b4b",
+      "mime_type": "image/jpeg",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "drive_url": null,
+      "official_source_urls": [
+        "https://www.rockstargames.com/VI/_next/static/media/Jason_and_Lucia_06.1035xf1yo78.b.jpg",
+        "https://www.rockstargames.com/VI/media/screenshots"
+      ],
+      "source_identifier": "Jason_and_Lucia_06",
+      "pack_slot": 6,
+      "pixels_viewed_at_utc": "2026-10-05T03:40:23Z",
+      "preexisting_adaptations": [],
+      "new_pixel_edits_in_this_package": false,
+      "is_ai_editorial_cover": false,
+      "alt_text": "Official GTA VI screenshot of Jason and Lucia inside a vehicle. This image illustrates a discussion about trust; it is not evidence of an unrevealed plot outcome.",
+      "crop_note": "Preserved source reference inspected at supplied dimensions; see original per-asset manifest for provenance."
+    },
+    {
+      "asset_id": "ASAP-SOURCE-12",
+      "kind": "OFFICIAL_SOURCE_REFERENCE_JPEG",
+      "local_path": "LOCAL_ASSET_REFERENCE",
+      "sha256": "1d76801f5d5a0dbf6aeeeffda51febc2c511189ac1d1fc135d3857f2bc36b081",
+      "mime_type": "image/jpeg",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "drive_url": null,
+      "official_source_urls": [
+        "https://media-rockstargames-com.akamaized.net/VI/downloads/videos/GTAVI_Trailer_1/GTAVI_Trailer_1.mp4",
+        "https://www.rockstargames.com/VI/trailer-1"
+      ],
+      "source_identifier": "T1-S018",
+      "pack_slot": 12,
+      "pixels_viewed_at_utc": "2026-10-05T03:40:23Z",
+      "preexisting_adaptations": [],
+      "new_pixel_edits_in_this_package": false,
+      "is_ai_editorial_cover": false,
+      "alt_text": "GTA VI Trailer 1 street at dusk, with neon-lit hotels, palm trees, cars and pedestrians.",
+      "crop_note": "Preserved source reference inspected at supplied dimensions; see original per-asset manifest for provenance."
+    },
+    {
+      "asset_id": "ASAP-SOURCE-20",
+      "kind": "OFFICIAL_SOURCE_REFERENCE_JPEG",
+      "local_path": "LOCAL_ASSET_REFERENCE",
+      "sha256": "43fb61101efe2b06ccaadda1f35d018dc6d17d78796400552957e998ae63dd71",
+      "mime_type": "image/jpeg",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "drive_url": null,
+      "official_source_urls": [
+        "https://media-rockstargames-com.akamaized.net/VI/downloads/videos/GTAVI_Trailer_1/GTAVI_Trailer_1.mp4",
+        "https://www.rockstargames.com/VI/trailer-1"
+      ],
+      "source_identifier": "T1-S010",
+      "pack_slot": 20,
+      "pixels_viewed_at_utc": "2026-10-05T03:40:23Z",
+      "preexisting_adaptations": [],
+      "new_pixel_edits_in_this_package": false,
+      "is_ai_editorial_cover": false,
+      "alt_text": "GTA VI Trailer 1 frame showing flamingos and other birds over a wetland. Used to illustrate a clearly labelled first-stop wishlist.",
+      "crop_note": "Preserved source reference inspected at supplied dimensions; see original per-asset manifest for provenance."
+    },
+    {
+      "asset_id": "ASAP-SOURCE-26",
+      "kind": "OFFICIAL_SOURCE_REFERENCE_JPEG",
+      "local_path": "LOCAL_ASSET_REFERENCE",
+      "sha256": "e21df3c20fb2193066cc9cb181ab82b513750c94b6799ba83b6038bd46e22e9a",
+      "mime_type": "image/jpeg",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "drive_url": null,
+      "official_source_urls": [
+        "https://www.rockstargames.com/VI/_next/static/media/Jason_Duval_01.07m377xeb6jhq.jpg",
+        "https://www.rockstargames.com/VI/media/screenshots"
+      ],
+      "source_identifier": null,
+      "pack_slot": 26,
+      "pixels_viewed_at_utc": "2026-10-05T03:40:23Z",
+      "preexisting_adaptations": [],
+      "new_pixel_edits_in_this_package": false,
+      "is_ai_editorial_cover": false,
+      "alt_text": "Official GTA VI Jason Duval 01 screenshot, showing Jason beside a green motorcycle. The rent discussion comes from Brian’s written biography, not the image.",
+      "crop_note": "Preserved source reference inspected at supplied dimensions; see original per-asset manifest for provenance."
+    },
+    {
+      "asset_id": "ASAP-SOURCE-03",
+      "kind": "OFFICIAL_SOURCE_REFERENCE_JPEG",
+      "local_path": "LOCAL_ASSET_REFERENCE",
+      "sha256": "89ac5a661d3b085b7f2fdfee2bd4def6a18f970c93a196df765779a713911b75",
+      "mime_type": "image/jpeg",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "drive_url": null,
+      "official_source_urls": [
+        "https://media-rockstargames-com.akamaized.net/VI/downloads/videos/GTAVI_Trailer_1/GTAVI_Trailer_1.mp4",
+        "https://www.rockstargames.com/VI/trailer-1"
+      ],
+      "source_identifier": "T1-S024",
+      "pack_slot": 3,
+      "pixels_viewed_at_utc": "2026-10-05T03:40:23Z",
+      "preexisting_adaptations": [],
+      "new_pixel_edits_in_this_package": false,
+      "is_ai_editorial_cover": false,
+      "alt_text": "GTA VI Trailer 1 pool scene: a uniformed person and an alligator beside a swimming pool, with the trailer’s in-world social-video interface visible.",
+      "crop_note": "Preserved source reference inspected at supplied dimensions; see original per-asset manifest for provenance."
+    },
+    {
+      "asset_id": "ASAP-SOURCE-38",
+      "kind": "OFFICIAL_SOURCE_REFERENCE_JPEG",
+      "local_path": "LOCAL_ASSET_REFERENCE",
+      "sha256": "593f7a52bb6fca517f503dca15d34f9e268ea8ff558048e1f142645f5427e1f5",
+      "mime_type": "image/jpeg",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "drive_url": null,
+      "official_source_urls": [
+        "https://www.rockstargames.com/VI/_next/static/media/Leonida_Keys_01.0zgz7tveur6y8.jpg",
+        "https://www.rockstargames.com/VI/media/screenshots"
+      ],
+      "source_identifier": "Leonida Keys 01",
+      "pack_slot": 38,
+      "pixels_viewed_at_utc": "2026-10-05T03:40:23Z",
+      "preexisting_adaptations": [],
+      "new_pixel_edits_in_this_package": false,
+      "is_ai_editorial_cover": false,
+      "alt_text": "Official GTA VI Leonida Keys 01 screenshot: a bridge crosses islands, a distant skyline sits on the horizon, and a seaplane is visible in the foreground.",
+      "crop_note": "Preserved source reference inspected at supplied dimensions; see original per-asset manifest for provenance."
+    },
+    {
+      "asset_id": "ASAP-SOURCE-42",
+      "kind": "OFFICIAL_SOURCE_REFERENCE_JPEG",
+      "local_path": "LOCAL_ASSET_REFERENCE",
+      "sha256": "c39a93636b359996456a011ed06a103e5f616a7fe5fce16c947ac02d57abdef0",
+      "mime_type": "image/jpeg",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "drive_url": null,
+      "official_source_urls": [
+        "https://www.rockstargames.com/VI/_next/static/media/Leonida_Keys_02.0~ptk-53gl0lq.jpg",
+        "https://www.rockstargames.com/VI/media/screenshots"
+      ],
+      "source_identifier": "Leonida Keys 02",
+      "pack_slot": 42,
+      "pixels_viewed_at_utc": "2026-10-05T03:40:23Z",
+      "preexisting_adaptations": [],
+      "new_pixel_edits_in_this_package": false,
+      "is_ai_editorial_cover": false,
+      "alt_text": "Official GTA VI Leonida Keys 02 street screenshot with a person on a mobility scooter and an iguana in the foreground. Its presence does not establish player control.",
+      "crop_note": "Preserved source reference inspected at supplied dimensions; see original per-asset manifest for provenance."
+    },
+    {
+      "asset_id": "ASAP-SOURCE-14",
+      "kind": "OFFICIAL_SOURCE_REFERENCE_JPEG",
+      "local_path": "LOCAL_ASSET_REFERENCE",
+      "sha256": "49de78955c543f55985204cca5f43da3f726f6c9d9f9eae820edb76d98bbf07e",
+      "mime_type": "image/jpeg",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "drive_url": null,
+      "official_source_urls": [
+        "https://media-rockstargames-com.akamaized.net/VI/downloads/videos/GTAVI_Trailer_1/GTAVI_Trailer_1.mp4",
+        "https://www.rockstargames.com/VI/trailer-1"
+      ],
+      "source_identifier": "T1-S007",
+      "pack_slot": 14,
+      "pixels_viewed_at_utc": "2026-10-05T03:40:23Z",
+      "preexisting_adaptations": [],
+      "new_pixel_edits_in_this_package": false,
+      "is_ai_editorial_cover": false,
+      "alt_text": "Preserved reference from the GTA VI Trailer 1 beach aerial: sea, beach umbrellas and buildings. The source is an official 720p proxy frame at approximately 13.93 seconds.",
+      "crop_note": "Source manifest identifies an official 720p proxy frame418 at30fps =13.933333s, T1-S007 +3.000s. No crop performed in delivery or this workstream.",
+      "source_quality": "Verified official 720p proxy, 1280x720; original PNG hash recorded in source manifest.",
+      "source_frame_number": 418,
+      "source_time_seconds": 13.933333,
+      "source_manifest_caution": "Legacy thumbnail_id/thumbnail_filename fields in asset14 retain T1-S011 metadata. Resolve using actual_reference_original, preserved_numbered_reference and the verified compact-reference hash, not those stale thumbnail fields."
+    },
+    {
+      "asset_id": "ASAP-SOURCE-40",
+      "kind": "OFFICIAL_SOURCE_REFERENCE_JPEG",
+      "local_path": "LOCAL_ASSET_REFERENCE",
+      "sha256": "5bb44948defc0396e96715d40ce4718ef339a006ab6cff2ee70e8ac1b76a12d8",
+      "mime_type": "image/jpeg",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "drive_url": null,
+      "official_source_urls": [
+        "https://www.rockstargames.com/VI/_next/static/media/Vice_City_11.09paum3g942sc.jpg",
+        "https://www.rockstargames.com/VI/media/screenshots"
+      ],
+      "source_identifier": "Vice City 11",
+      "pack_slot": 40,
+      "pixels_viewed_at_utc": "2026-10-05T03:40:23Z",
+      "preexisting_adaptations": [],
+      "new_pixel_edits_in_this_package": false,
+      "is_ai_editorial_cover": false,
+      "alt_text": "Official GTA VI Vice City 11 screenshot at sunset, showing a tall building, a helicopter, water and the skyline. Used for a fictional host’s evidence-first series introduction.",
+      "crop_note": "Preserved source reference inspected at supplied dimensions; see original per-asset manifest for provenance."
+    }
+  ],
+  "delivery_policy": "Local source references only. Stage only through an authorized existing publication path; no public sharing of the full Drive folder."
+}

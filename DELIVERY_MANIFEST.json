@@ -1,0 +1,1034 @@
+{
+  "purpose": "Sanitized source and local-only verification harnesses. Not a live deployed runtime.",
+  "created_at_utc": "2026-10-05T04:50:54.138747+00:00",
+  "files": [
+    {
+      "path": ".env.example",
+      "sha256": "6bd8cd6bdc8200c9c758ca35f5a893bd261cb93b97cf988dd8460f4c90045439",
+      "bytes": 4497
+    },
+    {
+      "path": ".github/workflows/v91-tests.yml",
+      "sha256": "9dedcfd0c758b739e7c2658b67cc5c5fef1baa6857f363752594e09d252ca572",
+      "bytes": 510
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "e057654bfdf66664de95038d86d4fabe749912d0e6cac4131717cf3832da39ea",
+      "bytes": 80
+    },
+    {
+      "path": "ASAP_TEAM_MISSION_02_REPORT.md",
+      "sha256": "4c2d85faa105d2199280ef4bb9115a03a2229c7ecc7a886b2d0120f7406951a5",
+      "bytes": 5396
+    },
+    {
+      "path": "README.md",
+      "sha256": "64724dd28237911644009e2d68c0e058d893a4420da9a7e4480ff970b7442526",
+      "bytes": 1191
+    },
+    {
+      "path": "adapters/facebookAdapter.js",
+      "sha256": "5ba6cc580819cb01e7bf5d2542a7d5215797c76497dbd7244273657865630fb8",
+      "bytes": 9194
+    },
+    {
+      "path": "adapters/instagramAdapter.js",
+      "sha256": "75bcd251a24ba606c52cbaac488f8075f49c96469b1c5cda26ba05d62eb70af8",
+      "bytes": 19057
+    },
+    {
+      "path": "adapters/threadsAdapter.js",
+      "sha256": "001ea3ea666d9f96e8a7f8ad22f8aff045a36dd148d7c90ee7b8f78c3098cdfc",
+      "bytes": 10115
+    },
+    {
+      "path": "adapters/threadsDiscoveryAdapter.js",
+      "sha256": "777f6993858d8fca6961097525ac8b3d9de35129947b063676ff271d110c7f52",
+      "bytes": 3875
+    },
+    {
+      "path": "adapters/threadsInsightsAdapter.js",
+      "sha256": "46d53eacfc1eafe19417983dd809eac165e5d1025293f35364129f517fe1f46e",
+      "bytes": 5571
+    },
+    {
+      "path": "adapters/threadsPostPublisher.js",
+      "sha256": "f316b4906687a8c45f40e8ef1aa209e3c081afef1e1366fbc9ce36e8968e9d6a",
+      "bytes": 3474
+    },
+    {
+      "path": "app/accounts/accountConfig.js",
+      "sha256": "faaac3477f980562ece4750c93ee62297e06f192c2b93ba937120f1dcae2c7b9",
+      "bytes": 4352
+    },
+    {
+      "path": "app/ai/aiGateway.js",
+      "sha256": "ac5f99e6aee6d685bf170e32c9618c93f0c3bb5d617ba747cc8ca9da4da8d1e7",
+      "bytes": 8545
+    },
+    {
+      "path": "app/ai/budgetManager.js",
+      "sha256": "182182d502814257e1d320720c21fa62880d14355b9588584782fd5ee30ab715",
+      "bytes": 3539
+    },
+    {
+      "path": "app/ai/modelRouter.js",
+      "sha256": "3caec1b1c86a274770e81be93fb0a031f0055e9be50e2b0397c423b3e0b7c793",
+      "bytes": 1445
+    },
+    {
+      "path": "app/ai/openAiJsonClient.js",
+      "sha256": "8970b6a527d11bd82bf5bbab347b02578e49861d378f31ac6dc4b29a84bdff0e",
+      "bytes": 1920
+    },
+    {
+      "path": "app/ai/redisQuotaStore.js",
+      "sha256": "150018c7af4faec6ad62dc73c4bd1d72515d7a532eb24f45e9882bf8b5a8811a",
+      "bytes": 2591
+    },
+    {
+      "path": "app/analytics/analyticsEngine.js",
+      "sha256": "39fe33659a7f269bc7ea7378e71c89c8047091496fd83826699fb4824b37308e",
+      "bytes": 6415
+    },
+    {
+      "path": "app/analytics/analyticsRepository.js",
+      "sha256": "90cce9a8a7d6f32c81ef97cabf7152755c34eecb9800e030592a1946eb1a1f99",
+      "bytes": 3152
+    },
+    {
+      "path": "app/analytics/internalAnalyticsRouter.js",
+      "sha256": "74adc25c2df6ff4c1d8215c6531fe1e8cd9606e5bcae1be7768ba2fb3ec96607",
+      "bytes": 6839
+    },
+    {
+      "path": "app/analytics/metrics.js",
+      "sha256": "525bceeddc07986f47c091ae82256dd84e3e3b5a41db7ffa2c1b75d877314cd1",
+      "bytes": 1523
+    },
+    {
+      "path": "app/asap/control.js",
+      "sha256": "69f7064ec5ae763299a3fb623fc5e88f6518a64878704d4bdb64152ee7342d1e",
+      "bytes": 6103
+    },
+    {
+      "path": "app/asap/distributionAdapter.js",
+      "sha256": "0a0618316c5dfb0dc00f325d66deef4f3e8197c5235d6336ce7442af36c511b5",
+      "bytes": 2337
+    },
+    {
+      "path": "app/asap/hyperCrewAdapter.js",
+      "sha256": "a2c8e7202e2d6fa3a28ab92bb9a0d05719241b4a6536298b87fd2baaeaf278ca",
+      "bytes": 1304
+    },
+    {
+      "path": "app/asap/marketingBridge.js",
+      "sha256": "d0a0f1549bbb7904a14967e2fdbe921104bb751511a9f5eb08d6915fb3177f13",
+      "bytes": 2258
+    },
+    {
+      "path": "app/asap/metaPostProvider.js",
+      "sha256": "9d7ec7950bea33f1af732a99c5827caa144faf17c266700d298ebec7acfc57b0",
+      "bytes": 8379
+    },
+    {
+      "path": "app/asap/oauthPlan.js",
+      "sha256": "dc403fca892a22cf425ef53d7370211ed7fea3c9f13e85c07c549484e1b87655",
+      "bytes": 1861
+    },
+    {
+      "path": "app/asap/reconcile.js",
+      "sha256": "d44aaadb33ffea49c03bcd23fed4602f95cf52576a09bcaa7988f54682713dec",
+      "bytes": 1492
+    },
+    {
+      "path": "app/asap/scope.js",
+      "sha256": "e5566cad6c41494ed6c14ea66eb4fd05fb145fa82932ab9cb45554ddfde21704",
+      "bytes": 4160
+    },
+    {
+      "path": "app/asap/standingGrant.js",
+      "sha256": "1b43e92ab19bcad73511e31da0ae52b755afd6bd9f73612efa840eb23bc142c4",
+      "bytes": 790
+    },
+    {
+      "path": "app/asap/state.js",
+      "sha256": "48fcb9ab27b01efb1d346f7971206148f6fe584032f53560a8745153e17f1491",
+      "bytes": 1422
+    },
+    {
+      "path": "app/community/createCommunityRuntime.js",
+      "sha256": "72cef5a504c57161626333a034cd1715b8dd546a129a9b010a72d5e46d52835e",
+      "bytes": 15001
+    },
+    {
+      "path": "app/community/createPlatformReplyGenerator.js",
+      "sha256": "482e192e4ec7d2a0f4aa6354337892e873f19c8c43b996322b1f5d696078a860",
+      "bytes": 6190
+    },
+    {
+      "path": "app/community/personaMemoryContext.js",
+      "sha256": "cfe44c8b0f5cd2ee1efad41989b6aea51fb77adac059c2a022b84131c8e32f07",
+      "bytes": 4901
+    },
+    {
+      "path": "app/community/replyLanguage.js",
+      "sha256": "78e9c325389e13977d7ac7127c196609d72471057199745acb3a4abb51ef6035",
+      "bytes": 1567
+    },
+    {
+      "path": "app/composition/createApplicationContext.js",
+      "sha256": "2e3ca13befdc3a4a2f71ad017b674299ea2c4afa20b51ae9e0376b4a3c04abc9",
+      "bytes": 1657
+    },
+    {
+      "path": "app/content/contentControl.js",
+      "sha256": "38a5ab0ab9d5961cf1c085e9d06104bd6c3d1a7354f9f5ce72d0fbdc81f5481c",
+      "bytes": 6319
+    },
+    {
+      "path": "app/content/contentControlRouter.js",
+      "sha256": "3c44d6b047a6fa4be194e650a81ade62bfbbd2a70f8a7431045f11a761293394",
+      "bytes": 3478
+    },
+    {
+      "path": "app/content/contentControlStore.js",
+      "sha256": "821d4ccdcf4ba76fbe30fb4edc99b9c4b3db31c1a130d19daf2a88e34bd164b9",
+      "bytes": 3392
+    },
+    {
+      "path": "app/content/contentDryRun.js",
+      "sha256": "a3230557bc2959fe7c5a4c7cef8ca7b63620b1685f5d17c4986d54ae4f0fbc86",
+      "bytes": 5029
+    },
+    {
+      "path": "app/content/contentPipeline.js",
+      "sha256": "7a3a7fb58c1aa4237b08d28cc4a08d91a54cb48f62426a77723927eea357a9fe",
+      "bytes": 8817
+    },
+    {
+      "path": "app/content/contentReadModel.js",
+      "sha256": "8ae40b31588d80767e43b82c995a0059946ced514f581abcf9aa0c5bf2288541",
+      "bytes": 3486
+    },
+    {
+      "path": "app/content/contentRepository.js",
+      "sha256": "75f7fc218b77b390d75582f07115987bd51d30f6838e3b497a1f13330e91d57a",
+      "bytes": 5610
+    },
+    {
+      "path": "app/content/contentRuntime.js",
+      "sha256": "524d1b979e168a9cfbdf5b6c5b06d7d68980f8f52d0efc0a1384fdd4cf4551b5",
+      "bytes": 9707
+    },
+    {
+      "path": "app/db/durableRepository.js",
+      "sha256": "cead8812b183c80c541dda16ee9dea7f44ffc747f0561107f33688f7fe80d985",
+      "bytes": 14077
+    },
+    {
+      "path": "app/db/migrator.js",
+      "sha256": "9ec5114366f3765ed90517ac71b507a784207c2a624a700ee4be59656ec70d28",
+      "bytes": 1791
+    },
+    {
+      "path": "app/db/postgresStore.js",
+      "sha256": "25a886b37bdf0422bf272c13a69e3673c60828472b8565ef42368aa71969a1a0",
+      "bytes": 3734
+    },
+    {
+      "path": "app/events/socialEvent.js",
+      "sha256": "b1d04a6118d4c55a9cd95d42254b2ad83ac5d403c9393c97d21097e241f1b16c",
+      "bytes": 1237
+    },
+    {
+      "path": "app/legal/publicLegalRoutes.js",
+      "sha256": "8be9d82cbfa50ecafb3653501a271d5f56421de2ed5a56c184173c732f6c3875",
+      "bytes": 4417
+    },
+    {
+      "path": "app/orchestration/crewGraph.js",
+      "sha256": "75c6c615285b8ca0ac05b22ce47e2144264dbdc04c8d3e2446168ea491c3f3e8",
+      "bytes": 2685
+    },
+    {
+      "path": "app/orchestration/hyperCrewOrchestrator.js",
+      "sha256": "f0af2556fdc7e67e93a0509e19c8f9ce7c84f6bd2f04ad58726410ae6c431f1f",
+      "bytes": 7625
+    },
+    {
+      "path": "app/polling/facebookCommentPoller.js",
+      "sha256": "aeb676a10e9ce97443cedf391c5b50d2b1b94dfb6f69ff2d50e251a54ae65c59",
+      "bytes": 12190
+    },
+    {
+      "path": "app/polling/facebookPollingStore.js",
+      "sha256": "6dd2c2b9c873a70184c826a294a675287d51fbbe7ed9c276f44ed0e49c02666e",
+      "bytes": 3366
+    },
+    {
+      "path": "app/polling/instagramCommentPoller.js",
+      "sha256": "5695f5b0980fc3ba36095eb27f46454fbc841c0ac1b6418f608b27bfab8651b6",
+      "bytes": 11729
+    },
+    {
+      "path": "app/polling/instagramPollingStore.js",
+      "sha256": "5de46f5dd00ab51be7864e275e41d8fc31109a943e89bad3c23e7bbafdb051b2",
+      "bytes": 3379
+    },
+    {
+      "path": "app/polling/threadsCommentPoller.js",
+      "sha256": "f981e547c927162c808d2e2dfae74b9ba616a2dd22bb75516d257b609995794b",
+      "bytes": 8258
+    },
+    {
+      "path": "app/polling/threadsPollingReader.js",
+      "sha256": "cfc697d2a611ec53466e2d602d0d8fca4b52c5ff7b0e8754d774c53ebe631bc1",
+      "bytes": 2429
+    },
+    {
+      "path": "app/polling/threadsPollingStore.js",
+      "sha256": "03b457c83b94ec372e36a7bac4fad967a194fb89ec4631597217e65b468edc20",
+      "bytes": 3028
+    },
+    {
+      "path": "app/providers/commentCompatibility.js",
+      "sha256": "4ea5a4613baf1a36de1bb5082e34c91d10d6f35cb3bf2b025ddeb24ba9abfb7f",
+      "bytes": 2876
+    },
+    {
+      "path": "app/providers/facebookProvider.js",
+      "sha256": "2aed858e58c4a59c19587cc757823bdfdba2a678a78d0d39f887f5ec37082bff",
+      "bytes": 1747
+    },
+    {
+      "path": "app/providers/instagramProvider.js",
+      "sha256": "f2dc258fa9a71f05922b0181b62f941008ef179cae9f9bb7cb42a030d74062b5",
+      "bytes": 1945
+    },
+    {
+      "path": "app/providers/providerRegistry.js",
+      "sha256": "6488ae794fe3e4a067096e7d1de8dfa0e0ddd1d844f326fe7455868513cb35ef",
+      "bytes": 1043
+    },
+    {
+      "path": "app/providers/socialProvider.js",
+      "sha256": "558109f0fc869b4ce14a56013d09e36c709794aeb3eec105dc01113aee09537d",
+      "bytes": 1142
+    },
+    {
+      "path": "app/providers/threadsProvider.js",
+      "sha256": "f4eb256b94fbecd0e1c7aca0640447fc6f90f51fa051590b5afdeb52619df65a",
+      "bytes": 3683
+    },
+    {
+      "path": "app/publishing/durablePublishRepository.js",
+      "sha256": "31ec74bed9a4e434f82a57995180f32c53be5959a18fcd3d911d1a5ddeba405e",
+      "bytes": 6303
+    },
+    {
+      "path": "app/publishing/publishEngine.js",
+      "sha256": "e99330e745492e2de2a86186c9495b1c1db5ecc9c2295c7c0b6b42eefe5119d9",
+      "bytes": 7832
+    },
+    {
+      "path": "app/publishing/publishRepository.js",
+      "sha256": "3c0a7df836cb0c577f9c9cfe4aa6cad69c015df6f4c2201379fdf439936bac47",
+      "bytes": 9728
+    },
+    {
+      "path": "app/publishing/publishState.js",
+      "sha256": "3a87cf77d55299a4ee56f1d9fbfb20a8b1ba775b862ff789444f8b2b5b60f1d1",
+      "bytes": 2258
+    },
+    {
+      "path": "app/webhooks/metaWebhookRouter.js",
+      "sha256": "bb6c68621b84f2fa75fb3c8a7a07cf7adc629e2086f3073d8d19165b64114a66",
+      "bytes": 3192
+    },
+    {
+      "path": "app/webhooks/metaWebhookSignature.js",
+      "sha256": "d36c1c912a5d5edb74c36445e55592edcb0f0adc4403829286fba82e32ba12e5",
+      "bytes": 2258
+    },
+    {
+      "path": "auth/threadsTokenManager.js",
+      "sha256": "69f4d227030e74084d381aea8a5c3225c7789a399fa7f42a821325083a562953",
+      "bytes": 4121
+    },
+    {
+      "path": "config/asap_gta6.env.example",
+      "sha256": "f22ae583e07ed13e48807691c8c00192d0c0f5fe17d7f5a703effa9cb2a93d23",
+      "bytes": 709
+    },
+    {
+      "path": "config/asap_katy.env.example",
+      "sha256": "f94a6c5adeeae5c6bc553e0a891439632b9c392e280d2fcaef4e4761b1bcfaf7",
+      "bytes": 709
+    },
+    {
+      "path": "config/policy.js",
+      "sha256": "3c1c494cc6ae6996dea144d9ba02c6a4976c73b93ca8fbafdf60882f036059d6",
+      "bytes": 1494
+    },
+    {
+      "path": "config/proactive.js",
+      "sha256": "dfab5b1fff0f0b520e34d189aa367659995447cf83959a1ba061d857d74b3a01",
+      "bytes": 4329
+    },
+    {
+      "path": "content/claim_register.json",
+      "sha256": "42dbcea9b34a7fe20bd9349e4e0ad5772b6ff76ec7b0ec44b94ccbe83ac674aa",
+      "bytes": 10603
+    },
+    {
+      "path": "content/content_pool.json",
+      "sha256": "2024d9458d436fd2ff449fb2e90908f52e21e55e275b631ae251bf6bd51872e6",
+      "bytes": 222874
+    },
+    {
+      "path": "content/first_wave.json",
+      "sha256": "b12ac648a1f45efb83f427101c379aa1a33ec9162a5f2fcc3787527e1d408cbd",
+      "bytes": 68032
+    },
+    {
+      "path": "content/first_wave_assets.json",
+      "sha256": "1625007bad0ec63e1cd78429da56c51a66698b601586369cad77f99ed9cbd872",
+      "bytes": 11530
+    },
+    {
+      "path": "content/metrics_contract.json",
+      "sha256": "c289e5ec6095f2bcc3c66bc1cbcdbfd4aff8839c2bbef767afb24e71c2bf9566",
+      "bytes": 10139
+    },
+    {
+      "path": "content/seven_day_matrix.json",
+      "sha256": "0020c620e3783f3ed0a22e58adfc97dea1ab3f697872e1056a10ff15e4178805",
+      "bytes": 23093
+    },
+    {
+      "path": "db/migrations/001_core.sql",
+      "sha256": "1b6c02194ff543ef8ff11a6446d73fbc8050d68ffcf430becac122321cab834f",
+      "bytes": 7258
+    },
+    {
+      "path": "docs/7_DAY_EXPERIMENT_PLAN.md",
+      "sha256": "2d57c26abb4b10ac5adbcda710fe9e595d602528d4ec28216b1b3259a8e2134c",
+      "bytes": 13970
+    },
+    {
+      "path": "docs/AGENT_LOG.md",
+      "sha256": "34dd058c41bd12693f29c11f7b5472c073fe9bdfee35dbc19a79d1f30c96adbc",
+      "bytes": 440
+    },
+    {
+      "path": "docs/ASAP_MARKETING_RESEARCH.md",
+      "sha256": "039b3f42e97cf266c87203a1b24b60c6a4bc2e851eda855565fc76ef764f30b2",
+      "bytes": 13421
+    },
+    {
+      "path": "docs/ASAP_SOCIAL_ENGINE_ARCHITECTURE.md",
+      "sha256": "8a4ea16f7a1bc9ee78ff4c0832398bf84a0afbe8fa013e6597b739e9c26235ad",
+      "bytes": 3030
+    },
+    {
+      "path": "docs/CODEBASE_MEMORY.md",
+      "sha256": "8675243f5da68750ad2732158d5a2342900a68cff68ded509714b432d32fb232",
+      "bytes": 446
+    },
+    {
+      "path": "docs/CODEX_CONNECT_ASTEL_US_THREADS.md",
+      "sha256": "a25e2062551ed2f60fbd223c0b855969e8ea43bb285c52db9ec060ec0ec49032",
+      "bytes": 461
+    },
+    {
+      "path": "docs/EXTRA_MARKETING_INPUT.md",
+      "sha256": "f2f8fa41dc580a62dcb1470a6f1fbc9dfbea4b65cb9ecd07a7a2274ce108473c",
+      "bytes": 7979
+    },
+    {
+      "path": "docs/EXTRA_ROADMAP.md",
+      "sha256": "0c8575cf4112d28c31b5104388b676a052c19a61a18095f953ce8e79ee685f13",
+      "bytes": 3468
+    },
+    {
+      "path": "docs/FIRST_10_COPYBOOK.md",
+      "sha256": "2be239250b3555c71a5a5c7ed60aac1176f2a55c1e210fc36c9dc8b05eeb0c72",
+      "bytes": 13229
+    },
+    {
+      "path": "docs/INTEGRATION_TEST_LOG.md",
+      "sha256": "c8a39a75df5e51e0e021132440b65f1fb3f36a428d557c95f2831b35b8e79477",
+      "bytes": 6068
+    },
+    {
+      "path": "docs/KEVIN_INTEGRATION_PLAN.md",
+      "sha256": "3407aacab91e4a4cb3f318e4c96bb7886918981d402221bd1f85d549feff9da2",
+      "bytes": 2560
+    },
+    {
+      "path": "docs/LAUNCH_READINESS_REVIEW.md",
+      "sha256": "297652f685d9fd8f29201a303c3ea52df166f4755fddcabe113aec4b8aac3e49",
+      "bytes": 4331
+    },
+    {
+      "path": "docs/LOCAL_STORAGE_VERIFICATION.md",
+      "sha256": "77583dc418b9486c965b742edffa7dde1a26da5fd8db61a8bd0e5f0ea730746f",
+      "bytes": 2834
+    },
+    {
+      "path": "docs/MARKETING_HANDOFF.md",
+      "sha256": "423d08484441478d61197fd0356627d8f775ce06f27c70690469d9ad42021ac9",
+      "bytes": 4412
+    },
+    {
+      "path": "docs/META_CAPABILITY_MATRIX.md",
+      "sha256": "75f399526438c052599d6b23f60dd63a156472d15851d3b243815f1035bbdde0",
+      "bytes": 1394
+    },
+    {
+      "path": "docs/META_DEV_WORKING_ROUTE.md",
+      "sha256": "18e724ff8f96a76bbd1e395f55531bab28ef38a1513e6807e61ca4c931b98e44",
+      "bytes": 3379
+    },
+    {
+      "path": "docs/PUBLISHING_SCOPE.md",
+      "sha256": "61c9d04a2a06f3c7c544161ece69c2f9d488b1f03e7f39c630fb46ea57151279",
+      "bytes": 3362
+    },
+    {
+      "path": "docs/REPO_REUSE_MAP.md",
+      "sha256": "678691e0732e2422004f786b358a608de1b95104b03a8e114446fd27ed2d408f",
+      "bytes": 1158
+    },
+    {
+      "path": "docs/SECURE_ONBOARDING.md",
+      "sha256": "a71ad5f0244d02fbf5dfb24ac7bb9c5a7221ef4ba27499ef073cde6477f3ee3e",
+      "bytes": 3198
+    },
+    {
+      "path": "docs/SOURCE_PROVENANCE.json",
+      "sha256": "ccf23ddc880d799d0a1e0f86847254bb6d2cf9b848526dd9ce7b879eceb9cf42",
+      "bytes": 1489
+    },
+    {
+      "path": "docs/astel-us-onboarding.md",
+      "sha256": "886becb919beb50b11cdea78a4b6478ba614a7b8ea44886deb019048785d842b",
+      "bytes": 450
+    },
+    {
+      "path": "docs/block4-analytics.md",
+      "sha256": "33975268b25bb9f4abf930551bd7c6f683bc4447725e14df76c0bd37becf8b13",
+      "bytes": 1936
+    },
+    {
+      "path": "docs/block4-meta-reference.md",
+      "sha256": "b6b218b4d07e00c04dcdd7f700fe155b098989d97a10bd086818a506763c6fec",
+      "bytes": 866
+    },
+    {
+      "path": "docs/content-pipeline-runbook.md",
+      "sha256": "cf6ca73fb182af888e02ae7d2c0e889ee47a2e6556bb6db35e2f0bb64cb48ebb",
+      "bytes": 5327
+    },
+    {
+      "path": "docs/hyper-crew-orchestrator.md",
+      "sha256": "272711dfdc428e45952ae9e84b78d9587810ad94e3fb0bc7159b236970e51d43",
+      "bytes": 4060
+    },
+    {
+      "path": "docs/instagram-astel-us-live-runbook.md",
+      "sha256": "30733c92a7f714d41b50046605aed455e2bb7ea7da7b908736c82702c3266966",
+      "bytes": 462
+    },
+    {
+      "path": "docs/meta-3-platform-account-onboarding-runbook.md",
+      "sha256": "a97172b747fa7b90e80d276d13f5c9a156e528afc3debc9e8085e05f0e8de19a",
+      "bytes": 473
+    },
+    {
+      "path": "docs/railway-hardening.md",
+      "sha256": "de441e577169aa734d035fc2b37278b9d4316a3cf530bf072be0080f5ce8d3f4",
+      "bytes": 3058
+    },
+    {
+      "path": "docs/v9.1.1c-FROZEN-SPEC.md",
+      "sha256": "c88bc043c6da304bec8afd25bde2acaf30c73fa44f0d1569f84b2ca5e7b0a1ea",
+      "bytes": 4163
+    },
+    {
+      "path": "docs/v9.1.2.md",
+      "sha256": "9b0f4084452012685c420da4ba0ca2082feca415f87994eb3f4d1a42b0c9fb34",
+      "bytes": 865
+    },
+    {
+      "path": "graph/conversationGraph.js",
+      "sha256": "ca1a3466c8087c71132f48645c9cbc91728af442061b7f0a448e9559e19997ae",
+      "bytes": 2170
+    },
+    {
+      "path": "infra/astel-us.env.json",
+      "sha256": "6c5e0a2c36676f4d0421735ae308e813eb65d2f34ba4d761702081a6e1c193de",
+      "bytes": 168
+    },
+    {
+      "path": "infra/railway-service-policy.json",
+      "sha256": "3d519c4199a99ac35dc6a8e7d5f2cf7abdb3ce7325030925c55a4b4db49d18eb",
+      "bytes": 905
+    },
+    {
+      "path": "memory/reconstructBranchMemory.js",
+      "sha256": "f235fe052535a5debf8c0992b1590f339c6ced1b6fb75489a1feac023d930f1c",
+      "bytes": 2175
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "ef3f6af161e3970cc84ed1540e3ccdad94e84bd01c5ea833c53a6f63864734d1",
+      "bytes": 41343
+    },
+    {
+      "path": "package.json",
+      "sha256": "f3eeea93e15ed8ba4fbfdca98bd976f54482f96fb1292062d0163e4c1a7d47f5",
+      "bytes": 662
+    },
+    {
+      "path": "policy/replyBehavior.js",
+      "sha256": "a7affea34902e46f667919e4cd8b443d18d59700c478b018b787235f082ede03",
+      "bytes": 1521
+    },
+    {
+      "path": "proactive/aiService.js",
+      "sha256": "9ed07ebc25f036b2146dd57aea22435b6ff75cdf5f9b0c72858c6872ec34f4cc",
+      "bytes": 5512
+    },
+    {
+      "path": "proactive/approvalClient.js",
+      "sha256": "fe8b2e835abb41708c10b072384ace3dcb32d24b892c38e3d5cfa8fbc5abda90",
+      "bytes": 2004
+    },
+    {
+      "path": "proactive/candidateRepository.js",
+      "sha256": "540df0d8d9d5d08a2d3b7c214ff1c88899a2180419b455fdd28d671994bb6843",
+      "bytes": 5117
+    },
+    {
+      "path": "proactive/copilotRunner.js",
+      "sha256": "8234fededa00e4fb29f906228d60ccd8f30e8b25354384fe62259bfaea2c01b5",
+      "bytes": 13383
+    },
+    {
+      "path": "proactive/monitorService.js",
+      "sha256": "ff35a578efd3029b8bf6eb4846dd66bb2fdf52038fbd69f0d4a11371205a10ff",
+      "bytes": 2053
+    },
+    {
+      "path": "qa/MARKETING_QA.json",
+      "sha256": "482d3a225ba184926204e20b687dd70dbff17dbe76b75538bce066cc96381da6",
+      "bytes": 3239
+    },
+    {
+      "path": "qa/PUBLIC_DATA_SCAN.json",
+      "sha256": "22b9f5d4413940671cc21fda4aa1ec2a52d79e1a484df0b05ec4a03a2947e339",
+      "bytes": 744
+    },
+    {
+      "path": "qa/REDIS_PROJECTION_RECOVERY_VERIFICATION.json",
+      "sha256": "8e0a9e29f44034d67406c605d4e3e7296eb48fc214ae34ff0bb6697e0c7c5f53",
+      "bytes": 772
+    },
+    {
+      "path": "qa/SOURCE_RELEASE_VERIFICATION.json",
+      "sha256": "8a91f1bf90d93696ccbabe4dde8fd0299d4c483ae21b7c8fba718dc1681cec0f",
+      "bytes": 1435
+    },
+    {
+      "path": "qa/validate_marketing.py",
+      "sha256": "5796bddec41f53e7ab34a043f676d1d605a08e39c3aac72fc84e85e6915e9c10",
+      "bytes": 5572
+    },
+    {
+      "path": "router/conversationRouter.js",
+      "sha256": "5af20c9fb1dc28123e544e63e50cb7653e3cf6b79bd6da0e9948be18cd04320d",
+      "bytes": 1996
+    },
+    {
+      "path": "router/parentResolver.js",
+      "sha256": "dbed7623c65127c6284526391fde973cfc58cb81a52b4e74513833ef76603937",
+      "bytes": 4055
+    },
+    {
+      "path": "safety/humanLockStore.js",
+      "sha256": "0772774a2d41f06e4fbfa958b6d9fd6daae9588551a5658cc60dab2a40f9ef86",
+      "bytes": 1617
+    },
+    {
+      "path": "safety/pipeline.js",
+      "sha256": "6667c519f2c212d66445a2360c19832d50a08979031765916b8a0a1e4cd54e2d",
+      "bytes": 15999
+    },
+    {
+      "path": "server-asap.js",
+      "sha256": "a01234e4f947f020a78fd76be25118445be284afba2abcf6247be574717b242b",
+      "bytes": 6950
+    },
+    {
+      "path": "server-meta-runtime.js",
+      "sha256": "696a6bc610a925311f1800e48ceeecf187151bff0ed4122790d130b2f0b388e1",
+      "bytes": 4578
+    },
+    {
+      "path": "server-meta.js",
+      "sha256": "13b9c9a5868f4423b7607afa3bf3cdd2329d84a8df2878f1a63ad5c01835ac84",
+      "bytes": 15693
+    },
+    {
+      "path": "server.js",
+      "sha256": "189a0125197a0e4b9358aeb94d73b06bdcbc65cfc7c5759aea349c24e9c9e239",
+      "bytes": 28005
+    },
+    {
+      "path": "telemetry/aiUsage.js",
+      "sha256": "0a87f5f02506eacf776f22ff30b205c13fd921e8ab50810df171a3b9a284ab6f",
+      "bytes": 2003
+    },
+    {
+      "path": "tests/aiGateway.test.js",
+      "sha256": "104045a92159b5529713c313efebb8f0bbb3f7be2878f2fab5cbfd9047a122fe",
+      "bytes": 7660
+    },
+    {
+      "path": "tests/analyticsEngine.test.js",
+      "sha256": "48030a07298959a3e2a57bbacc211159fc5e4c916ee55c62a76c12cb252b1dd9",
+      "bytes": 5146
+    },
+    {
+      "path": "tests/analyticsRepository.test.js",
+      "sha256": "45da1b80f9a3ec954e27db7134bebb47e263cdf95e48b143483316a3bb00448c",
+      "bytes": 1383
+    },
+    {
+      "path": "tests/asapControl.test.js",
+      "sha256": "c5fb2a90de62bea208a2dd7a9c6db781757209cac0895123e41feff8ce0a90ac",
+      "bytes": 3049
+    },
+    {
+      "path": "tests/asapDurableRecovery.test.js",
+      "sha256": "1e671d2cd8842da3b0a7ac107473b2a9e98817fb1fde559ff76584676e830c2e",
+      "bytes": 716
+    },
+    {
+      "path": "tests/asapFinalMutationFence.test.js",
+      "sha256": "066b89347fa5f47086b325786580bfe16a8b2f5c69986662d3101306ced0cfdb",
+      "bytes": 2163
+    },
+    {
+      "path": "tests/asapMarketingBridge.test.js",
+      "sha256": "0643d6f8f3a633a8c14a5148edbb8a4a926608dceaba338acd20fd48b8be44ac",
+      "bytes": 1894
+    },
+    {
+      "path": "tests/asapMetaProvider.test.js",
+      "sha256": "23dfed7f072533aba83b178dcfd9c94d4a5a5bfcc33ff2f7a955b0f62ffebdd6",
+      "bytes": 3524
+    },
+    {
+      "path": "tests/asapMetrics.test.js",
+      "sha256": "65fc894188d6132bd7d77e82790d4dbe0dff2b31779785bb02c7105a87e341ba",
+      "bytes": 792
+    },
+    {
+      "path": "tests/asapOauthPlan.test.js",
+      "sha256": "3ba6f90f1db07b51bc5a6e133b815a8ab5a808d17d99717bae1de74c471b4040",
+      "bytes": 1229
+    },
+    {
+      "path": "tests/asapPermanentDedupe.test.js",
+      "sha256": "b6a3c2ff07e0d64c5b2684cffee9a98ca96e8bcf4a4a3326cbc42dd38e23b740",
+      "bytes": 4574
+    },
+    {
+      "path": "tests/asapProjectionRecovery.test.js",
+      "sha256": "075792ea07aaeafb182444cad7021b0bae91c21bdef635c03c849ff184c6ef74",
+      "bytes": 9903
+    },
+    {
+      "path": "tests/asapReconcile.test.js",
+      "sha256": "6193159056e3db3594b8ddf6fc8f4657111b696bdf304d20ce3eb6b78a8cd26d",
+      "bytes": 1795
+    },
+    {
+      "path": "tests/asapScope.test.js",
+      "sha256": "bcbd25048f50aafcd7916d09f28558f2f1dae8360d53026a68fa4553d19bf793",
+      "bytes": 3810
+    },
+    {
+      "path": "tests/asapState.test.js",
+      "sha256": "9878887191c3a84b077c391bc706cfcc4b3230dfb42f842efb3183cec4464d24",
+      "bytes": 1647
+    },
+    {
+      "path": "tests/asapStorageHarness.test.js",
+      "sha256": "344f09b7d6732fa41cd501722bc4477e559d3c23ab3079b31e1d04892426139d",
+      "bytes": 527
+    },
+    {
+      "path": "tests/astelUsOnboarding.test.js",
+      "sha256": "dc564e709b784da25fa67d7ea057cceae78a4c730f5621154bd14c686f42baa6",
+      "bytes": 7782
+    },
+    {
+      "path": "tests/block0Architecture.test.js",
+      "sha256": "993d366a10797dfd07aff6859fa41f989fc78f4208e56b42372e5f0658bfef05",
+      "bytes": 4851
+    },
+    {
+      "path": "tests/communityPersonaLanguage.test.js",
+      "sha256": "a9432e4f601513217f69e09555c232cb240827aad8ae23ca7ec341d4e5bded8e",
+      "bytes": 3550
+    },
+    {
+      "path": "tests/contentControl.test.js",
+      "sha256": "1c3b2354723f02176807b9f26abae349676a7394065644cfe3246c5bfeac5f9f",
+      "bytes": 7745
+    },
+    {
+      "path": "tests/contentControl5E.test.js",
+      "sha256": "46bd9dca34d3d8b12e235102ceb910f901fb109ea132b04e037d4c5ed45273e0",
+      "bytes": 3557
+    },
+    {
+      "path": "tests/contentE2E.test.js",
+      "sha256": "e9fbfe82ae05eb5ed95cb8543f9cdf3475a92feec0f1944aaba532d454a51765",
+      "bytes": 10225
+    },
+    {
+      "path": "tests/contentPipeline.test.js",
+      "sha256": "544f8671ee170edaab3f1ebc3b0791baf2a1b11fc1cb937164ae51947c98080d",
+      "bytes": 9372
+    },
+    {
+      "path": "tests/contentRuntime.test.js",
+      "sha256": "5c1398b22b2b79291483bd58ac438021cbc552c756223181dddf2f965d694f93",
+      "bytes": 7299
+    },
+    {
+      "path": "tests/facebookAuthorless.test.js",
+      "sha256": "97b4e083bdcb6c51155bc30cfd37c23ce8415c872446a7648cca16b2f7d6a254",
+      "bytes": 12797
+    },
+    {
+      "path": "tests/facebookPolling.test.js",
+      "sha256": "930ce1005b2d817dfba45c29826927269f4e1805426a03ffeba3f8b2efc5eeea",
+      "bytes": 10001
+    },
+    {
+      "path": "tests/facebookPollingAdapter.test.js",
+      "sha256": "206365144bd1ba0a2340fe12f73b0d3d6b4422b51569f189cf1bd5a681a61792",
+      "bytes": 3883
+    },
+    {
+      "path": "tests/facebookProvider.test.js",
+      "sha256": "b4d2100a82c0220a9a7f1bbeab7e54f973a4be48702cc8a3d4c6a40b5ba05de3",
+      "bytes": 6458
+    },
+    {
+      "path": "tests/hyperCrewOrchestrator.test.js",
+      "sha256": "85e9beeacf5969cf0dda4f87238a38a5289bcc0694b539e46d359ac04b953233",
+      "bytes": 6557
+    },
+    {
+      "path": "tests/instagramFacebookLogin.test.js",
+      "sha256": "6a6facc21cf787f12c6844aea58ba3fae85e44e29e641fd1a281f92865193845",
+      "bytes": 8251
+    },
+    {
+      "path": "tests/instagramPageTokenFallback.test.js",
+      "sha256": "1073cecd6894fd81bf76acbea96caa55b84ddef713aa469f96b935c9978a37e4",
+      "bytes": 7668
+    },
+    {
+      "path": "tests/instagramPolling.test.js",
+      "sha256": "ecfff809d1521a3979813fd302758906dd08ad5d2885a53c1b1da5b63ec4aab4",
+      "bytes": 8197
+    },
+    {
+      "path": "tests/instagramPollingAdapter.test.js",
+      "sha256": "febd122c3511d4a761b52e82b3dfb40f1254b269edfaee54da040d43ae1208bc",
+      "bytes": 2779
+    },
+    {
+      "path": "tests/instagramProvider.test.js",
+      "sha256": "f66a699d146e09e345bace517261ce92f1fd30fac96be9ccd4f60b1371962f59",
+      "bytes": 8618
+    },
+    {
+      "path": "tests/internalAnalyticsRouter.test.js",
+      "sha256": "7224659f5903ab46618d133a6efa172a0edb67a057d1e0990a8fe47ec69057f8",
+      "bytes": 3550
+    },
+    {
+      "path": "tests/metaCutover.test.js",
+      "sha256": "3835436c50d154287e0b29b44c28f5e1931ef135db773a6ec2634a2a6ee5aee9",
+      "bytes": 6736
+    },
+    {
+      "path": "tests/metaRuntime.test.js",
+      "sha256": "6abce47bde805177a56ba3bf5309109df43da662b2a9eb7758fcc5fd20963d60",
+      "bytes": 511
+    },
+    {
+      "path": "tests/metaWebhookRouter.test.js",
+      "sha256": "2405be68d1ce989c0ea6038d0e943e2a70da7d57f5ddb763702b441034ea5bb7",
+      "bytes": 7625
+    },
+    {
+      "path": "tests/postgresDataLayer.test.js",
+      "sha256": "9f2808ccaa50ebb383e723cbf4d5eb07ffb50a73b68a98120bd048e35992d905",
+      "bytes": 6746
+    },
+    {
+      "path": "tests/proactiveCopilot.test.js",
+      "sha256": "549bbdba5243c5f81d915479d78187a9097afbee6aec19e5f6a46e13997f0412",
+      "bytes": 11971
+    },
+    {
+      "path": "tests/proactiveDiscovery.test.js",
+      "sha256": "8f5ef23eb6bb20edbfd589a5aa19fc7dc3819605b06f171e0a7a5ab24e302f8f",
+      "bytes": 8151
+    },
+    {
+      "path": "tests/publishEngine.test.js",
+      "sha256": "84e453f0253d555e503efb34e88783ad3587bd3b404e1eec6452b958bb4477cc",
+      "bytes": 9387
+    },
+    {
+      "path": "tests/serverMetaSmoke.test.js",
+      "sha256": "792fcde72bf68008c8091a242845f0ebc90339cb139f65e51fed003e27daf667",
+      "bytes": 583
+    },
+    {
+      "path": "tests/threadsPolling.test.js",
+      "sha256": "fcc4f4e68ffbdbba24a5d74f9f9cb45d85523b925e31a9095d5007b66b6ad28b",
+      "bytes": 6451
+    },
+    {
+      "path": "tests/threadsPublishDiagnostics.test.js",
+      "sha256": "ed20f5380adcea295b662278ad8b9a1e79939ff372e7f5029a9cee1fb534af3e",
+      "bytes": 1120
+    },
+    {
+      "path": "tests/tokenReplacement.test.js",
+      "sha256": "61e7d5d08491ab460765282a50876eb509073e6bcbd97b34454e6dc4ea00fb26",
+      "bytes": 1275
+    },
+    {
+      "path": "tests/v91.test.js",
+      "sha256": "1bbb2c2645b6940272dcc07abd8f90ccfc606678ccf1f94e1a7486408ba85cd3",
+      "bytes": 2733
+    },
+    {
+      "path": "tests/v911a.test.js",
+      "sha256": "a33d081b9221c9f845020be62a1d5dbe28f6f4ff4285f22a02583c9c6535d290",
+      "bytes": 4390
+    },
+    {
+      "path": "tests/v911b.test.js",
+      "sha256": "4cef1e7a38e16d3f94bcb6844330b69d171fe1cf35e8d5301205fadf0bb12086",
+      "bytes": 4549
+    },
+    {
+      "path": "tests/v911c.test.js",
+      "sha256": "c9126be7ab7ac059e114131b7fbcbf9cc555459cf5bffaa71f5224eb7130cd52",
+      "bytes": 5026
+    },
+    {
+      "path": "tests/v911c1.test.js",
+      "sha256": "d09eacfae08e8d3956891456635500c4ea32451e613850cfe8b3c7adac79be4c",
+      "bytes": 4118
+    },
+    {
+      "path": "tests/v912.test.js",
+      "sha256": "03a94f1e06956a3243fb8fda19c83733ee3727ae04460fbf3191ae20b9a1fbf7",
+      "bytes": 1772
+    },
+    {
+      "path": "tests/v913.test.js",
+      "sha256": "4dda9db96bec2caba4c2185f49fb870bf7d37c72db24b679a1e1cf424c5f0078",
+      "bytes": 1594
+    },
+    {
+      "path": "tests/v920.test.js",
+      "sha256": "cb6ea5879d429ade482734f5ac5ebccb643cc0e6630781650349fbd7165f9cc7",
+      "bytes": 3942
+    },
+    {
+      "path": "tools/asap-http-storage-integration.js",
+      "sha256": "6fabfabdb2a0b441b8d61472ff1e3cc08554e699256971aea0592d5b97eaaa9b",
+      "bytes": 4345
+    },
+    {
+      "path": "tools/asap-preflight.js",
+      "sha256": "1335c65066dfa66f40bf2cd82ba5f7bf95a535bceb23d14a60f17e9e0544d32c",
+      "bytes": 171
+    },
+    {
+      "path": "tools/asap-storage-integration.js",
+      "sha256": "7f64609d3757e41687224864555f45514816fe2f26827c8d2c877d5edf3bb749",
+      "bytes": 5651
+    },
+    {
+      "path": "tools/setup-codebase-memory.ps1",
+      "sha256": "617cb47bd4bec210ec196259793111130ea490497550b93b7f9b45fa0ab565fc",
+      "bytes": 3596
+    },
+    {
+      "path": "tools/setup-codebase-memory.sh",
+      "sha256": "3c0a46899498c88eacce7cc8ce190c5644bc8aa96bd09857d83637528e20594c",
+      "bytes": 2226
+    },
+    {
+      "path": "vendor/hyper-crew/src/analytics/connectors/socialEngineConnector.js",
+      "sha256": "16b98aec3bf65601d255efa1e728d41d71e7bbf582fe3edd8b0d7fcb9c5a75dc",
+      "bytes": 1495
+    },
+    {
+      "path": "vendor/hyper-crew/src/registry/projectRegistry.js",
+      "sha256": "3361200264aff88e2e930cffab8483683105c942c983576ccbb5e72ea22274a6",
+      "bytes": 860
+    },
+    {
+      "path": "vendor/lazy-distribution/src/ai/pinterest-packager.ts",
+      "sha256": "869a93876ec069db2adae33fd11e99a119383b1af5f5f374865d21ca4a521f98",
+      "bytes": 2366
+    },
+    {
+      "path": "vendor/lazy-distribution/src/core/types.ts",
+      "sha256": "32533260670239eb5defe4d70cfce086014cca559ff0fe1045d783b1c1635059",
+      "bytes": 810
+    },
+    {
+      "path": "vision/threadsMediaReader.js",
+      "sha256": "e40716b5e4c607fa7194171179a117990d975b1110ae097c8369c2129b290325",
+      "bytes": 2031
+    },
+    {
+      "path": "vision/visionGuard.js",
+      "sha256": "ee1783ab684d97602136d71e265c2bf78735dbdf6c11da6d9b7e2ceca21cd7e2",
+      "bytes": 4095
+    }
+  ],
+  "engineering_tests": 290,
+  "marketing_tests": 22,
+  "live_ready": false,
+  "manifest_excludes_itself": true,
+  "excluded": [
+    ".git",
+    "node_modules",
+    "credentials",
+    "private operational audit",
+    "private source URLs",
+    "absolute asset paths",
+    "internal artifact-building helpers"
+  ]
+}
