@@ -105,7 +105,7 @@ function createPublishEngine({
 
     if (publishResult?.status === "published" && publishResult.id) {
       const committed = await repository.finish(id, claimToken, PUBLISH_STATUS.PUBLISHED, {
-        result: { id: String(publishResult.id), platform: provider.platform, ...(publishResult.permalink ? { permalink: publishResult.permalink } : {}), ...(publishResult.readback ? { readback: publishResult.readback } : {}), ...(publishResult.containerId ? { containerId: publishResult.containerId } : {}) },
+        result: { id: String(publishResult.id), platform: provider.platform, ...(publishResult.permalink ? { permalink: publishResult.permalink } : {}), ...(publishResult.readback ? { readback: publishResult.readback } : {}), ...(publishResult.containerId ? { containerId: publishResult.containerId } : {}), ...(publishResult.warnings?.length ? { warnings: publishResult.warnings } : {}) },
         now: now(),
       });
       return committed

@@ -28,13 +28,18 @@ function loadScope(env = process.env) {
     if (env[`${p}_ENABLED`] !== 'true') continue;
     const id = String(env[`${p}_USER_ID`] || '');
     const username = String(env[`${p}_USERNAME`] || '').replace(/^@/, '').trim();
-    const token = platform === 'instagram' ? (env.INSTAGRAM_FACEBOOK_PAGE_ACCESS_TOKEN || env.FACEBOOK_ACCESS_TOKEN) : env[`${p}_ACCESS_TOKEN`];
-    if (!/^\d+$/.test(id) || !username || !token) throw new Error(`ASAP_${p}_BINDING_REQUIRED`);
+    const authMode = platform === 'instagram' ? env.INSTAGRAM_AUTH_MODE : null;
+    if (platform === 'instagram' && !['instagram_login', 'facebook_login'].includes(authMode)) throw new Error('ASAP_INSTAGRAM_AUTH_MODE_REQUIRED');
+    const apiHost = platform === 'threads' ? 'https://graph.threads.net' : authMode === 'instagram_login' ? 'https://graph.instagram.com' : 'https://graph.facebook.com';
+    const apiVersion = platform === 'threads' ? 'v1.0' : env.META_API_VERSION || 'v26.0';
+    if (!/^v\d+\.\d+$/.test(apiVersion) || (authMode === 'instagram_login' && apiVersion !== 'v26.0')) throw new Error('ASAP_API_VERSION_INCOMPATIBLE');
+    if (env[`${p}_BRAND`] && env[`${p}_BRAND`] !== brand) throw new Error('ASAP_ACCOUNT_BRAND_MISMATCH');
+    const token = platform === 'instagram' ? (authMode === 'instagram_login' ? env.INSTAGRAM_ACCESS_TOKEN : (env.INSTAGRAM_FACEBOOK_PAGE_ACCESS_TOKEN || env.FACEBOOK_ACCESS_TOKEN)) : env[`${p}_ACCESS_TOKEN`];
+    if (!/^\d+$/.test(id) || (authMode === 'instagram_login' && !/^[1-9]\d*$/.test(id)) || !username || !token) throw new Error(`ASAP_${p}_BINDING_REQUIRED`);
     if (forbiddenIds.has(id) || FORBIDDEN_NAMES.has(username.toLowerCase())) throw new Error('ASTEL_ACCOUNT_FORBIDDEN');
     if (platform !== 'facebook' && username.toLowerCase() !== BRANDS[brand]) throw new Error('ASAP_USERNAME_MISMATCH');
     if (platform === 'facebook' && env.ASAP_FACEBOOK_PAGE_ID !== id) throw new Error('ASAP_FACEBOOK_PAGE_PIN_REQUIRED');
-    if (platform === 'instagram' && env.INSTAGRAM_AUTH_MODE !== 'facebook_login') throw new Error('ASAP_INSTAGRAM_FACEBOOK_LOGIN_REQUIRED');
-    accounts.push(Object.freeze({ key: `${brand}:${platform}`, brand, platform, userId: id, username, accessToken: token, enabled: true, dryRun: env.ASAP_LIVE_ENABLED !== 'true', language: 'en' }));
+    accounts.push(Object.freeze({ key: `${brand}:${platform}`, brand, platform, userId: id, username, accessToken: token, authMode, apiHost, apiVersion, enabled: true, dryRun: env.ASAP_LIVE_ENABLED !== 'true', language: 'en' }));
   }
   return Object.freeze({ projectId, brand, namespace, accounts: Object.freeze(accounts), live: env.ASAP_LIVE_ENABLED === 'true', maxPostsPerDay: Math.max(1, Math.min(3, Number(env.ASAP_MAX_POSTS_PER_PLATFORM_DAY) || 2)) });
 }
