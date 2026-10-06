@@ -7,11 +7,11 @@ for(const platform of ['threads','instagram'])test(`${platform} pause after cont
   if(url.includes('threads_publish')||url.endsWith('/media_publish')){visible++;return response({id:'should-never-publish'});}
   if((platform==='threads'&&url.includes('/me/threads?'))||url.endsWith('/123/media')){paused=true;return response({id:'container'});}
   if(url.includes('/container?'))return response({status_code:'FINISHED'});
-  if(url.includes('content_publishing_limit'))return response({data:[{quota_usage:0,config:{quota_total:100}}]});
+  if(url.includes('content_publishing_limit'))return response({data:[{quota_usage:0,config:{quota_total:100,quota_duration:86400}}]});
   return response({id:'123',username:'asapgta6'});
  }});
  const content={type:platform==='threads'?'text':'image',text:'Fixture',mediaUrl:'https://example.com/fixture.jpg'};
- const r=await provider.publishPost(content);assert.equal(r.reason,'ASAP_FINAL_MUTATION_BLOCKED');assert.equal(r.containerId,'container');assert.equal(visible,0);assert.equal(reservations,1);assert.equal(checks,1);
+ const r=await provider.publishPost(content);assert.equal(r.reason,'ASAP_FINAL_MUTATION_BLOCKED');assert.equal(r.containerId,'container');assert.equal(visible,0);assert.equal(reservations,1);assert.equal(checks,platform==='instagram'?2:1);
 });
 test('Facebook final fence can stop a post after the one quota reservation',async()=>{
  let writes=0,reservations=0;const provider=createMetaPostProvider({account:account('facebook'),beforePublish:async()=>{reservations++;return true;},beforeFinalMutation:async()=>false,fetchImpl:async(_url,options)=>{if(options.method==='POST')writes++;return response({id:'123'});}});

@@ -36,7 +36,7 @@ async function start(env = process.env, testDependencies = {}) {
     await postgres.query('SELECT 1');
     return !(await state.isPaused());
   }
-  const providers = createProviderRegistry(scope.accounts.map(account => providerFactory({ account, apiVersion: env.META_API_VERSION || 'v26.0', beforePublish: async (account, context) => {
+  const providers = createProviderRegistry(scope.accounts.map(account => providerFactory({ account, apiVersion: account.apiVersion, beforePublish: async (account, context) => {
     return (await publicationFence(account, context)) && state.reserve(account);
   }, beforeFinalMutation: publicationFence })));
   const hot = createPublishRepository({ redisUrl: env.REDIS_URL, namespace: `${scope.namespace}:publish`, dedupeTtlSeconds: 0 });
