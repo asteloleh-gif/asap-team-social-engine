@@ -29,7 +29,7 @@ Check /health, unauthenticated rejection, authenticated status with live=false a
 
 Engineering fixtures do not prove external publishing. Fresh marketing QA already passed 22/22 checks against privately supplied source images, including 10/10 exact JPEG hashes (see `qa/MARKETING_QA_FRESH.json`). Images were intentionally not committed. A deployed route still needs approved accessible assets and usage rights; LOCAL_ASSET_REFERENCE cannot be treated as a real image.
 
-`/health` and `npm run preflight` prove only local configuration and storage connectivity. They do not prove a Meta account identity, token ownership, permission scope, API capability, or successful live collection. Those require exact-account provider readback after the separate grant stage.
+`npm run preflight` validates configuration shape only; it does not connect to PostgreSQL or Redis. Startup initializes storage, and `/health` reports the stores' readiness flags; it is not a fresh end-to-end storage probe. They do not prove a Meta account identity, token ownership, permission scope, API capability, or successful live collection. Those require exact-account provider readback after the separate grant stage.
 
 See `docs/ANALYTICS_CHECKPOINT_RUNBOOK.md` and `config/analytics_checkpoint_evidence.example.json` for the disabled-by-default analytics checklist and evidence schema.
 
@@ -62,3 +62,43 @@ Railway's service record state `live` does not establish that an application or 
 5. Perform provider identity/readback and publishing canaries only within separate exact-account authorization. Enable analytics only after its separate grants and runtime checks pass.
 
 The next blocker is verified resources and account access, followed by authorized deployment. Repeating completed task versions or marketing fixture checks does not satisfy these gates.
+
+
+### Concrete private configuration handoff
+
+A follow-up service inventory on 2026-10-06 found zero variable names on both app services. Neither app is ready to start. Do not paste secrets into this document or PR.
+
+| Setting | GTA6 instance | Katy instance |
+| --- | --- | --- |
+| ASAP_BRAND / SOCIAL_BRAND | asap_gta6 | asap_katy |
+| ASAP_STATE_NAMESPACE | asap:asap_gta6:v1 | asap:asap_katy:v1 |
+| DATABASE_URL database name | asap_gta6, dedicated user | asap_katy, dedicated user |
+| REDIS_URL | Approved persistent Redis | Approved persistent Redis, separate namespace |
+| ASAP_CONTROL_TOKEN | Private random token, at least 32 bytes | Different private random token, at least 32 bytes |
+| ASAP_LIVE_ENABLED | false | false |
+| ASAP_ANALYTICS_ENABLED | false | false |
+| ASAP_MAX_POSTS_PER_PLATFORM_DAY | 1 | 1 |
+
+Use the full corresponding env example for the other settings. For the first approved route, enable exactly its platform binding with the real numeric account ID, username and scoped credential. Platform binding enablement does not override the global publishing-off flag. Threads/Instagram usernames are pinned in code to `asapgta6` and `asapkaty`; Facebook requires `ASAP_FACEBOOK_PAGE_ID` to equal `FACEBOOK_USER_ID`. Analytics credentials can wait while analytics is disabled.
+
+The operator must provide two separate confirmations before resource provisioning: existing plan/credit/headroom and the approved resource ceiling. The available Railway connector exposes service limits, but no billing or credit readback operation. A CPU/RAM cap alone is not a spending cap.
+
+### First runtime checks after authorized deployment
+
+Use the deployed origin from verified Railway metadata, not an invented hostname. In a private terminal, set `ASAP_BASE_URL` to that origin and inject `ASAP_CONTROL_TOKEN` from the private secret store. Do not enable shell tracing.
+
+```sh
+curl --fail --silent --show-error "$ASAP_BASE_URL/health"
+curl --silent --output /dev/null --write-out '%{http_code}\n' "$ASAP_BASE_URL/internal/asap/status"
+node <<'NODE'
+(async () => {
+  const response = await fetch(new URL('/internal/asap/status', process.env.ASAP_BASE_URL), {
+    headers: { authorization: 'Bearer ' + process.env.ASAP_CONTROL_TOKEN }
+  });
+  if (!response.ok) throw new Error('Authenticated status failed: ' + response.status);
+  console.log(JSON.stringify(await response.json(), null, 2));
+})().catch(error => { console.error(error.message); process.exitCode = 1; });
+NODE
+```
+
+Expected: health reports the correct brand, unauthenticated status returns 401, authenticated status confirms live publishing is false and the engine is paused. Inspect status privately; retain only redacted evidence. These requests perform no publish, resume or schedule action. Restart/pause persistence and provider canaries remain separate checks.
