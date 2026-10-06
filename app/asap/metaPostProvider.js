@@ -69,7 +69,7 @@ function createMetaPostProvider({ account, fetchImpl = fetch, apiVersion, sleep 
     const fields = platform === 'facebook' ? 'id,permalink_url,from,message,created_time' : platform === 'threads' ? 'id,permalink,owner,username,text,timestamp' : instagramLogin ? 'id,media_type,owner,permalink,username,timestamp' : 'id,permalink,username,caption,timestamp';
     const r = await request(String(id), { params: { fields } });
     if (!r.ok || String(r.data.id) !== String(id)) return { verified: false, reason: r.reason || 'READBACK_ID_MISMATCH' };
-    const ownerId = r.data.owner?.id || r.data.from?.id;
+    const ownerId = instagramLogin ? r.data.owner?.id : (r.data.owner?.id || r.data.from?.id);
     if (instagramLogin && (!professionalId(ownerId) || String(ownerId) !== account.userId)) return { verified: false, reason: ownerId ? 'READBACK_OWNER_MISMATCH' : 'READBACK_OWNER_UNAVAILABLE' };
     if (instagramLogin && r.data.media_type !== 'IMAGE') return { verified: false, reason: 'READBACK_MEDIA_TYPE_MISMATCH' };
     if (ownerId && String(ownerId) !== account.userId) return { verified: false, reason: 'READBACK_OWNER_MISMATCH' };

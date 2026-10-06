@@ -74,6 +74,14 @@ for(const [label,patch] of Object.entries({missing_owner:{owner:undefined},app_s
  const base={id:'media-456',media_type:'IMAGE',owner:{id:'123'},username:'asapgta6',permalink:'https://www.instagram.com/p/synthetic/'};const g=fixture({readback:{...base,...patch}});const r=await g.provider.publishPost(content);assert.equal(r.status,'published');assert.equal(r.id,'media-456');assert.equal(r.readback.verified,false);assert.equal(g.finalWrites().length,1);
 });
 
+for(const [label,owner] of Object.entries({absent:undefined,null:null,missing_id:{},null_id:{id:null},zero_id:{id:0},empty_id:{id:''},invalid_id:{id:'invalid'},mismatched_id:{id:'999'}}))test('Instagram Login readback rejects '+label+' owner despite matching from.id',async()=>{
+ const base={id:'media-456',media_type:'IMAGE',username:'asapgta6',permalink:'https://www.instagram.com/p/synthetic/'};const readback={...base,from:{id:'123'}};if(label!=='absent')readback.owner=owner;
+ const g=fixture({readback});const r=await g.provider.publishPost(content);assert.equal(r.status,'published');assert.equal(r.id,'media-456');assert.equal(r.readback.verified,false);assert.equal(g.finalWrites().length,1);
+});
+test('Instagram Login readback accepts a valid owner.id and ignores from.id',async()=>{
+ const g=fixture({readback:{id:'media-456',media_type:'IMAGE',owner:{id:'123'},from:{id:'999'},username:'asapgta6',permalink:'https://www.instagram.com/p/synthetic/'}});const r=await g.provider.publishPost(content);assert.equal(r.readback.verified,true);assert.equal(g.finalWrites().length,1);
+});
+
 test('pause fence checks before container and final publication without another quota reservation',async()=>{
  let paused=false,reserves=0,checks=0;const f=fixture({beforePublish:async()=>{reserves++;return true;},beforeFinalMutation:async()=>{checks++;if(checks===2)paused=true;return !paused;}});
  const r=await f.provider.publishPost(content);assert.equal(r.reason,'ASAP_FINAL_MUTATION_BLOCKED');assert.equal(f.finalWrites().length,0);assert.equal(reserves,1);assert.equal(checks,2);
